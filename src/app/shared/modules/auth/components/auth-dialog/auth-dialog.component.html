@@ -1,0 +1,21 @@
+<dialog #authDialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
+    <div class="modal-box">
+        <div class="card-body">
+            @if (authControlPageService.selectedPage === "LOGIN") {
+
+            <app-login (changePage)="onChangePage($event)"></app-login>
+            }@else if(authControlPageService.selectedPage === "REGISTER"){
+            <app-register (changePage)="onChangePage($event)"></app-register>
+            }@else if(authControlPageService.selectedPage === "CONFIRMATION"){
+            <app-confirmation (changePage)="onChangePage($event)"></app-confirmation>
+            }@else if ( authControlPageService.selectedPage === "FIND") {
+            <app-find (changePage)="onChangePage($event)"></app-find>
+            }@else if ( authControlPageService.selectedPage === "RECOVER") {
+            <app-recover (changePage)="onChangePage($event)"></app-recover>
+            }
+        </div>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>
