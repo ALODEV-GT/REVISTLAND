@@ -2,8 +2,9 @@ import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthPage } from '@shared/modules/auth/models/auth-control-page';
-import { AuthService } from '@shared/services/auth.service';
+import { AuthService } from '@shared/modules/auth/services/auth.service';
 import { Recover } from '../../models/auth';
+import { AuthStore } from 'app/store/auth.store';
 
 @Component({
   selector: 'app-recover',
@@ -13,6 +14,7 @@ import { Recover } from '../../models/auth';
 })
 export class RecoverComponent {
   @Output() changePage = new EventEmitter<AuthPage>();
+  private readonly store = inject(AuthStore);
 
   private readonly formBuilder = inject(FormBuilder);
   private readonly router = inject(Router);
@@ -23,9 +25,22 @@ export class RecoverComponent {
   showPassword = false;
 
   recoverForm: FormGroup = this.formBuilder.group({
-    code: ['', [Validators.required, Validators.email]],
+    email: ['', [Validators.required, Validators.email]],
+    code: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
     password: ['', [Validators.required, Validators.minLength(8)]]
   });
+
+  constructor() {
+    const email = this.store.email()
+
+    if (!email) {
+      this.toFind();
+    }
+
+    this.recoverForm.patchValue({
+      email: email
+    })
+  }
 
   recover() {
     this.errorMessage = '';
