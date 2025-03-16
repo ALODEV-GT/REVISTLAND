@@ -16,6 +16,7 @@ export interface Confirmation {
 }
 
 export interface Recover {
+    email: string,
     code: string,
     password: string
 }

@@ -2,7 +2,7 @@ import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthPage } from '@shared/modules/auth/models/auth-control-page';
-import { AuthService } from '@shared/services/auth.service';
+import { AuthService } from '@shared/modules/auth/services/auth.service';
 import { Confirmation } from '../../models/auth';
 
 @Component({
