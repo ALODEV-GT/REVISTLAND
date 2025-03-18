@@ -1,0 +1,66 @@
+<div
+    class="w-screen min-h-screen flex bg-base-300 p-4 sm:min-h-0 sm:bg-gray-800 sm:w-screen sm:h-screen sm:flex sm:flex-col sm:items-center sm:justify-center">
+    <div class="w-full h-full sm:h-fit flex flex-col sm:bg-base-200 sm:rounded-xl sm:p-5 sm:w-[50vw]">
+        <div class="flex flex-col bg-gradient-to-r from-purple-900 to-pink-500 p-3 rounded-xl">
+            <button class="btn bg-white text-black border-[#e5e5e5] w-fit">
+                <lucide-icon [name]="PenLine"></lucide-icon>
+            </button>
+            <div class="flex flex-row justify-center">
+                <div class="avatar avatar-online avatar-placeholder">
+                    <div class="bg-neutral text-neutral-content w-30 rounded-full">
+                        <span class="text-xl">BA</span>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center text-white text-2xl">
+                Brayan alonzo
+            </div>
+            <div class="text-center text-white text-sm">
+                {{'brayan.quialo@gmail.com'}}
+            </div>
+            <div class="flex flex-row justify-center mt-2">
+                <div class="badge badge-accent">Editor</div>
+            </div>
+        </div>
+        <div class="card bg-base-100 card-xs shadow-sm rounded-xl mt-3 p-3">
+            <div class="flex flex-row items-center">
+                <div class="flex flex-row gap-2 text-2xl">
+                    <lucide-icon [name]="User"></lucide-icon>
+                    Sobre mi
+                </div>
+            </div>
+            <div class="divider m-0"></div>
+            <div>
+                Desarrollador Fullstack con experiencia en el desarrollo de aplicaciones web y móviles. Apasionado por
+                crear soluciones eficientes y escalables.
+            </div>
+        </div>
+        <div class="card bg-base-100 card-xs shadow-sm rounded-xl mt-3 p-3">
+            <div class="flex flex-row items-center">
+                <div class="flex flex-row gap-2 text-2xl">
+                    Hobbies
+                </div>
+            </div>
+            <div class="divider m-0 mb-1"></div>
+            <div class="flex flex-row gap-3 flex-wrap">
+                <div class="badge badge-primary">Hobbie 1</div>
+                <div class="badge badge-primary">Hobbie 2</div>
+                <div class="badge badge-primary">Hobbie 3</div>
+            </div>
+        </div>
+        <div class="card bg-base-100 card-xs shadow-sm rounded-xl mt-3 p-3">
+            <div class="flex flex-row items-center">
+                <div class="flex items-center flex-row gap-2 text-2xl">
+                    <lucide-icon [name]="Heart"></lucide-icon>
+                    Intereses
+                </div>
+            </div>
+            <div class="divider m-0"></div>
+            <div class="flex flex-row gap-3 flex-wrap">
+                <div class="badge badge-error">Interes 1</div>
+                <div class="badge badge-error">Interes 2</div>
+                <div class="badge badge-error">Interes 3</div>
+            </div>
+        </div>
+    </div>
+</div>
