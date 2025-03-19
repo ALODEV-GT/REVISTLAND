@@ -1,0 +1,128 @@
+<main class="flex-1 px-4">
+    <h1 class="text-2xl font-bold text-center">Publica tus anuncios.</h1>
+
+
+    @if (viewCarts) {
+    <p class="py-6 text-md animate-fade-in delay-100">
+        Existen tres tipo de anuncios que puedes publicar en nuestra plataforma.
+        <strong>Todos los anuncios se muestran en los laterales de la plataforma </strong>
+    </p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+        <!-- Card 1 -->
+        <div class="card bg-base-100 w-96 shadow-sm flex flex-col">
+            <figure class="h-48 overflow-hidden">
+                <img src="https://res.cloudinary.com/ddkp3bobz/image/upload/v1742243659/mvX_HdTWSTynnUrhqrb-AQ_uedas2.webp"
+                    alt="Shoes" class="w-full h-full object-cover" />
+            </figure>
+            <div class="card-body flex-1 flex flex-col">
+                <h2 class="card-title">ANUNCIO TIPO TEXTO</h2>
+                <p class="flex-1"> <!-- Flex-1 para que el texto ocupe el espacio disponible -->
+                    Publica anuncios del tipo texto, el texto tiene como limite 500 caracteres, los suscriptores de la
+                    plataforma lo leeran
+                </p>
+                <div class="card-actions justify-end">
+                    <button class="btn btn-primary" (click)="selectTypeAd(TypeAd.TEXT)">Publicar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card bg-base-100 w-96 shadow-sm flex flex-col">
+            <figure class="h-48 overflow-hidden">
+                <img src="https://res.cloudinary.com/ddkp3bobz/image/upload/v1742243659/Yc9SIViERyKTTCs71iDz-g_hfvelz.webp"
+                    alt="Shoes" class="w-full h-full object-cover" />
+            </figure>
+            <div class="card-body flex-1 flex flex-col">
+                <h2 class="card-title">ANUNCIO TIPO IMAGEN Y TEXTO</h2>
+                <p class="flex-1"> <!-- Flex-1 para que el texto ocupe el espacio disponible -->
+                    Publica anuncios del tipo Imagen, se aceptan todo tipo de imagenes, la imagen debe existir en la
+                    web, por lo que solo se almacenara el url, los suscriptores lo visualizaran en la plataforma
+                </p>
+                <div class="card-actions justify-end">
+                    <button class="btn btn-primary" (click)="selectTypeAd(TypeAd.TEXT_IMAGE)">Publicar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card bg-base-100 w-96 shadow-sm flex flex-col">
+            <figure class="h-48 overflow-hidden">
+                <img src="https://res.cloudinary.com/ddkp3bobz/image/upload/v1742243658/videos_publicitarios_cortos_empresas_gj3xq0.jpg"
+                    alt="Shoes" class="w-full h-full object-cover" />
+            </figure>
+            <div class="card-body flex-1 flex flex-col">
+                <h2 class="card-title">ANUNCIO TIPO VIDEO</h2>
+                <p class="flex-1">
+                    Publica anuncios del tipo video, la plataforma acepta todo tipo de video, el video debe existir en
+                    la web, por lo que solo es permitido subir el url, los suscriptores veran un loop del anuncio
+                </p>
+                <div class="card-actions justify-end">
+                    <button class="btn btn-primary" (click)="selectTypeAd(TypeAd.VIDEO)">Publicar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    }@else {
+    <p class="py-6 px-12 text-md animate-fade-in delay-100">
+        Los anuncios del tipo <strong class="text-purple-700 text-lg">{{ typeAd }}</strong>
+        se publican al completar el siguiente formulario, llene todos los campos
+    </p>
+
+    <form [formGroup]="postForm"
+        class="max-w-3xl mx-auto bg-base-100 p-6 shadow-lg rounded-lg grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Select 1 -->
+        <div>
+            <label class="label"><span class="label-text">Tiempo vigencia del anuncio</span></label>
+            <select class="select select-bordered w-full" formControlName="duration" required>
+                @for (item of daysDuration; track $index) {
+                <option value={{item}}>{{conversWeek(item)}}</option>
+                }
+            </select>
+        </div>
+
+        @if (TypeAd.TEXT !== typeAd) {
+        <!-- Input URL -->
+        <div>
+            <label class="label"><span class="label-text">URL del Anuncio</span></label>
+            <input type="url" class="input input-bordered w-full" placeholder="https://ejemplo.com/anuncio"
+                formControlName="url" required />
+            @if (postForm.get('url')?.invalid && postForm.get('url')?.touched) {
+            <p class="text-red-600 text-sm">Debe ingresar una URL válida.</p>
+            }
+        </div>
+        }
+
+        @if (TypeAd.VIDEO !== typeAd) {
+        <div class="md:col-span-2">
+            <label class="label"><span class="label-text">Contenido</span></label>
+            <textarea class="textarea textarea-bordered w-full"
+                placeholder="Escribe el contenido del anuncio, maximo 500 caracteres" formControlName="content"
+                required></textarea>
+            @if (postForm.get('content')?.invalid && postForm.get('content')?.touched) {
+            <p class="text-red-600 text-sm">El contenido debe tener entre 8 y 500 caracteres.</p>
+            }
+        </div>
+        }
+
+        <div>
+            <label class="label"><span class="label-text">Precio (Q.)</span></label>
+            <input type="number" class="input input-bordered w-full" placeholder="0.00" [value]="cost" disabled />
+        </div>
+
+        <div></div>
+        @if (errorMessage) {
+        <p class="md:col-span-2 text-red-600 text-md">
+            {{errorMessage}}
+        </p>
+        }
+        <div class="md:col-span-2">
+            <button class="btn btn-primary w-full" (click)="adPost()">Publicar Anuncio</button>
+        </div>
+    </form>
+
+    <!-- Botón Regresar -->
+    <button class="btn btn-primary px-6 mx-12 mt-4" (click)="goCarts()">Regresar</button>
+
+    }
+
+</main>

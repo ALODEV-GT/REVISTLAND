@@ -9,5 +9,9 @@ export const routes: Routes = [
         path: '',
         redirectTo: 'welcome',
         pathMatch: 'full'
-    }
+    },
+    {  
+        path: 'announcer',
+        loadChildren: () => import('./shared/modules/announcer/announcer.routes').then(m => m.ANNOUNCER_ROUTES),
+    },
 ];

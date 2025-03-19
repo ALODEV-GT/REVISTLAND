@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { AuthPage } from '@shared/modules/auth/models/auth-control-page';
 import { AuthService } from '@shared/modules/auth/services/auth.service';
 import { Login } from '../../models/auth';
+import { LocalStorageService } from '@shared/services/local-storage.service';
+import { Auth } from 'app/store/models/auth-store.model';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +19,8 @@ export class LoginComponent {
   private readonly formBuilder = inject(FormBuilder);
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
+  private readonly localStorageService = inject(LocalStorageService);
+
 
   errorMessage: string = '';
 
@@ -38,9 +42,10 @@ export class LoginComponent {
     const login: Login = this.loginForm.getRawValue();
 
     this.authService.login(login).subscribe({
-      next: () => {
-        //TODO: Redirect to home
-        this.router.navigate(['/']);
+      next: (value) => {
+        const auth: Auth = { accessToken: value.token, email: value.email, role: value.roleName }
+        this.localStorageService.saveState(auth)    
+        this.redirect(value.roleName)
       },
       error: (error) => {
         this.handleErrorLogin(error);
@@ -48,6 +53,31 @@ export class LoginComponent {
     })
 
   }
+
+    // TODO: redirect to area work
+    redirect(role: string) {
+      switch (role) {
+        case 'EDITOR':
+  
+          break;
+  
+        case 'ADMIN':
+  
+          break;
+        case 'USER':
+  
+          break;
+  
+        case 'ANNOUNCER':
+          this.router.navigate(['announcer/'])
+          break;
+  
+        default:
+          // defult to USER
+          this.router.navigate(['suscriptor/'])
+          break;
+      }
+    }
 
   handleErrorLogin(error: any) {
 

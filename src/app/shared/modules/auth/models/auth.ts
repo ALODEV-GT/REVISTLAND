@@ -4,10 +4,12 @@ export interface Login {
 }
 
 export interface Register {
+    username: string,
     firstname: string,
     lastname: string,
     email: string,
-    password: string
+    password: string,
+    roleId:number;
 }
 
 export interface Confirmation {
@@ -19,4 +21,10 @@ export interface Recover {
     email: string,
     code: string,
     password: string
+}
+
+export interface UserCurrent{
+    token:string;
+    email: string;
+    roleName:string;
 }

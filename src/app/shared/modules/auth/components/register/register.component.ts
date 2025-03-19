@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { AuthPage } from '@shared/modules/auth/models/auth-control-page';
 import { AuthService } from '@shared/modules/auth/services/auth.service';
 import { Register } from '../../models/auth';
+import { RoleDto } from '../../models/role.interface';
 
 @Component({
   selector: 'app-register',
@@ -18,14 +19,27 @@ export class RegisterComponent {
   showPassword = false;
   errorMessage: string = '';
 
+  roles: RoleDto[] = [];
+
   registerForm: FormGroup = this.formBuilder.group({
-    firstName: ['', [Validators.required, Validators.minLength(2)]],
-    lastName: ['', [Validators.required, Validators.minLength(2)]],
+    username: ['', [Validators.required, Validators.minLength(2)]],
+    firstname: ['', [Validators.required, Validators.minLength(2)]],
+    lastname: ['', [Validators.required, Validators.minLength(2)]],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(8)]]
+    password: ['', [Validators.required, Validators.minLength(8)]],
+    roleId: [0, [Validators.required]]
   });
 
+  ngOnInit() {
+    this.authService.getRolesRegister().subscribe({
+      next: value => {
+        this.roles = value
+      }
+    })
+  }
+
   register() {
+    
     if (this.registerForm.invalid) {
       this.errorMessage = 'Por favor, ingrese todos los campos';
       return
@@ -33,8 +47,14 @@ export class RegisterComponent {
 
     const register: Register = this.registerForm.getRawValue();
 
+    register.roleId = Number(register.roleId)
+
+    console.log(register);
+    
+
     this.authService.register(register).subscribe({
       next: () => {
+        localStorage.setItem("email_confirm", register.email);
         this.changePage.emit(AuthPage.CONFIRMATION);
       },
       error: (error) => {
@@ -52,5 +72,21 @@ export class RegisterComponent {
 
   toLogin() {
     this.changePage.emit(AuthPage.LOGIN);
+  }
+
+  getRoleForVista(role: string): string {
+    switch (role) {
+      case 'EDITOR':
+        return 'Publicar Revistas';
+
+      case 'USER':
+        return 'Leer Revistas y Suscribirme';
+
+      case 'ANNOUNCER':
+        return 'Publicar Anuncios en la plataforma';
+
+      default:
+        return '';
+    }
   }
 }

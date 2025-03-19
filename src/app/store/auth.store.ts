@@ -5,7 +5,8 @@ import { LocalStorageService } from '@shared/services/local-storage.service';
 
 export const INITIAL_STATE: Auth = {
     accessToken: '',
-    email: ''
+    email: '',
+    role: ''
 };
 
 export const AuthStore = signalStore(
