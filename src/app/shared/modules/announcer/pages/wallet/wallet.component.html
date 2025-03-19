@@ -1,0 +1,59 @@
+<main class="flex-1 px-4 max-w-2xl mx-auto">
+    <h1 class="text-2xl font-bold text-center mb-4 mt-4">Cartera Digital</h1>
+
+    <p class="py-6 px-4 text-md text-center animate-fade-in delay-100">
+        Revisa tu <strong class="text-purple-700 text-lg">Saldo</strong>
+        en la cartera digital de la plataforma. ¡Puedes recargar dinero si lo necesitas!
+    </p>
+
+    <!-- Tarjeta de Saldo -->
+    <div class="bg-base-100 shadow-xl rounded-lg p-6 flex flex-col items-center text-center">
+        <h2 class="text-lg font-semibold text-gray-600">Saldo Disponible</h2>
+        <p class="text-3xl font-bold text-green-500 mt-2">Q{{ wallet.balance }}</p>
+        <button class="btn btn-primary mt-4" (click)="openModal()">Recargar Saldo</button>
+    </div>
+</main>
+
+<!-- Modal de Recarga -->
+<dialog #modal class="modal">
+    <div class="modal-box">
+        <h3 class="font-bold text-lg">Recargar Saldo</h3>
+        <p class="py-2">Ingresa la cantidad a recargar:</p>
+        <input type="number" [(ngModel)]="rechargeAmount" min="1" class="input input-bordered w-full" placeholder="Monto en USD" />
+
+        <div class="modal-action">
+            <button class="btn btn-success" (click)="addBalance()">Confirmar</button>
+            <button class="btn btn-error" (click)="closeModal()">Cancelar</button>
+        </div>
+    </div>
+</dialog>
+
+
+<!-- Modal de Recarga exitosa -->
+<dialog #modal2 id="my_modal_1" class="modal">
+  <div class="modal-box">
+    <h3 class="text-lg font-bold"> <strong class="text-purple-700 text-lg">Recarga Digital Exitosa</strong></h3>
+    <p class="py-4">Su Saldo actual ah aumentado, felicitaciones!</p>
+    <div class="modal-action">
+      <form method="dialog">
+        <!-- if there is a button in form, it will close the modal -->
+        <button class="btn">Cerrar</button>
+      </form>
+    </div>
+  </div>
+</dialog>
+
+<!-- Modal de Recarga  fallida-->
+<dialog #modal3 id="my_modal_1" class="modal">
+    <div class="modal-box">
+      <h3 class="text-lg font-bold"> <strong class="text-red-700 text-lg">Recarga Digital Fallida</strong></h3>
+      <p class="py-4">Ah ocurrido un error al realizar su recarga</p>
+      <div class="modal-action">
+        <form method="dialog">
+          <!-- if there is a button in form, it will close the modal -->
+          <button class="btn">Cerrar</button>
+        </form>
+      </div>
+    </div>
+  </dialog>
+  

@@ -10,6 +10,7 @@ export const ANNOUNCER_ROUTES: Routes = [
         children: [
           { path: 'dashboard', loadComponent: () => import('./pages/dashboard-announcer/dashboard-announcer.component').then(m => m.DashboardAnnouncerComponent) },
           { path: 'post-ad', loadComponent: () => import('./pages/post-ad/post-ad.component').then(m => m.PostAdComponent) },
+          { path: 'my-wallet', loadComponent: () => import('./pages/wallet/wallet.component').then(m => m.WalletComponent) },
           { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
         ]
       },
