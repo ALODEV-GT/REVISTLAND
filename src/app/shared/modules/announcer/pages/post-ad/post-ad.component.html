@@ -68,6 +68,22 @@
         se publican al completar el siguiente formulario, llene todos los campos
     </p>
 
+    @if (TypeAd.VIDEO === typeAd) {
+    <div class="mt-4 flex justify-center">
+        <youtube-player [videoId]="videoId" [width]="640" [height]="360" [playerVars]="playerVars">
+        </youtube-player>
+    </div>
+    }
+
+
+    @if (TypeAd.TEXT_IMAGE === typeAd) {
+    <div class="mt-4 flex justify-center">
+        <figure>
+            <img [src]="postForm.value.url" alt="Imagen del anuncio" class="w-full h-64 object-cover rounded-lg">
+        </figure>
+    </div>
+    }
+
     <form [formGroup]="postForm"
         class="max-w-3xl mx-auto bg-base-100 p-6 shadow-lg rounded-lg grid grid-cols-1 md:grid-cols-2 gap-4">
         <!-- Select 1 -->
@@ -126,3 +142,18 @@
     }
 
 </main>
+
+
+<!-- Modal de exitosa -->
+<dialog #modal1 id="my_modal_1" class="modal">
+    <app-modal-msg [title]="'Anuncio creado con exito'" [content]="'El anuncio fue creado con exito'"
+        [className]="'text-purple-700 text-lg'">
+    </app-modal-msg>
+</dialog>
+
+<!-- Modal de  fallida-->
+<dialog #modal2 id="my_modal_1" class="modal">
+    <app-modal-msg [title]="'Publicacion de anuncio fallida'" [content]="errorMessageModal"
+        [className]="'text-red-700 text-lg'">
+    </app-modal-msg>
+</dialog>

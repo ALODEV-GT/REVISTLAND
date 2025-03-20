@@ -19,7 +19,7 @@
     <div class="modal-box">
         <h3 class="font-bold text-lg">Recargar Saldo</h3>
         <p class="py-2">Ingresa la cantidad a recargar:</p>
-        <input type="number" [(ngModel)]="rechargeAmount" min="1" class="input input-bordered w-full" placeholder="Monto en USD" />
+        <input type="number" [(ngModel)]="rechargeAmount" min="1" class="input input-bordered w-full" placeholder="Monto en Q" />
 
         <div class="modal-action">
             <button class="btn btn-success" (click)="addBalance()">Confirmar</button>
@@ -31,29 +31,13 @@
 
 <!-- Modal de Recarga exitosa -->
 <dialog #modal2 id="my_modal_1" class="modal">
-  <div class="modal-box">
-    <h3 class="text-lg font-bold"> <strong class="text-purple-700 text-lg">Recarga Digital Exitosa</strong></h3>
-    <p class="py-4">Su Saldo actual ah aumentado, felicitaciones!</p>
-    <div class="modal-action">
-      <form method="dialog">
-        <!-- if there is a button in form, it will close the modal -->
-        <button class="btn">Cerrar</button>
-      </form>
-    </div>
-  </div>
+  <app-modal-msg [content]="'Su Saldo actual ah aumentado, felicitaciones!'"
+  [title]="'Recarga Digital Exitos'" [className]="'text-purple-700 text-lg'"></app-modal-msg>
 </dialog>
 
 <!-- Modal de Recarga  fallida-->
 <dialog #modal3 id="my_modal_1" class="modal">
-    <div class="modal-box">
-      <h3 class="text-lg font-bold"> <strong class="text-red-700 text-lg">Recarga Digital Fallida</strong></h3>
-      <p class="py-4">Ah ocurrido un error al realizar su recarga</p>
-      <div class="modal-action">
-        <form method="dialog">
-          <!-- if there is a button in form, it will close the modal -->
-          <button class="btn">Cerrar</button>
-        </form>
-      </div>
-    </div>
-  </dialog>
+  <app-modal-msg [content]="'Ah ocurrido un error al realizar su recarga'"
+  [title]="'Recarga Digital Fallida'" [className]="'text-red-700 text-lg'"></app-modal-msg>
+</dialog>
   

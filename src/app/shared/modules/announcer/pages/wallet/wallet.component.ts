@@ -2,10 +2,11 @@ import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { WalletService } from '../../services/wallet.service';
 import { WalletDto } from '../../models/wallet.interface';
+import { ModalMsgComponent } from '../../components/modal-msg/modal-msg.component';
 
 @Component({
   selector: 'app-wallet',
-  imports: [FormsModule],
+  imports: [FormsModule, ModalMsgComponent],
   templateUrl: './wallet.component.html',
   styleUrl: './wallet.component.scss'
 })
