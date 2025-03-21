@@ -33,3 +33,8 @@ export interface AdDto {
     isActive: boolean;
     changePeriodAd: ChargePeriodAdDto;
 }
+
+export interface PostAdMount {
+    month: string;
+    count: number;
+}

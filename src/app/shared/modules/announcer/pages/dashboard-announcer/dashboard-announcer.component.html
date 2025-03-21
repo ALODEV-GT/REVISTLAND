@@ -1,40 +1,61 @@
-<main class="flex-1 p-4 mx-6">
-  <h1 class="text-2xl font-bold mb-2">Bienvenido al Dashboard</h1>
+<main class="flex-1 p-4 max-w-7xl mx-auto">
+  <h1 class="text-xl font-bold text-center mb-6">Bienvenido al Dashboard</h1>
 
   <!-- Tarjetas -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-    <div class="bg-white rounded-lg shadow p-4">
-      <h3 class="text-sm font-medium text-gray-500">Total de Anuncios publicados</h3>
-      <p class="text-2xl text-purple-500 font-bold">{{totalAds.total}}</p>
-      <p class="text-gray-500 text-xs">Todas las vigentes y no vigentes</p>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white rounded-xl shadow-lg p-5 text-center">
+      <h3 class="text-sm font-semibold text-gray-600">Total de Anuncios</h3>
+      <p class="text-2xl text-purple-600 font-bold">{{ totalAds.total }}</p>
+      <p class="text-gray-500 text-xs">Vigentes y no vigentes</p>
     </div>
 
-    <div class="bg-white rounded-lg shadow p-4">
-      <h3 class="text-sm font-medium text-gray-500">Total de vistas</h3>
-      <p class="text-2xl text-purple-500 font-bold">{{totalViews}}</p>
-      <p class="text-gray-500 text-xs">Total de veces que se mostraron mis anuncio</p>
+    <div class="bg-white rounded-xl shadow-lg p-5 text-center">
+      <h3 class="text-sm font-semibold text-gray-600">Total de Vistas</h3>
+      <p class="text-2xl text-purple-600 font-bold">{{ totalViews }}</p>
+      <p class="text-gray-500 text-xs">Veces que se mostraron tus anuncios</p>
     </div>
 
-    <div class="bg-white rounded-lg shadow p-4">
-      <h3 class="text-sm font-medium text-gray-500">Saldo en la Cartera Digital</h3>
-      <p class="text-2xl text-purple-500 font-bold">Q{{wallet.balance}}</p>
-      <p class="text-gray-500 text-xs">Total de la cartera</p>
+    <div class="bg-white rounded-xl shadow-lg p-5 text-center">
+      <h3 class="text-sm font-semibold text-gray-600">Saldo en Cartera</h3>
+      <p class="text-2xl text-purple-600 font-bold">Q{{ wallet.balance }}</p>
+      <p class="text-gray-500 text-xs">Saldo disponible</p>
     </div>
 
-    <div class="bg-white rounded-lg shadow p-4">
-      <h3 class="text-sm font-medium text-gray-500">Anuncios Vigentes</h3>
-      <p class="text-2xl text-purple-500 font-bold">{{totalAds.totalActive}}</p>
-      <p class="text-gray-500 text-xs">Todas los vigentes</p>
+    <div class="bg-white rounded-xl shadow-lg p-5 text-center">
+      <h3 class="text-sm font-semibold text-gray-600">Anuncios Vigentes</h3>
+      <p class="text-2xl text-purple-600 font-bold">{{ totalAds.totalActive }}</p>
+      <p class="text-gray-500 text-xs">Actualmente activos</p>
     </div>
   </div>
 
-  <!-- Graficas -->
+  <!-- Gráficas -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="bg-white rounded-xl shadow-lg p-5">
+      <h3 class="text-base font-semibold text-gray-700 text-center">Anuncios Publicados por Mes</h3>
+      <div style="text-align:center">
+        <app-chart-bar [postAdCountMount]="postAdCountMount" [title]="'Total de anuncios'" [label]="'Publicaciones'" [category]="'Mes'"></app-chart-bar> 
+      </div>
+    </div>
 
-    <!--( inversion  vs vistas de anuncios ) por mes -->
+    <div class="bg-white rounded-xl shadow-lg p-5">
+      <h3 class="text-base font-semibold text-gray-700 text-center">Vistas de Anuncios por Mes</h3>
+      <div class="flex justify-center items-center h-36">
+        <!-- 📊 Agrega tu gráfico aquí -->
+      </div>
+    </div>
 
-    <!-- (Tiempo vs anuncios publicados) por mes -->
+    <div class="bg-white rounded-xl shadow-lg p-5">
+      <h3 class="text-base font-semibold text-gray-700 text-center">Inversión en Publicaciones por mes</h3>
+      <div class="flex justify-center items-center h-36">
+        <!-- 📊 Agrega tu gráfico aquí -->
+      </div>
+    </div>
 
-    <!-- grafica de PIE total de anuncios de cada tipo -->
-
-
+    <div class="bg-white rounded-xl shadow-lg p-5">
+      <h3 class="text-base font-semibold text-gray-700 text-center">Tipos de Anuncios Registrados</h3>
+      <div class="flex justify-center items-center h-36">
+        <!-- 📊 Agrega tu gráfico aquí -->
+      </div>
+    </div>
+  </div>
 </main>

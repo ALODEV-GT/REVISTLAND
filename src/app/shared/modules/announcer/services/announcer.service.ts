@@ -3,7 +3,7 @@ import { ChargePeriodAdDto } from '../models/charge-period-ad.interface';
 import { HttpClient } from '@angular/common/http';
 import { ApiConfigService } from '@shared/services/api-config.service';
 import { Observable } from 'rxjs';
-import { AdDto, AdPostDto, TotalAdsDto, TotalViewsAdDto, updateAd } from '../models/ad-post-dto.interface';
+import { AdDto, AdPostDto, PostAdMount, TotalAdsDto, TotalViewsAdDto, updateAd } from '../models/ad-post-dto.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +34,6 @@ export class AnnouncerService {
     return this._http.put<AdDto>(`${this.API_ANNOUNCER}/deactivate/${id}`, postAd)
   }
 
-
   activetedAnnouncer(postAd: AdPostDto, id: number): Observable<AdDto> {
     return this._http.put<AdDto>(`${this.API_ANNOUNCER}/activated/${id}`, postAd)
   }
@@ -49,5 +48,9 @@ export class AnnouncerService {
 
   getTotalAdViewsUser(): Observable<TotalViewsAdDto>{
     return this._http.get<TotalViewsAdDto>(`${this.API_ANNOUNCER}/views/total`);
+  }
+
+  getPostCountMount(): Observable<PostAdMount[]>{
+    return this._http.get<PostAdMount[]>(`${this.API_ANNOUNCER}/post-count-mount`);
   }
 }

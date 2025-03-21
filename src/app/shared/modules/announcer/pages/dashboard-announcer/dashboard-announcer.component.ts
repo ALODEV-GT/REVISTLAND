@@ -2,11 +2,12 @@ import { Component, inject } from '@angular/core';
 import { WalletService } from '../../services/wallet.service';
 import { WalletDto } from '../../models/wallet.interface';
 import { AnnouncerService } from '../../services/announcer.service';
-import { TotalAdsDto } from '../../models/ad-post-dto.interface';
+import { PostAdMount, TotalAdsDto } from '../../models/ad-post-dto.interface';
+import { ChartBarComponent } from '../../components/chart-bar/chart-bar.component';
 
 @Component({
   selector: 'app-dashboard-announcer',
-  imports: [],
+  imports: [ChartBarComponent], 
   templateUrl: './dashboard-announcer.component.html',
   styleUrl: './dashboard-announcer.component.scss'
 })
@@ -19,14 +20,24 @@ export class DashboardAnnouncerComponent {
 
   wallet: WalletDto = { balance: 0.00, id: 0 };
   totalAds: TotalAdsDto = { total: 0, totalActive: 0};
+  postAdCountMount: PostAdMount []=[]
   totalViews: number = 0;
 
   ngOnInit() {
     this.getWalletUser();
     this.getTotalAds();
     this.getTotalAdViews();
+    this.getPostAdCountMount();
   }
 
+  
+  getPostAdCountMount(){
+    this._announcerService.getPostCountMount().subscribe({
+      next: value => {
+        this.postAdCountMount = value        
+      }
+    })
+  }
 
 
   getWalletUser() {
