@@ -1,0 +1,155 @@
+<div class="font-sans pt-16">
+    <!-- Contenido Principal con Anuncios Laterales -->
+    <div class="container mx-auto py-10 px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <!-- Anuncio Izquierdo (oculto en móvil) -->
+            <div class="hidden lg:block lg:col-span-2">
+                <div class="card bg-base-100 shadow-md p-4 h-full">
+                    <img src="https://cdn.pixabay.com/photo/2017/08/30/07/56/coffee-2696174_1280.jpg" alt="Anuncio 1" class="w-full h-48 object-cover rounded-lg mb-2" />
+                    <p class="font-semibold text-sm">¡Prueba el mejor café tecnológico!</p>
+                    <p class="text-xs text-gray-500">Descubre la nueva cafetera inteligente.</p>
+                </div>
+            </div>
+
+            <!-- Contenido Central -->
+            <div class="col-span-1 lg:col-span-8">
+                <!-- Portada y Detalles Básicos -->
+                <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow relative cursor-pointer">
+                    <div class="absolute top-2 right-2">
+                        <span class="badge badge-primary">Technology</span>
+                    </div>
+                    <figure>
+                        <img src="https://cdn.pixabay.com/photo/2022/11/13/05/24/leaf-7588300_1280.jpg" alt="Revista 1"
+                            class="w-full h-64 sm:h-80 md:h-96 object-cover rounded-t-xl" />
+                    </figure>
+                    <div class="card-body">
+                        <h2 class="card-title text-lg sm:text-xl md:text-2xl">Revista de Tecnología</h2>
+                        <p class="text-sm sm:text-base text-gray-200">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore
+                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                            cillum dolore eu fugiat nulla pariatur.
+                        </p>
+                        <p class="text-sm sm:text-base text-gray-200">
+                            Esta revista mensual cubre temas como inteligencia artificial, gadgets y avances científicos que
+                            están moldeando el futuro.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <span class="badge badge-outline badge-sm">Tech</span>
+                            <span class="badge badge-outline badge-sm">Innovación</span>
+                        </div>
+                        <div class="divider m-0"></div>
+                        <div class="flex flex-row items-center justify-between flex-wrap gap-2">
+                            <span class="text-sm sm:text-base">
+                                <strong>Autor:</strong> Juan Pérez
+                            </span>
+                            <span class="flex flex-row items-center gap-2 sm:gap-4 text-sm sm:text-base">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                </svg>
+                                200
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Anuncios en Móvil (antes de Ediciones Disponibles) -->
+                <div class="mt-10 lg:hidden">
+                    <h2 class="text-xl sm:text-2xl font-semibold mb-4">Anuncios</h2>
+                    <div class="space-y-4">
+                        <!-- Anuncio 1 -->
+                        <div class="card bg-base-100 shadow-md flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4">
+                            <img src="https://cdn.pixabay.com/photo/2017/08/30/07/56/coffee-2696174_1280.jpg" alt="Anuncio 1" class="w-full sm:w-32 h-24 object-cover rounded-lg" />
+                            <div class="flex-1">
+                                <p class="font-semibold text-sm sm:text-base">¡Prueba el mejor café tecnológico!</p>
+                                <p class="text-xs sm:text-sm text-gray-500">Descubre la nueva cafetera inteligente.</p>
+                            </div>
+                        </div>
+                        <!-- Anuncio 2 -->
+                        <div class="card bg-base-100 shadow-md flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4">
+                            <img src="https://cdn.pixabay.com/photo/2015/07/17/22/43/student-849825_1280.jpg" alt="Anuncio 2" class="w-full sm:w-32 h-24 object-cover rounded-lg" />
+                            <div class="flex-1">
+                                <p class="font-semibold text-sm sm:text-base">Cursos de IA para el futuro</p>
+                                <p class="text-xs sm:text-sm text-gray-500">Aprende con los mejores expertos.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-10">
+                    <h2 class="text-xl sm:text-2xl font-semibold mb-4">Ediciones Disponibles</h2>
+                    <div class="space-y-4">
+                        <!-- PDF 1 -->
+                        <div
+                            class="card bg-base-100 shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between p-4">
+                            <div class="flex items-center gap-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                </svg>
+                                <div>
+                                    <p class="font-semibold text-sm sm:text-base">Edición #1 - Marzo 2025</p>
+                                    <p class="text-xs text-gray-500">Publicado el 1 de marzo de 2025</p>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline btn-sm mt-2 sm:mt-0">Descargar</button>
+                        </div>
+                        <!-- PDF 2 -->
+                        <div
+                            class="card bg-base-100 shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between p-4">
+                            <div class="flex items-center gap-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                </svg>
+                                <div>
+                                    <p class="font-semibold text-sm sm:text-base">Edición #2 - Abril 2025</p>
+                                    <p class="text-xs text-gray-500">Publicado el 1 de abril de 2025</p>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline btn-sm mt-2 sm:mt-0">Descargar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección de Comentarios -->
+                <div class="mt-10">
+                    <h2 class="text-xl sm:text-2xl font-semibold">Comentarios</h2>
+                    <div class="card bg-base-100 shadow-md p-4">
+                        <textarea class="textarea textarea-bordered w-full text-sm sm:text-base"
+                            placeholder="Escribe tu comentario..."></textarea>
+                        <button class="btn btn-primary mt-2 w-full sm:w-auto">Publicar</button>
+                    </div>
+                    <div class="space-y-4 mt-6">
+                        <div class="flex flex-row sm:flex-row gap-4">
+                            <div class="avatar">
+                                <div class="w-10 h-10 sm:w-12 rounded-full">
+                                    <img src="https://cdn.pixabay.com/photo/2016/09/22/16/38/avatar-1687700_1280.jpg"
+                                        alt="Usuario" />
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold text-sm sm:text-base">Carlos Ruiz</p>
+                                <p class="text-sm text-gray-300">Gran contenido, pero me gustaría ver más sobre biotecnología.</p>
+                                <p class="text-xs text-gray-500 mt-1">Hace 1 día</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Anuncio Derecho (oculto en móvil) -->
+            <div class="hidden lg:block lg:col-span-2">
+                <div class="card bg-base-100 shadow-md p-4 h-full">
+                    <img src="https://cdn.pixabay.com/photo/2015/07/17/22/43/student-849825_1280.jpg" alt="Anuncio 2" class="w-full h-48 object-cover rounded-lg mb-2" />
+                    <p class="font-semibold text-sm">Cursos de IA para el futuro</p>
+                    <p class="text-xs text-gray-500">Aprende con los mejores expertos.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

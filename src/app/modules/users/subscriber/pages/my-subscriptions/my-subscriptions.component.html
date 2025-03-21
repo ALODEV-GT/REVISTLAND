@@ -1,0 +1,32 @@
+<div class="container mx-auto py-10 mt-[66px]">
+    <h2 class="text-3xl font-semibold text-center mb-8">Mis suscripciones</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4">
+        <!-- Tarjeta de Revista -->
+        <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow relative cursor-pointer">
+            <div class="absolute top-2 right-2">
+                <span class="badge badge-primary">Technology</span>
+            </div>
+            <figure><img src="https://cdn.pixabay.com/photo/2022/11/13/05/24/leaf-7588300_1280.jpg" alt="Revista 1"
+                    class="w-full h-48 object-cover rounded-t-xl" />
+            </figure>
+            <div class="card-body">
+                <h2 class="card-title text-lg">Revista de Tecnología</h2>
+                <p class="text-sm text-gray-600">Explora las últimas tendencias en innovación.</p>
+                <div class="flex flex-wrap gap-2 mt-2">
+                    <span class="badge badge-outline badge-sm">Tech</span>
+                    <span class="badge badge-outline badge-sm">Innovación</span>
+                </div>
+                <div class="divider m-0"></div>
+                <div class="flex flex-row items-center justify-between">
+                    <span>
+                        <strong>Autor:</strong> Juan Pérez
+                    </span>
+                    <span class="flex flex-row gap-4">
+                        <lucide-icon [name]="Heart"></lucide-icon>
+                        200
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
