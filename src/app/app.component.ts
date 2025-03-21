@@ -15,9 +15,8 @@ export class AppComponent {
 
   constructor() {
     effect(() => {
-      const email = this.store.email()
-      const accessToken = this.store.accessToken()
-      this.localStorageService.saveState({ email, accessToken });
+      const session = this.store.session()
+      this.localStorageService.saveState({session});
     });
   }
 }

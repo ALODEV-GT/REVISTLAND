@@ -4,6 +4,7 @@ import { AuthPage } from '@shared/modules/auth/models/auth-control-page';
 import { AuthService } from '@shared/modules/auth/services/auth.service';
 import { Register } from '../../models/auth';
 import { RoleDto } from '../../models/role.interface';
+import { AuthStore } from 'app/store/auth.store';
 
 @Component({
   selector: 'app-register',
@@ -16,6 +17,8 @@ export class RegisterComponent {
 
   private readonly formBuilder = inject(FormBuilder);
   private readonly authService = inject(AuthService)
+  private readonly store = inject(AuthStore);
+
   showPassword = false;
   errorMessage: string = '';
 
@@ -39,7 +42,6 @@ export class RegisterComponent {
   }
 
   register() {
-    
     if (this.registerForm.invalid) {
       this.errorMessage = 'Por favor, ingrese todos los campos';
       return
@@ -49,12 +51,9 @@ export class RegisterComponent {
 
     register.roleId = Number(register.roleId)
 
-    console.log(register);
-    
-
     this.authService.register(register).subscribe({
       next: () => {
-        localStorage.setItem("email_confirm", register.email);
+        this.store.updateEmail(register.email)
         this.changePage.emit(AuthPage.CONFIRMATION);
       },
       error: (error) => {

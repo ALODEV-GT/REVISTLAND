@@ -1,5 +1,5 @@
+import { Session } from "@shared/modules/auth/models/auth";
+
 export interface Auth {
-    accessToken: string;
-    email: string;
-    role?: string;
+    session: Session
 }

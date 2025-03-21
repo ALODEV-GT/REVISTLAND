@@ -3,9 +3,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import { AuthPage } from '@shared/modules/auth/models/auth-control-page';
 import { AuthService } from '@shared/modules/auth/services/auth.service';
-import { Confirmation } from '../../models/auth';
-import { LocalStorageService } from '@shared/services/local-storage.service';
-import { Auth } from 'app/store/models/auth-store.model';
+import { Confirmation, Session } from '../../models/auth';
+import { AuthStore } from 'app/store/auth.store';
 
 @Component({
   selector: 'app-confirmation',
@@ -15,18 +14,26 @@ import { Auth } from 'app/store/models/auth-store.model';
 })
 export class ConfirmationComponent {
   @Output() changePage = new EventEmitter<AuthPage>();
-
   private readonly formBuilder = inject(FormBuilder);
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
-  private readonly localStorageService = inject(LocalStorageService);
+  private readonly store = inject(AuthStore);
 
   errorMessage: string = '';
 
   confirmationForm: FormGroup = this.formBuilder.group({
+    email: ['', [Validators.required, Validators.email]],
     code: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
   });
 
+  constructor() {
+    const email: string = this.store.session.email()
+    if (!email) {
+      this.toLogin()
+    }
+
+    this.confirmationForm.patchValue({ email })
+  }
 
   confirm() {
     this.errorMessage = '';
@@ -36,15 +43,12 @@ export class ConfirmationComponent {
       return
     }
 
-    const emailUser: string = localStorage.getItem("email_confirm") || "";
     const confirmation: Confirmation = this.confirmationForm.getRawValue();
-    confirmation.email = emailUser;
 
     this.authService.confirmation(confirmation).subscribe({
-      next: (value) => {
-        const auth: Auth = { accessToken: value.token, email: value.email, role: value.roleName }
-        this.localStorageService.saveState(auth)        
-        this.redirect(value.roleName)
+      next: (response: Session) => {
+        this.store.updateSession(response)
+        this.redirect(response.roleName)
       },
       error: (error) => {
         this.handleErrorConfirmation(error);
