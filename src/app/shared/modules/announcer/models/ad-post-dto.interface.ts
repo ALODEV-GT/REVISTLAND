@@ -7,10 +7,19 @@ export interface AdPostDto {
     videoUrl: string;
 }
 
-export interface updateAd{
+export interface updateAd {
     content: string;
     imageUrl: string;
     videoUrl: string;
+}
+
+export interface TotalAdsDto {
+    total: number;
+    totalActive: number;
+}
+
+export interface TotalViewsAdDto {
+    total: number;
 }
 
 export interface AdDto {
@@ -22,5 +31,5 @@ export interface AdDto {
     createdAt: Date;
     expiresAt: Date;
     isActive: boolean;
-    changePeriodAd:ChargePeriodAdDto;
+    changePeriodAd: ChargePeriodAdDto;
 }
