@@ -3,7 +3,7 @@ import { ChargePeriodAdDto } from '../models/charge-period-ad.interface';
 import { HttpClient } from '@angular/common/http';
 import { ApiConfigService } from '@shared/services/api-config.service';
 import { Observable } from 'rxjs';
-import { AdDto, AdPostDto, PostAdMount, TotalAdsDto, TotalViewsAdDto, updateAd } from '../models/ad-post-dto.interface';
+import { AdDto, AdPostDto, CountAdByTypeDto, PostAdMount, TotalAdsDto, TotalAmountMoth, TotalViewsAdDto, updateAd } from '../models/ad-post-dto.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,7 @@ export class AnnouncerService {
   private readonly _http = inject(HttpClient)
   private readonly apiConfigService = inject(ApiConfigService);
   private API_ANNOUNCER = this.apiConfigService.API_ANNOUNCER;
+  private API_PAYMENT = this.apiConfigService.API_PAYMENT;
   ad!: AdDto
 
 
@@ -53,4 +54,18 @@ export class AnnouncerService {
   getPostCountMount(): Observable<PostAdMount[]>{
     return this._http.get<PostAdMount[]>(`${this.API_ANNOUNCER}/post-count-mount`);
   }
+
+  getCountViewsMount(): Observable<PostAdMount[]>{
+    return this._http.get<PostAdMount[]>(`${this.API_ANNOUNCER}/views/views-count-mount`);
+  }
+
+  getTotalAmountMoth(): Observable<TotalAmountMoth[]>{
+    return this._http.get<TotalAmountMoth[]>(`${this.API_PAYMENT}/investment`);
+  }
+
+  getAllPostAdMountType(): Observable<CountAdByTypeDto[]> {
+    return this._http.get<CountAdByTypeDto[]>(`${this.API_ANNOUNCER}/charge-period-ads/post-month`)
+  }
+
+  
 }

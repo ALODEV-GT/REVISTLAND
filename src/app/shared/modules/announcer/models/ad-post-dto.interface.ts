@@ -38,3 +38,13 @@ export interface PostAdMount {
     month: string;
     count: number;
 }
+
+export interface TotalAmountMoth {
+    month: string;
+    amount: number;
+}
+
+export interface CountAdByTypeDto{
+    adType:string;
+    count:number;
+}

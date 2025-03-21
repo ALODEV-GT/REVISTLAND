@@ -8,7 +8,7 @@ import {
   ApexTitleSubtitle,
   NgApexchartsModule
 } from "ng-apexcharts";
-import { PostAdMount } from '../../models/ad-post-dto.interface';
+import { PostAdMount, TotalAmountMoth } from '../../models/ad-post-dto.interface';
 
 
 export type ChartOptions = {
@@ -26,8 +26,7 @@ export type ChartOptions = {
 })
 export class ChartBarComponent {
 
-  @ViewChild("chart") chart: ChartComponent | undefined;
-  @Input() postAdCountMount!: PostAdMount[]
+  @Input() postAdCountMount!: PostAdMount[] | TotalAmountMoth []
   @Input() title!: string;
   @Input() label!: string;
   @Input() category!: string;
@@ -68,9 +67,7 @@ export class ChartBarComponent {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['postAdCountMount'] && this.postAdCountMount?.length > 0) {
-      this.mostrarHtml = false;      
-
-      console.log(this.title);
+      this.mostrarHtml = false;            
       
       this.buildData();
   
@@ -108,17 +105,28 @@ export class ChartBarComponent {
       return;
     }
   
-    this.mountMap = this.postAdCountMount.reduce((acc, item) => {
-      acc[item.month] = item.count;
-      return acc;
-    }, {} as Record<string, number>);
+    // Verificar si el array contiene objetos tipo PostAdMount o TotalAmountMoth
+    const firstItem = this.postAdCountMount[0];
+  
+    if ("count" in firstItem) {
+      this.mountMap = (this.postAdCountMount as PostAdMount[]).reduce((acc, item) => {
+        acc[item.month] = item.count;
+        return acc;
+      }, {} as Record<string, number>);
+    } else {
+      this.mountMap = (this.postAdCountMount as TotalAmountMoth[]).reduce((acc, item) => {
+        acc[item.month] = item.amount;
+        return acc;
+      }, {} as Record<string, number>);
+    }
   
     this.monthCounts = this.months.reduce((acc, month, index) => {
       const key = String(index + 1).padStart(2, '0');
-      acc[month] = this.mountMap[key] ?? 0; // Asegurar que si no hay datos, sea 0
+      acc[month] = this.mountMap[key] ?? 0; // Si no hay datos, poner 0
       return acc;
     }, {} as Record<string, number>);
   }
+  
   
 
 }
