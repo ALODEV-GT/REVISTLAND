@@ -1,0 +1,91 @@
+<div class="bg-base-100 shadow-xl rounded-xl p-6">
+    <h2 class="text-lg font-bold mb-4">Reporte de vistas por anuncio</h2>
+
+    <div class="overflow-x-auto">
+        <table class="table w-full">
+            <!-- Encabezados -->
+            <thead>
+                <tr class="bg-base-200">
+                    <th class="text-left">#</th>
+                    <th class="text-left">Tipo de anuncio</th>
+                    <th class="text-left">Vigente</th>
+                    <th class="text-left">Total Vistas</th>
+                    <th class="text-left">Acciones</th>
+                </tr>
+            </thead>
+            <!-- Cuerpo de la tabla -->
+            <tbody>
+                @for (ad of ads; track $index) {
+                <tr>
+                    <td>{{$index+1}}</td>
+                    <td>{{getEnumValue(ad.adDto.changePeriodAd.adType)}}</td>
+                    <td>{{activeSting(ad.adDto.isActive)}}</td>
+                    <td>{{ad.viewsAdDto.length}}</td>
+                    <td class="space-x-2">
+                        <button class="btn btn-sm btn-info" (click)="viewDeataildAd(ad)">Ver detalles</button>
+                    </td>
+                </tr>
+                }
+                <tr>
+                    <td colspan="3">Total</td>
+                    <td>{{total}}</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@if (details) {
+<div class="mt-8">
+    <h2 class="text-lg font-bold">Detalle de las vistas de la revista</h2>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-end">
+        <button class="btn btn-secondary" (click)="noDetails()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25" />
+            </svg>
+            Ocultar
+        </button>
+        <button class="btn btn-outline">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            Exportar a PDF
+        </button>
+    </div>
+</div>
+
+<div class="bg-base-100 shadow-xl rounded-xl p-6">
+    <div class="overflow-x-auto">
+        <table class="table w-full">
+            <!-- Encabezados -->
+            <thead>
+                <tr class="bg-base-200">
+                    <th class="text-left">#</th>
+                    <th class="text-left">Fecha de vista</th>
+                    <th class="text-left">Url donde se mostro</th>
+                </tr>
+            </thead>
+            <!-- Cuerpo de la tabla -->
+            <tbody>
+                @for (view of adDetail; track $index) {
+                <tr>
+                    <td>{{$index+1}}</td>
+                    <td>{{formatDateTime(view.createdAt)}}</td>
+                    <td>{{view.urlView}}</td>
+                </tr>
+                }
+                <tr>
+                    <td colspan="2">Total</td>
+                    <td>{{adDetail.length}}</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+}

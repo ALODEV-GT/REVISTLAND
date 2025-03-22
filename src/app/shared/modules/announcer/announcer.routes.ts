@@ -14,6 +14,7 @@ export const ANNOUNCER_ROUTES: Routes = [
           { path: 'my-ad/:slug', loadComponent: () => import('./pages/ad/ad.component').then(m => m.AdComponent)},
           { path: 'my-ads', loadComponent: () => import('./pages/my-ads/my-ads.component').then(m => m.MyAdsComponent)},
           { path: 'edit-ad/:slug', loadComponent: () => import('./pages/edit-ad/edit-ad.component').then(m => m.EditAdComponent)},
+          { path: 'reports', loadComponent: () => import('./pages/report-ad-layer/report-ad-layer.component').then(m => m.ReportAdLayerComponent)},
           { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
         ]
       },

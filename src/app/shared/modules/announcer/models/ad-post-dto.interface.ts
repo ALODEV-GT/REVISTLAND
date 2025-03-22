@@ -34,6 +34,16 @@ export interface AdDto {
     changePeriodAd: ChargePeriodAdDto;
 }
 
+export interface ViewAdDto{
+    urlView: string;
+    createdAt: Date;
+}
+
+export interface AdViewReportDto {
+    adDto:AdDto,
+    viewsAdDto: ViewAdDto [];
+}
+
 export interface PostAdMount {
     month: string;
     count: number;

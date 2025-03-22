@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { ChargePeriodAdDto } from '../models/charge-period-ad.interface';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { ApiConfigService } from '@shared/services/api-config.service';
 import { Observable } from 'rxjs';
-import { AdDto, AdPostDto, CountAdByTypeDto, PostAdMount, TotalAdsDto, TotalAmountMoth, TotalViewsAdDto, updateAd } from '../models/ad-post-dto.interface';
+import { AdDto, AdPostDto, AdViewReportDto, CountAdByTypeDto, PostAdMount, TotalAdsDto, TotalAmountMoth, TotalViewsAdDto, updateAd } from '../models/ad-post-dto.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -67,5 +67,23 @@ export class AnnouncerService {
     return this._http.get<CountAdByTypeDto[]>(`${this.API_ANNOUNCER}/charge-period-ads/post-month`)
   }
 
+  getReportViewsAd(startDate?: string, endDate?: string): Observable<AdViewReportDto[]> {
+    let params = new HttpParams();
+  
+    if (startDate) params = params.set('startDate', startDate);
+    if (endDate) params = params.set('endDate', endDate);
+  
+    return this._http.get<AdViewReportDto[]>(`${this.API_ANNOUNCER}/views/report-views`, { params });
+  }
+
+  getAllMyAdsReport(startDate?: string, endDate?: string): Observable<AdDto[]> {
+    let params = new HttpParams();
+  
+    if (startDate) params = params.set('startDate', startDate);
+    if (endDate) params = params.set('endDate', endDate);
+    
+    return this._http.get<AdDto[]>(`${this.API_ANNOUNCER}/my-ads-active`,  { params });
+  }
+  
   
 }
