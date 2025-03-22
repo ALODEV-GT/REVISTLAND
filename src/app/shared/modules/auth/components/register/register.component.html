@@ -4,28 +4,44 @@
 
 <form [formGroup]="registerForm" (ngSubmit)="register()" class="space-y-4">
 
+    <div class="form-control">
+        <label class="label">
+            <span class="label-text">Nombre de Usuario</span>
+        </label>
+        <input type="email" formControlName="username" name="text" class="input input-bordered w-full" />
+    </div>
+
     <div class="grid grid-cols-2 gap-4">
         <div class="form-control">
             <label class="label">
                 <span class="label-text">Nombre</span>
             </label>
-            <input type="email" formControlName="firstName" name="firstName" class="input input-bordered w-full"
-                required />
+            <input type="email" formControlName="firstname" name="firstname" class="input input-bordered w-full" />
         </div>
         <div class="form-control">
             <label class="label">
                 <span class="label-text">Apellido</span>
             </label>
-            <input type="email" formControlName="lastName" name="lastName" class="input input-bordered w-full"
-                required />
+            <input type="email" formControlName="lastname" name="lastname" class="input input-bordered w-full" />
         </div>
+    </div>
+
+    <div class="form-control">
+        <label class="label">
+            <span class="label-text">Interes en la plataforma</span>
+        </label>
+        <select class="select select-bordered w-full" formControlName="roleId">
+            @for (role of roles; track $index) {
+            <option value={{role.id}}>{{getRoleForVista(role.name)}}</option>
+            }
+        </select>
     </div>
 
     <div class="form-control">
         <label class="label">
             <span class="label-text">Correo Electrónico</span>
         </label>
-        <input type="email" formControlName="email" name="email" class="input input-bordered w-full" required />
+        <input type="email" formControlName="email" name="email" class="input input-bordered w-full" />
     </div>
 
     <div class="form-control">
@@ -34,7 +50,7 @@
         </label>
         <div class="relative">
             <input [type]="showPassword ? 'text' : 'password'" formControlName="password" name="password"
-                class="input input-bordered w-full pr-10" required />
+                class="input input-bordered w-full pr-10" />
             <button type="button" class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
                 (click)="togglePasswordVisibility()">
                 <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">

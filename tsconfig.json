@@ -16,6 +16,9 @@
       ],
       "@shared/*": [
         "app/shared/*"
+      ],
+      "@editor/*": [
+        "app/shared/modules/editor/*"
       ]
     },
     "outDir": "./dist/out-tsc",
