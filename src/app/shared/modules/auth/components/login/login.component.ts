@@ -26,7 +26,7 @@ export class LoginComponent {
 
   loginForm: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(8)]]
+    password: ['', [Validators.required, Validators.minLength(2)]]
   });
 
   login() {
@@ -55,18 +55,10 @@ export class LoginComponent {
   redirect(role: string) {
     switch (role) {
       case 'EDITOR':
-
-        break;
-
       case 'ADMIN':
-
-        break;
       case 'USER':
-
-        break;
-
       case 'ANNOUNCER':
-        this.router.navigate(['announcer/'])
+        this.router.navigate([`${role.toLocaleLowerCase()}/`])
         break;
 
       default:
