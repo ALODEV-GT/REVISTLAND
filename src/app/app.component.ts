@@ -1,13 +1,14 @@
-import { CommonModule } from '@angular/common';
 import { Component, effect, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LocalStorageService } from '@shared/services/local-storage.service';
+import { AlertsComponent } from './shared/components/alerts/alerts.component';
+import { ModalComponent } from './shared/components/modal/modal.component';
 import { AuthStore } from './store/auth.store';
-import { AlertStore } from './store/alert.store';
+import { ModalStore } from './store/modal.store';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, RouterOutlet],
+  imports: [RouterOutlet, AlertsComponent, ModalComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
@@ -15,9 +16,14 @@ export class AppComponent {
   private readonly store = inject(AuthStore);
   private readonly localStorageService = inject(LocalStorageService);
 
-  readonly alertStore = inject(AlertStore);
+  readonly modalStore = inject(ModalStore);
 
   constructor() {
+    this.modalStore.setComponent(() =>
+      import('app/shared/modules/announcer/pages/ad/ad.component').then(
+        (m) => m.AdComponent
+      )
+    );
     effect(() => {
       const session = this.store.session();
       this.localStorageService.saveState({ session });
