@@ -14,6 +14,17 @@ export const routes: Routes = [
     {
         path: 'announcer',
         canActivate: [authGuard],
+        data: {
+            role: 'ANNOUNCER'
+        },
         loadChildren: () => import('./shared/modules/announcer/announcer.routes').then(m => m.ANNOUNCER_ROUTES),
+    },
+    {
+        path: 'editor',
+        canActivate: [authGuard],
+        data: {
+            role: 'EDITOR'
+        },
+        loadChildren: () => import('@editor/editor.routes').then(m => m.routes),
     }
 ];
