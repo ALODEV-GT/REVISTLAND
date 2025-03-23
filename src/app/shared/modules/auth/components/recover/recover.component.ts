@@ -1,8 +1,6 @@
 import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AuthPage } from '@shared/modules/auth/models/auth-control-page';
-import { AuthService } from '@shared/modules/auth/services/auth.service';
 import { Recover } from '../../models/auth';
 import { AuthStore } from 'app/store/auth.store';
 
@@ -17,8 +15,6 @@ export class RecoverComponent {
   private readonly store = inject(AuthStore);
 
   private readonly formBuilder = inject(FormBuilder);
-  private readonly router = inject(Router);
-  private readonly authService = inject(AuthService);
 
   errorMessage: string = '';
 
@@ -31,15 +27,12 @@ export class RecoverComponent {
   });
 
   constructor() {
-    const email = this.store.email()
-
+    const email: string = this.store.session.email()
     if (!email) {
       this.toFind();
     }
 
-    this.recoverForm.patchValue({
-      email: email
-    })
+    this.recoverForm.patchValue({ email })
   }
 
   recover() {
@@ -53,7 +46,6 @@ export class RecoverComponent {
     const recover: Recover = this.recoverForm.getRawValue();
 
     //TODO: Consume api endpoint
-
   }
 
   handleErrorLogin(error: any) {

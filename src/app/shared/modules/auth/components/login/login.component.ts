@@ -3,9 +3,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import { AuthPage } from '@shared/modules/auth/models/auth-control-page';
 import { AuthService } from '@shared/modules/auth/services/auth.service';
-import { Login } from '../../models/auth';
-import { LocalStorageService } from '@shared/services/local-storage.service';
-import { Auth } from 'app/store/models/auth-store.model';
+import { Login, Session } from '../../models/auth';
+import { AuthStore } from 'app/store/auth.store';
 
 @Component({
   selector: 'app-login',
@@ -19,8 +18,7 @@ export class LoginComponent {
   private readonly formBuilder = inject(FormBuilder);
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
-  private readonly localStorageService = inject(LocalStorageService);
-
+  private readonly store = inject(AuthStore);
 
   errorMessage: string = '';
 
@@ -28,7 +26,7 @@ export class LoginComponent {
 
   loginForm: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(8)]]
+    password: ['', [Validators.required, Validators.minLength(2)]]
   });
 
   login() {
@@ -42,9 +40,8 @@ export class LoginComponent {
     const login: Login = this.loginForm.getRawValue();
 
     this.authService.login(login).subscribe({
-      next: (value) => {
-        const auth: Auth = { accessToken: value.token, email: value.email, role: value.roleName }
-        this.localStorageService.saveState(auth)    
+      next: (value: Session) => {
+        this.store.updateSession(value)
         this.redirect(value.roleName)
       },
       error: (error) => {
@@ -54,30 +51,22 @@ export class LoginComponent {
 
   }
 
-    // TODO: redirect to area work
-    redirect(role: string) {
-      switch (role) {
-        case 'EDITOR':
-  
-          break;
-  
-        case 'ADMIN':
-  
-          break;
-        case 'USER':
-  
-          break;
-  
-        case 'ANNOUNCER':
-          this.router.navigate(['announcer/'])
-          break;
-  
-        default:
-          // defult to USER
-          this.router.navigate(['suscriptor/'])
-          break;
-      }
+  // TODO: redirect to area work
+  redirect(role: string) {
+    switch (role) {
+      case 'EDITOR':
+      case 'ADMIN':
+      case 'USER':
+      case 'ANNOUNCER':
+        this.router.navigate([`${role.toLocaleLowerCase()}/`])
+        break;
+
+      default:
+        // defult to USER
+        this.router.navigate(['suscriptor/'])
+        break;
     }
+  }
 
   handleErrorLogin(error: any) {
 
