@@ -1,5 +1,4 @@
 import { Routes } from "@angular/router";
-import { DashboardAnnouncerComponent } from "./pages/dashboard-announcer/dashboard-announcer.component";
 
 
 export const ANNOUNCER_ROUTES: Routes = [

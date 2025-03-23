@@ -26,5 +26,13 @@ export const routes: Routes = [
             role: 'EDITOR'
         },
         loadChildren: () => import('@editor/editor.routes').then(m => m.routes),
-    }
+    },
+    {
+        path: 'admin',
+        canActivate: [authGuard],
+        data: {
+            role: 'ADMIN'
+        },
+        loadChildren: () => import('./shared/modules/admin/admin.routes').then(m => m.ADMIN_ROUTES),
+    },
 ];

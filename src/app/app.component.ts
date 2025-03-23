@@ -14,6 +14,13 @@ import { ModalStore } from './store/modal.store';
 })
 export class AppComponent {
 
-  readonly modalStore = inject(ModalStore);
+  private readonly store = inject(AuthStore)
+  private readonly localStorageService = inject(LocalStorageService)
 
+  constructor() {
+    effect(() => {
+      const session = this.store.session();
+      this.localStorageService.saveState({ session })
+    })
+  }
 }
