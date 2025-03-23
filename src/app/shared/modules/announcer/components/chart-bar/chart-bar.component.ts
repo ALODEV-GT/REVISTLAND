@@ -32,7 +32,7 @@ export class ChartBarComponent {
   @Input() category!: string;
 
   months = [
-    "Enr", "Feb", "Marzo", "Abr", "May", "Jun",
+    "Enr", "Feb", "Mar", "Abr", "May", "Jun",
     "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"
   ];
 
