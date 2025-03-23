@@ -13,20 +13,7 @@ import { ModalStore } from './store/modal.store';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  private readonly store = inject(AuthStore);
-  private readonly localStorageService = inject(LocalStorageService);
 
   readonly modalStore = inject(ModalStore);
 
-  constructor() {
-    this.modalStore.setComponent(() =>
-      import('app/shared/modules/announcer/pages/ad/ad.component').then(
-        (m) => m.AdComponent
-      )
-    );
-    effect(() => {
-      const session = this.store.session();
-      this.localStorageService.saveState({ session });
-    });
-  }
 }

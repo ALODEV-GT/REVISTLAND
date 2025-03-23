@@ -1,37 +1,24 @@
-import { Component, inject } from '@angular/core';
-import { AdDto } from '../../models/ad-post-dto.interface';
-import { AnnouncerService } from '../../services/announcer.service';
-import { TypeAd } from '../../models/type-ad.enum';
-import { SlugService } from '../../services/slug.service';
+import { Component, Input, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { AdDto } from '@shared/modules/announcer/models/ad-post-dto.interface';
+import { TypeAd } from '@shared/modules/announcer/models/type-ad.enum';
+import { AnnouncerService } from '@shared/modules/announcer/services/announcer.service';
+import { SlugService } from '@shared/modules/announcer/services/slug.service';
 
 @Component({
-  selector: 'app-my-ads',
+  selector: 'app-report-ad',
   imports: [],
-  templateUrl: './my-ads.component.html',
-  styleUrl: './my-ads.component.scss'
+  templateUrl: './report-ad.component.html',
+  styleUrl: './report-ad.component.scss'
 })
-export class MyAdsComponent {
+export class ReportAdComponent {
 
-  //services
   private readonly _announcerService = inject(AnnouncerService)
   private readonly slugSevice = inject(SlugService)
   private readonly route = inject(Router)
 
-  ads: AdDto[] = [];
 
-  ngOnInit() {
-    this.getAllMyAds()
-  }
-
-  getAllMyAds() {
-    this._announcerService.getAllMyAds().subscribe({
-      next: value => {
-        this.ads = value
-      }
-    })
-  }
-
+  @Input() ads!: AdDto[];
 
   editAd(ad: AdDto) {
     this._announcerService.ad = ad;
@@ -66,6 +53,4 @@ export class MyAdsComponent {
   activeSting(active: boolean) {
     return active ? 'Si' : 'No';
   }
-
-
 }

@@ -1,40 +1,67 @@
-<main class="flex-1 p-4">
-  <h1 class="text-2xl font-bold">Bienvenido al Dashboard</h1>
+<main class="flex-1 p-4 max-w-7xl mx-auto">
+  <h1 class="text-xl font-bold text-center mb-6">Bienvenido al Dashboard</h1>
 
   <!-- Tarjetas -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-    <div class="bg-white rounded-lg shadow p-4">
-      <h3 class="text-sm font-medium text-gray-500">Total de revistas publicadas</h3>
-      <p class="text-2xl text-green-500 font-bold">00</p>
-      <p class="text-gray-500 text-xs">Todas las vigentes y no vigentes</p>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white rounded-xl shadow-lg p-5 text-center">
+      <h3 class="text-sm font-semibold text-gray-600">Total de Anuncios</h3>
+      <p class="text-2xl text-purple-600 font-bold">{{ totalAds.total }}</p>
+      <p class="text-gray-500 text-xs">Vigentes y no vigentes</p>
     </div>
 
-    <div class="bg-white rounded-lg shadow p-4">
-      <h3 class="text-sm font-medium text-gray-500">Anuncio con Mas apareciones</h3>
-      <p class="text-2xl text-green-500 font-bold">00</p>
-      <p class="text-gray-500 text-xs">Total de aparariciones</p>
+    <div class="bg-white rounded-xl shadow-lg p-5 text-center">
+      <h3 class="text-sm font-semibold text-gray-600">Total de Vistas</h3>
+      <p class="text-2xl text-purple-600 font-bold">{{ totalViews }}</p>
+      <p class="text-gray-500 text-xs">Veces que se mostraron tus anuncios</p>
     </div>
 
-    <div class="bg-white rounded-lg shadow p-4">
-      <h3 class="text-sm font-medium text-gray-500">Saldo en la Cartera Digital</h3>
-      <p class="text-2xl text-green-500 font-bold">00</p>
-      <p class="text-gray-500 text-xs">Total de la cartera</p>
+    <div class="bg-white rounded-xl shadow-lg p-5 text-center">
+      <h3 class="text-sm font-semibold text-gray-600">Saldo en Cartera</h3>
+      <p class="text-2xl text-purple-600 font-bold">Q{{ wallet.balance }}</p>
+      <p class="text-gray-500 text-xs">Saldo disponible</p>
     </div>
 
-    <div class="bg-white rounded-lg shadow p-4">
-      <h3 class="text-sm font-medium text-gray-500">Anuncios Vigentes</h3>
-      <p class="text-2xl text-green-500 font-bold">00</p>
-      <p class="text-gray-500 text-xs">Todas los vigentes</p>
+    <div class="bg-white rounded-xl shadow-lg p-5 text-center">
+      <h3 class="text-sm font-semibold text-gray-600">Anuncios Vigentes</h3>
+      <p class="text-2xl text-purple-600 font-bold">{{ totalAds.totalActive }}</p>
+      <p class="text-gray-500 text-xs">Actualmente activos</p>
     </div>
   </div>
 
-  <!-- Graficas -->
+  <!-- Gráficas -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="bg-white rounded-xl shadow-lg p-5">
+      <h3 class="text-base font-semibold text-gray-700 text-center">Anuncios Publicados por Mes</h3>
+      <app-chart-bar [postAdCountMount]="postAdCountMount" [title]="'Total de anuncios'" [label]="'Publicaciones'"
+        [category]="'Mes'"></app-chart-bar>
+    </div>
 
-    <!--( inversion  vs vistas de anuncios ) por mes -->
+    <div class="bg-white rounded-xl shadow-lg p-5">
+      <h3 class="text-base font-semibold text-gray-700 text-center">Vistas de Anuncios por Mes</h3>
+      <app-chart-bar [postAdCountMount]="counViewMonth" [title]="'Total de Vistas'" [label]="'Vistas'"
+        [category]="'Mes'"></app-chart-bar>
+    </div>
 
-    <!-- (Tiempo vs anuncios publicados) por mes -->
+    <div class="bg-white rounded-xl shadow-lg p-5">
+      <h3 class="text-base font-semibold text-gray-700 text-center">Inversión en Publicaciones por mes</h3>
+      <app-chart-bar [postAdCountMount]="totalAmount" [title]="'Inversion Q'" [label]="'Inversion'"
+        [category]="'Mes'"></app-chart-bar>
+    </div>
 
-    <!-- grafica de PIE total de anuncios de cada tipo -->
+    <div class="bg-white rounded-xl shadow-lg p-5">
+      <h3 class="text-base font-semibold text-gray-700 text-center">Tipos de Anuncios Registrados</h3>
+      <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+        <div id="chart" style="width: 100%; max-width: 400px;">
+          <apx-chart
+            [series]="chartOptions.series"
+            [chart]="chartOptions.chart"
+            [labels]="chartOptions.labels"
+            [responsive]="chartOptions.responsive"
+          ></apx-chart>
+        </div>
+      </div>
+    </div>
 
 
+  </div>
 </main>

@@ -1,0 +1,128 @@
+<main class="flex-1 px-4">
+    <h1 class="text-2xl font-bold text-center">Edicion de Anuncio</h1>
+    <p class="py-6 px-12 text-md animate-fade-in delay-100">
+        Anuncio del tipo: <strong class="text-purple-700 text-lg">{{ typeAd }}.</strong>
+        El tipo no se puede cambiar, los datos a editar son los siguientes.
+    </p>
+
+    @if (TypeAd.VIDEO === typeAd) {
+    <div class="mt-4 flex justify-center">
+        <youtube-player [videoId]="videoId" [width]="640" [height]="360" [playerVars]="playerVars">
+        </youtube-player>
+    </div>
+    }
+
+
+    @if (TypeAd.TEXT_IMAGE === typeAd) {
+    <div class="mt-4 flex justify-center">
+        <figure>
+            <img [src]="postForm.value.url" alt="Imagen del anuncio" class="w-full h-64 object-cover rounded-lg">
+        </figure>
+    </div>
+    }
+
+
+    <form [formGroup]="postForm"
+        class="max-w-3xl mx-auto bg-base-100 p-6 shadow-lg rounded-lg grid grid-cols-1 md:grid-cols-2 gap-4">
+
+
+        @if (TypeAd.TEXT !== typeAd) {
+        <!-- Input URL -->
+        <div>
+            <label class="label"><span class="label-text">URL del Anuncio</span></label>
+            <input type="url" class="input input-bordered w-full" placeholder="https://ejemplo.com/anuncio"
+                formControlName="url" required />
+            @if (postForm.get('url')?.invalid && postForm.get('url')?.touched) {
+            <p class="text-red-600 text-sm">Debe ingresar una URL válida.</p>
+            }
+        </div>
+        }
+
+        <div>
+            <label class="label"><span class="label-text">Fecha Expiracion</span></label>
+            <input type="url" class="input input-bordered w-full" value={{formatDateTime(ad.expiresAt)}}
+                 disabled />
+        </div>
+
+        @if (TypeAd.VIDEO !== typeAd) {
+        <div class="md:col-span-2">
+            <label class="label"><span class="label-text">Contenido</span></label>
+            <textarea class="textarea textarea-bordered w-full"
+                placeholder="Escribe el contenido del anuncio, maximo 500 caracteres" formControlName="content"
+                required></textarea>
+            @if (postForm.get('content')?.invalid && postForm.get('content')?.touched) {
+            <p class="text-red-600 text-sm">El contenido debe tener entre 8 y 500 caracteres.</p>
+            }
+        </div>
+        }
+
+        @if (!ad.isActive) {
+        <!-- Select 1 -->
+        <div>
+            <label class="label"><span class="label-text">Tiempo vigencia del anuncio</span></label>
+            <select class="select select-bordered w-full" formControlName="duration" required>
+                @for (item of daysDuration; track $index) {
+                <option value={{item}}>{{conversWeek(item)}}</option>
+                }
+            </select>
+        </div>
+
+        <div>
+            <label class="label"><span class="label-text">Precio (Q.)</span></label>
+            <input type="number" class="input input-bordered w-full" placeholder="0.00" [value]="cost" disabled />
+        </div>
+        }
+
+        <div></div>
+        @if (errorMessage) {
+        <p class="md:col-span-2 text-red-600 text-md">
+            {{errorMessage}}
+        </p>
+        }
+        <div class="md:col-span-2">
+            <button class="btn btn-primary w-full" (click)="editAd()">Actualizar Anuncio</button>
+        </div>
+        @if (ad.isActive) {
+        <div class="md:col-span-2">
+            <button class="btn btn-warning w-full" (click)="enabled()">Desactivar</button>
+        </div>
+        }@else {
+        <div class="md:col-span-2">
+            <button class="btn btn-success w-full" (click)="activeted()">Activar</button>
+        </div>
+        }
+
+    </form>
+
+    <!-- Botón Regresar -->
+    <button class="btn btn-primary px-6 mx-12 mt-4" (click)="goBack()">Regresar</button>
+</main>
+
+
+<!-- Modal de desactivar -->
+<dialog #modal class="modal">
+    <div class="modal-box">
+        <h3 class="font-bold text-lg">Seguro de Desactivar el anuncio?</h3>
+        <p class="py-2">Al desactivar el anuncio acepta: Al volver activarlo tendra que elegir otro periodo de vigencia y se le cobrara</p>
+
+        <div class="modal-action">
+            <button class="btn btn-success" (click)="confirm()">Confirmar</button>
+            <button class="btn btn-error" (click)="closeModal()">Cancelar</button>
+        </div>
+    </div>
+</dialog>
+
+
+<!-- Modal de exitosa -->
+<dialog #modal1 id="my_modal_1" class="modal">
+    <app-modal-msg [title]="titleModal" [content]="titleModal"
+        [className]="'text-purple-700 text-lg'">
+    </app-modal-msg>
+</dialog>
+
+<!-- Modal de  fallida-->
+<dialog #modal2 id="my_modal_1" class="modal">
+    <app-modal-msg [title]="titleModal" [content]="errorMessageModal"
+        [className]="'text-red-700 text-lg'">
+    </app-modal-msg>
+</dialog>

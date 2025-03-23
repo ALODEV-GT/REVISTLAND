@@ -11,9 +11,9 @@ const excludedUrls: string[] = [
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
     const localStorageService = inject(LocalStorageService);
     const shouldSkip = excludedUrls.some(url => req.url.includes(url))
-
+  
     if (shouldSkip) {
-        return next(req);
+      return next(req);
     }
 
     let session = localStorageService.getState().session;
@@ -26,4 +26,4 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
         }
     })
     return next(reqWithHeaders);
-};
+  };
