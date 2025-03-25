@@ -9,7 +9,7 @@ export class ApiConfigService {
 
     /**announcers */
     API_AUTH = `${this.API_BASE}/auth`;
-    API_ANNOUNCER = `${this.API_BASE}/announcers`;
+    API_ANNOUNCER = `${this.API_BASE}/ads`;
     API_PAYMENT = `${this.API_BASE}/payments`
     API_WALLET = `${this.API_BASE}/wallets`;
     API_ROLE = `${this.API_BASE}/roles`
@@ -18,5 +18,11 @@ export class ApiConfigService {
     API_MAGAZINES = `${this.API_BASE}/magazines`;
     API_CATEGORIES = `${this.API_BASE}/categories`;
     API_TAGS = `${this.API_BASE}/tags`;
+
+    /* reports */
+    API_REPORT = `${this.API_BASE}/reports`
+
+    /*Configurations */
+    API_CONFIGURATION = `${this.API_BASE}/configurations`
 
 }

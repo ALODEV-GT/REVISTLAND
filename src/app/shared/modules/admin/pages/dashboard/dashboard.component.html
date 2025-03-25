@@ -1,38 +1,92 @@
 <main class="flex-1 p-4 max-w-7xl mx-auto">
-    <h1 class="text-xl font-bold text-center mb-6">Bienvenido al Dashboard</h1>
+  <h1 class="text-xl font-bold text-center mb-6">Bienvenido al Dashboard</h1>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div class="bg-white rounded-xl shadow-lg p-5 text-center">
-            <h3 class="text-sm font-semibold text-gray-600">Total de Anuncios</h3>
-            <p class="text-2xl text-purple-600 font-bold">00</p>
-            <p class="text-gray-500 text-xs">Vigentes y no vigentes</p>
-          </div>
-      
-          <div class="bg-white rounded-xl shadow-lg p-5 text-center">
-            <h3 class="text-sm font-semibold text-gray-600">Total de Vistas</h3>
-            <p class="text-2xl text-purple-600 font-bold">00</p>
-            <p class="text-gray-500 text-xs">Veces que se mostraron tus anuncios</p>
-          </div>
-      
-          <div class="bg-white rounded-xl shadow-lg p-5 text-center">
-            <h3 class="text-sm font-semibold text-gray-600">Saldo en Cartera</h3>
-            <p class="text-2xl text-purple-600 font-bold">22</p>
-            <p class="text-gray-500 text-xs">Saldo disponible</p>
-          </div>
-      
-          <div class="bg-white rounded-xl shadow-lg p-5 text-center">
-            <h3 class="text-sm font-semibold text-gray-600">Anuncios Vigentes</h3>
-            <p class="text-2xl text-purple-600 font-bold"></p>
-            <p class="text-gray-500 text-xs">Actualmente activos</p>
-          </div>
+  <!-- Filtros de fechas y actualización -->
+  <div class="flex flex-col sm:flex-row items-center justify-end gap-4 mb-6">
+    <!-- Fecha de inicio -->
+    <div>
+      <label class="label">
+        <span class="label-text text-xs">Desde</span>
+      </label>
+      <input type="date" class="input input-xs input-bordered w-32 sm:w-40" [(ngModel)]="startDate">
     </div>
 
-      <!-- Gráficas -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="bg-white rounded-xl shadow-lg p-5">
-        <h3 class="text-base font-semibold text-gray-700 text-center">Anuncios Publicados por Mes</h3>
-              <!-- GRAFICA -->
+    <!-- Fecha de fin -->
+    <div>
+      <label class="label">
+        <span class="label-text text-xs">Hasta</span>
+      </label>
+      <input type="date" class="input input-xs input-bordered w-32 sm:w-40" [(ngModel)]="endDate">
+    </div>
 
+    <!-- Botón de actualizar -->
+    <button class="btn btn-xs btn-primary mt-5 sm:mt-0" (click)="update()">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24"
+        stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M4 4v5h5M20 20v-5h-5M4 20v-5h5M20 4v5h-5" />
+      </svg>
+      Actualizar
+    </button>
+  </div>
+
+  <!-- tajets -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 mb-6">
+    <div class="bg-neutral-content	rounded-xl shadow-lg p-2 text-center">
+      <app-tarjet [type]="TypeTarjet.AD_POST" [endDate]="endDate" [startDate]="startDate"></app-tarjet>
+    </div>
+    <div class="bg-neutral-content rounded-xl shadow-lg p-2 text-center">
+      <app-tarjet [type]="TypeTarjet.MAGAZINE_POST" [endDate]="endDate" [startDate]="startDate"></app-tarjet>
+    </div>
+    <div class="bg-neutral-content rounded-xl shadow-lg p-2 text-center">
+      <app-tarjet [type]="TypeTarjet.REVENUE" [endDate]="endDate" [startDate]="startDate"></app-tarjet>
+    </div>
+    <div class="bg-neutral-content rounded-xl shadow-lg p-2 text-center">
+      <app-tarjet [type]="TypeTarjet.EDITOR" [endDate]="endDate" [startDate]="startDate"></app-tarjet>
+    </div>
+    <div class="bg-neutral-content rounded-xl shadow-lg p-2 text-center">
+      <app-tarjet [type]="TypeTarjet.ANNOUNCER" [endDate]="endDate" [startDate]="startDate"></app-tarjet>
+    </div>
+  </div>
+
+  <!-- Gráficas -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+    <div class="bg-neutral-content rounded-xl shadow-lg p-3">
+      <h3 class="text-base font-semibold text-gray-700 text-center">Ganancias por mes</h3>
+      <!-- tipo bar -->
+
+
+    </div>
+    <div class="bg-secondary-content rounded-xl shadow-lg p-5">
+      <h3 class="text-base font-semibold text-gray-700 text-center">Anuncios publicados por mes</h3>
+      <!-- tipo bar -->
+      <app-chart-bar [postAdCountMount]="postAdCountMount" [title]="'Total de anuncios'" [label]="'Publicaciones'"
+        [category]="'Mes'"></app-chart-bar>
+    </div>
+
+    <div class="bg-secondary-content rounded-xl shadow-lg p-5">
+      <h3 class="text-base font-semibold text-gray-700 text-center">Revistas publicadas por mes</h3>
+      <!-- tipo bar -->
+      <app-chart-bar [postAdCountMount]="postMagazineCountMount" [title]="'Total de Revistas'" [label]="'Publicaciones'"
+        [category]="'Mes'"></app-chart-bar>
+
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg p-5">
+      <h3 class="text-base font-semibold text-gray-700 text-center">Tipos de usuarios Registrados</h3>
+      <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+        <div id="chart" style="width: 100%; max-width: 400px;">
+          <apx-chart
+            [series]="chartOptions.series"
+            [chart]="chartOptions.chart"
+            [labels]="chartOptions.labels"
+            [responsive]="chartOptions.responsive"
+          ></apx-chart>
+        </div>
       </div>
     </div>
+
+  </div>
+
 </main>
