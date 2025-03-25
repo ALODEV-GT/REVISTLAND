@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { ApiConfigService } from '@shared/services/api-config.service';
 import { Observable } from 'rxjs';
 import { AdDto, AdPostDto, AdViewReportDto, CountAdByTypeDto, PostAdMount, TotalAdsDto, TotalAmountMoth, TotalViewsAdDto, updateAd } from '../models/ad-post-dto.interface';
+import { AnnouncersDto } from '@shared/modules/admin/models/announcer.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -83,6 +84,18 @@ export class AnnouncerService {
     if (endDate) params = params.set('endDate', endDate);
     
     return this._http.get<AdDto[]>(`${this.API_ANNOUNCER}/my-ads-active`,  { params });
+  }
+
+  getAllAds(): Observable<AdDto[]> {
+    return this._http.get<AdDto[]>(`${this.API_ANNOUNCER}/all-ads`);
+  }
+
+  getAllAdsByUserId(id:number): Observable<AdDto[]> {
+    return this._http.get<AdDto[]>(`${this.API_ANNOUNCER}/all-ads/${id}`);
+  }
+
+  getAllAnnouncers(): Observable<AnnouncersDto[]> {
+    return this._http.get<AnnouncersDto[]>(`${this.API_ANNOUNCER}/all-announcers`);
   }
   
   
