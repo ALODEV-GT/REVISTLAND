@@ -1,0 +1,81 @@
+<main class="flex-1 p-2 max-w-7xl mx-auto">
+    <h1 class="text-xl font-bold text-center mb-6">Area de gestion de anuncios</h1>
+
+    <!-- Contenedor de filtros -->
+    <div class="bg-base-100 shadow-xl rounded-xl p-4 mb-2">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-3">
+
+            <!-- Filtro  -->
+            <div>
+                <label class="label">
+                    <span class="label-text">Filtrar por Anunciador</span>
+                </label>
+                <select class="select select-bordered w-full btn btn-xs"  [(ngModel)]="idAnnouncer">
+                    <option value=0>Todos</option>
+                    @for (item of announcersDto; track $index) {
+                        <option value={{item.id}}>{{item.username}}</option>
+                    }
+                </select>
+            </div>
+
+            <div>
+                <label class="label">
+                    <span class="label-text">Filtrar por Orden</span>
+                </label>
+                <select class="select select-bordered w-full btn btn-xs">
+                    <option value="views">Ascendente</option>
+                    <option value="ads">Descendente</option>
+                </select>
+            </div>
+            
+            <div>
+                <button class="btn btn-primary btn btn-xs mt-6" (click)="filter()">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                      </svg>                  
+                    Listar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overflow-x-auto mt-6">
+        <table class="table w-full border border-base-300">
+            <!-- Encabezado -->
+            <thead class="bg-base-200">
+                <tr>
+                    <th>#</th>
+                    <th>Tipo</th> 
+                    <th>Vigencia</th>
+                    <th>Fecha y hora de expiración</th>
+                    <th>Activo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <!-- Cuerpo -->
+            <tbody>
+                @for (ad of ads; track $index) {
+                    <tr>
+                        <td>{{$index+1}}</td>
+                        <td>{{getEnumValue(ad.changePeriodAd.adType)}}</td>
+                        <td>{{conversWeek(ad.changePeriodAd.durationDays)}}</td>
+                        <td>{{formatDateTime(ad.expiresAt)}}</td>
+                        <td>{{activeSting(ad.isActive)}}</td>
+                        <td class="space-x-2">
+                            <button class="btn btn-sm btn-info" (click)="editAd(ad)">Ver y desactivar</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</main>
+
+
+<!-- Modal de  fallida-->
+<dialog #modal2 id="my_modal_1" class="modal">
+    <app-modal-msg [title]="'Filtro no valido'" [content]="'Debe elegir un usuario para filtrar'"
+        [className]="'text-red-700 text-lg'">
+    </app-modal-msg>
+</dialog>

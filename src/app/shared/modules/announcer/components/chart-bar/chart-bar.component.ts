@@ -26,7 +26,7 @@ export type ChartOptions = {
 })
 export class ChartBarComponent {
 
-  @Input() postAdCountMount!: PostAdMount[] | TotalAmountMoth []
+  @Input() postAdCountMount!: PostAdMount[] | TotalAmountMoth[]
   @Input() title!: string;
   @Input() label!: string;
   @Input() category!: string;
@@ -39,7 +39,7 @@ export class ChartBarComponent {
   mostrarHtml = false
 
   mountMap: Record<string, number> = {}
-  monthCounts:  Record<string, number> = {}
+  monthCounts: Record<string, number> = {}
 
 
   public chartOptions: ChartOptions = {
@@ -67,14 +67,14 @@ export class ChartBarComponent {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['postAdCountMount'] && this.postAdCountMount?.length > 0) {
-      this.mostrarHtml = false;            
-      
+      this.mostrarHtml = false;
+
       this.buildData();
-  
+
       const categories = Object.keys(this.monthCounts);
       const data = Object.values(this.monthCounts);
-  
-  
+
+
       // Actualizar chartOptions con nuevos datos
       this.chartOptions = {
         ...this.chartOptions,
@@ -94,20 +94,43 @@ export class ChartBarComponent {
           },
         ],
       };
-  
+
       this.mostrarHtml = true;
+      return
+    }
+
+    this.chartOptions = {
+      series: [
+        {
+          name: this.label,
+          data: []
+        }
+      ],
+      chart: {
+        height: 350,
+        type: "bar"
+      },
+      title: {
+        text: this.title
+      },
+      xaxis: {
+        categories: this.months,
+        title: {
+          text: this.category
+        }
+      }
     }
   }
-  
+
 
   buildData() {
     if (!this.postAdCountMount || this.postAdCountMount.length === 0) {
       return;
     }
-  
+
     // Verificar si el array contiene objetos tipo PostAdMount o TotalAmountMoth
     const firstItem = this.postAdCountMount[0];
-  
+
     if ("count" in firstItem) {
       this.mountMap = (this.postAdCountMount as PostAdMount[]).reduce((acc, item) => {
         acc[item.month] = item.count;
@@ -119,14 +142,14 @@ export class ChartBarComponent {
         return acc;
       }, {} as Record<string, number>);
     }
-  
+
     this.monthCounts = this.months.reduce((acc, month, index) => {
       const key = String(index + 1).padStart(2, '0');
       acc[month] = this.mountMap[key] ?? 0; // Si no hay datos, poner 0
       return acc;
     }, {} as Record<string, number>);
   }
-  
-  
+
+
 
 }
