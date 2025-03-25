@@ -13,7 +13,11 @@ export class MagazineService {
 
   constructor() {}
 
-  createMagazine(magazine: NewMagazine): Observable<void> {
-    return this.http.post<void>(this.baseUrl, magazine);
+  createMagazine(magazine: NewMagazine): Observable<MinimalMagazine> {
+    return this.http.post<MinimalMagazine>(this.baseUrl, magazine);
+  }
+
+  createIssue(formData: FormData): Observable<void> {
+    return this.http.post<void>(this.baseUrl + '/issue', formData);
   }
 }

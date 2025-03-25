@@ -1,7 +1,4 @@
-import { Category } from './category.model';
-import { Tag } from './tag.model';
-
-export interface Magazine {
+interface BaseMagazine {
   id: number;
   title: string;
   description: string;
@@ -9,11 +6,26 @@ export interface Magazine {
   disableLikes: boolean;
   disableComments: boolean;
   disableSuscriptions: boolean;
-  category: Category;
-  tags: Tag[];
 }
 
-export type NewMagazine = Omit<Magazine, 'id' | 'category' | 'tags'> & {
+export type FlatMagazine = BaseMagazine & {
+  costPerDay?: number;
+  categoryName: string;
+  tagsName: string[];
+  issuesCount: number;
+  subscriptionsCount: number;
+  likesCount: number;
+  commentsCount: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type NewMagazine = Omit<BaseMagazine, 'id'> & {
   categoryId: number;
   tagIds: number[];
 };
+
+export interface MinimalMagazine {
+  id: number;
+  title: string;
+}
