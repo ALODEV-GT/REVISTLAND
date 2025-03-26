@@ -1,8 +1,7 @@
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { ModalState } from './models/modal-store.model';
 
-const initialState: ModalState<any> = {
-  loadComponent: undefined,
+const initialState: ModalState<unknown> = {
   openModalCallback: undefined,
 };
 
@@ -10,27 +9,22 @@ export const ModalStore = signalStore(
   { providedIn: 'root' },
   withState(() => initialState),
   withMethods((store) => ({
-    setModalCallback(openModalCallback: () => void) {
-      patchState(store, (state: ModalState<any>) => {
-        return { ...state, openModalCallback };
-      });
+    setModalCallback(
+      openModalCallback?: (
+        loadComponent: () => Promise<new () => unknown>,
+        inputs?: Record<string, unknown>
+      ) => Promise<void>
+    ) {
+      patchState(store, (state: ModalState<unknown>) => ({
+        ...state,
+        openModalCallback,
+      }));
     },
-    setComponent<T>(loadComponent: () => Promise<new () => T>) {
-      patchState(store, (state: ModalState<T>) => {
-        return { ...state, loadComponent };
-      });
-    },
-    openModal() {
-      store.openModalCallback?.()?.();
-    },
-    closeModal() {
-      patchState(store, (state: ModalState<any>) => {
-        return {
-          ...state,
-          loadComponent: undefined,
-          openModalCallback: undefined,
-        };
-      });
+    openModal<Component>(
+      loadComponent: () => Promise<new () => Component>,
+      inputs?: Record<string, unknown>
+    ) {
+      store.openModalCallback?.()?.(loadComponent, inputs);
     },
   }))
 );

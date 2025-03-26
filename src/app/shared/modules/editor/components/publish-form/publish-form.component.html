@@ -18,6 +18,10 @@
       name="title"
       class="input input-bordered w-full"
       required
+      [ngClass]="{
+        'input-error': isInvalid('title'),
+        'input-success': isValid('title')
+      }"
     />
   </fieldset>
 
@@ -31,6 +35,10 @@
       name="description"
       class="textarea textarea-bordered w-full"
       required
+      [ngClass]="{
+        'textarea-error': isInvalid('description'),
+        'textarea-success': isValid('description')
+      }"
     >
     </textarea>
   </fieldset>
@@ -43,6 +51,11 @@
       formControlName="categoryId"
       name="categoryId"
       class="select select-bordered w-full"
+      required
+      [ngClass]="{
+        'select-error': isInvalid('categoryId'),
+        'select-success': isValid('categoryId')
+      }"
     >
       <option disabled selected value="0">Seleccionar categoría</option>
       @for (cat of categories; track cat) {
@@ -72,7 +85,14 @@
     </div>
     <div class="w-full h-max-[calc(0.25rem*20)] h-fit" value>
       <label class="fieldset-label flex flex-wrap gap-1 py-1">
-        <span>Seleccionadas</span>
+        <span
+          [ngClass]="{
+            'text-error': isInvalid('tagIds'),
+            'text-success': isValid('tagIds')
+          }"
+        >
+          Seleccionadas
+        </span>
         @for (tag of selectedTags; track tag) {
         <span
           class="badge badge-secondary badge-soft cursor-pointer"
@@ -155,12 +175,13 @@
       </label>
     </fieldset>
   </div>
+
   <button
     type="submit"
     class="btn mb-2 mx-auto block transition-all duration-300 ease-in-out"
     [ngClass]="{
       'btn-primary': !creatingMagazine,
-      'btn-disabled': creatingMagazine
+      'btn-disabled': creatingMagazine || this.magazineForm.invalid
     }"
   >
     @if (creatingMagazine) {

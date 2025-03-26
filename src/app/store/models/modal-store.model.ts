@@ -1,4 +1,6 @@
-export interface ModalState<T> {
-  loadComponent?: () => Promise<new () => T>;
-  openModalCallback?: () => void;
+export interface ModalState<Component> {
+  openModalCallback?: (
+    loadComponent: () => Promise<new () => Component>,
+    inputs?: Record<string, unknown>
+  ) => Promise<void>;
 }

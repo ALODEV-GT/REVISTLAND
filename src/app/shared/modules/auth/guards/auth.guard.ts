@@ -6,7 +6,7 @@ export const authGuard: CanActivateFn = (route, state) => {
     const store = inject(AuthStore);
     const router = inject(Router);
 
-    if (store.session.token()) {
+    if (store.session?.token()) {
         if (route.data['role'] && store.session.roleName() !== route.data['role']) {
             router.navigate([`/${store.session.roleName().toLocaleLowerCase()}`]);
         }

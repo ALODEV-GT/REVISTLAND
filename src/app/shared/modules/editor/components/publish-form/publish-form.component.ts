@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Category } from '@editor/models/category.model';
-import { NewMagazine } from '@editor/models/magazine.model';
+import { MinimalMagazine, NewMagazine } from '@editor/models/magazine.model';
 import { Tag } from '@editor/models/tag.model';
 import { CategoryService } from '@editor/services/category.service';
 import { MagazineService } from '@editor/services/magazine.service';
@@ -32,23 +32,14 @@ export class PublishFormComponent {
 
   readonly alertStore = inject(AlertStore);
 
+  @Output() publish = new EventEmitter<MinimalMagazine>();
+
   categories: Category[] = [];
   tags: Tag[] = [];
 
   selectedTags: Tag[] = [];
   unselectedTags: Tag[] = [];
   creatingMagazine = false;
-
-  constructor() {
-    this.categoryService.getCategories().subscribe((categories) => {
-      this.categories = categories;
-    });
-
-    this.tagService.getTags().subscribe((tags) => {
-      this.tags = tags;
-      this.unselectedTags = tags;
-    });
-  }
 
   magazineForm: FormGroup = this.formBuilder.group({
     title: ['', [Validators.required, Validators.minLength(3)]],
@@ -62,30 +53,35 @@ export class PublishFormComponent {
     disableSuscriptions: [false],
   });
 
-  publishMagazine() {
-    const magazine: NewMagazine = this.magazineForm.getRawValue();
-    this.creatingMagazine = true;
-    this.magazineService.createMagazine(magazine).subscribe({
-      next: () => {
-        this.creatingMagazine = false;
-        this.magazineForm.reset();
-        this.selectedTags = [];
-        this.unselectedTags = this.tags;
-        this.alertStore.addAlert({
-          message: `La revista "${magazine.title}" ha sido creada exitosamente`,
-          type: 'success',
-        });
-      },
-      error: (err) => {
-        this.creatingMagazine = false;
-        this.alertStore.addAlert({
-          message:
-            'La revista no ha podido ser creada, revisa la información ingresada',
-          type: 'error',
-        });
-        console.error(err);
-      },
+  constructor() {
+    this.categoryService.getCategories().subscribe((categories) => {
+      this.categories = categories;
     });
+
+    this.tagService.getTags().subscribe((tags) => {
+      this.tags = tags;
+      this.unselectedTags = tags;
+    });
+  }
+
+  isValid(field: string) {
+    if (field === 'tagIds') {
+      return this.selectedTags.length > 0;
+    }
+    return (
+      this.magazineForm.get(field)?.touched &&
+      this.magazineForm.get(field)?.valid
+    );
+  }
+
+  isInvalid(field: string) {
+    if (field === 'tagIds') {
+      return this.selectedTags.length === 0;
+    }
+    return (
+      this.magazineForm.get(field)?.touched &&
+      this.magazineForm.get(field)?.invalid
+    );
   }
 
   toggleTag(tag: Tag) {
@@ -98,6 +94,39 @@ export class PublishFormComponent {
     }
     this.magazineForm
       .get('tagIds')
-      ?.setValue(this.selectedTags.map((t) => t.id));
+      ?.patchValue(this.selectedTags.map((t) => t.id));
+  }
+
+  publishMagazine() {
+    if (this.magazineForm.invalid) {
+      return;
+    }
+    const magazine: NewMagazine = this.magazineForm.getRawValue();
+    if (!this.magazineForm.get('adBlock')?.value) {
+      magazine.adBlockingExpirationDate = '';
+    }
+    this.creatingMagazine = true;
+    this.magazineService.createMagazine(magazine).subscribe({
+      next: (magazine) => {
+        this.creatingMagazine = false;
+        this.magazineForm.reset();
+        this.selectedTags = [];
+        this.unselectedTags = this.tags;
+        this.alertStore.addAlert({
+          message: `La revista "${magazine.title}" ha sido creada exitosamente`,
+          type: 'success',
+        });
+        this.publish.emit(magazine);
+      },
+      error: (err) => {
+        this.creatingMagazine = false;
+        this.alertStore.addAlert({
+          message:
+            'La revista no ha podido ser creada, revisa la información ingresada',
+          type: 'error',
+        });
+        console.error(err);
+      },
+    });
   }
 }
