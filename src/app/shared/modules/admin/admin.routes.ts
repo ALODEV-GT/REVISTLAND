@@ -11,6 +11,7 @@ export const ADMIN_ROUTES: Routes = [
             { path: 'management/config-company', loadComponent: () => import('./pages/company/company.component').then(m => m.CompanyComponent) },
             { path: 'management/ads', loadComponent: () => import('./pages/ads/ads.component').then(m => m.AdsComponent) },
             { path: 'management/ads/disabled-ad/:slug', loadComponent: () => import('./pages/disabled-ad/disabled-ad.component').then(m => m.DisabledAdComponent)},
+            { path: 'management/magazines', loadComponent: () => import('./pages/magazines/magazines.component').then(m => m.MagazinesComponent)},
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
         ]
     },

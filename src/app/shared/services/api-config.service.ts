@@ -19,8 +19,9 @@ export class ApiConfigService {
     API_CATEGORIES = `${this.API_BASE}/categories`;
     API_TAGS = `${this.API_BASE}/tags`;
 
-    /* reports */
+    /* reports admin*/
     API_REPORT = `${this.API_BASE}/reports`
+    API_ADMIN = `${this.API_BASE}/admin`
 
     /*Configurations */
     API_CONFIGURATION = `${this.API_BASE}/configurations`

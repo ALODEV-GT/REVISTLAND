@@ -1,0 +1,120 @@
+<main class="flex-1 p-2 max-w-7xl mx-auto">
+    <h1 class="text-xl font-bold text-center mb-6">Area de Gestion de Revistas</h1>
+
+    <!-- Contenedor de filtros -->
+    <div class="bg-base-100 shadow-xl rounded-xl p-4 mb-2">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-3">
+
+            <!-- Filtro  -->
+            <div>
+                <label class="label">
+                    <span class="label-text">Filtrar por Estado</span>
+                </label>
+                <select class="select select-bordered w-full btn btn-xs" [(ngModel)]="costNull">
+                    <option [value]="false" >Todos</option>
+                    <option [value]="true" >Sin costo asignado</option>
+                </select>
+            </div>
+            <div>
+                <label class="label">
+                    <span class="label-text">Filtrar por Editor</span>
+                </label>
+                <select class="select select-bordered w-full btn btn-xs" [(ngModel)]="editorId">
+                    <option value=0>Todos</option>
+                    @for (editor of editors; track $index) {
+                        <option [value]="editor.id">{{editor.username}}</option>
+                    }
+                </select>
+            </div>
+
+            <div>
+                <label class="label">
+                    <span class="label-text">Filtrar por Orden</span>
+                </label>
+                <select class="select select-bordered w-full btn btn-xs" [(ngModel)]="asc">
+                    <option [value]="true">Ascendente</option>
+                    <option [value]="false">Descendente</option>
+                </select>
+            </div>
+            
+            <div>
+                <button class="btn btn-primary btn btn-xs mt-6" (click)="getListUpdate()">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                      </svg>                  
+                    Listar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overflow-x-auto mt-6 border border-warning">
+        <table class="table w-full border border-base-300">
+            <!-- Encabezado -->
+            <thead class="bg-base-200">
+                <tr>
+                    <th>#</th>
+                    <th>Titulo</th> 
+                    <th>Cost por Dia</th>
+                    <th>Fecha de registro</th>
+                    <th>Editor</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <!-- Cuerpo -->
+            <tbody>
+                @for (mg of magazines; track $index) {
+                    <tr>
+                        <td>{{$index+1}}</td>
+                        <td>{{mg.title}}</td>
+                        <td>{{mg.costPerDay}}</td>
+                        <td>{{formatDateTime(mg.createdAt)}}</td>
+                        <td>{{mg.username}}</td>
+                        @if (mg.costPerDay) {
+                            <td class="space-x-2">
+                                <button class="btn btn-sm btn-secondary" (click)="updateCost(true, mg)">Editar Costo</button>
+                            </td>
+                        }@else {
+                            <td class="space-x-2">
+                                <button class="btn btn-sm btn-info" (click)="updateCost(false, mg)">Asignar Costo</button>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</main>
+
+
+<!-- Modal de Recarga -->
+<dialog #modal class="modal">
+    <div class="modal-box">
+        @if (magazineUpdate && magazineUpdate.costPerDay) {
+            <h3 class="font-bold text-lg">Actualiza el costo de almacenamiento por dia</h3>
+            <p class="py-2">Ingresa el costo en Q</p>
+        }@else {
+            <h3 class="font-bold text-lg">Asigna el el costo de almacenamiento por dia</h3>
+            <p class="py-2">El costo global es por defecto, puedes elegir otro costo (Q)</p>
+        }
+        <input type="number" [(ngModel)]="newCost" min="1" class="input input-bordered w-full" placeholder="Monto en Q" />
+
+        <div class="modal-action">
+            <button class="btn btn-success" (click)="addBalance()">Confirmar</button>
+            <button class="btn btn-error" (click)="closeModal()">Cancelar</button>
+        </div>
+    </div>
+</dialog>
+
+
+<!-- Modal de Recarga exitosa -->
+<dialog #modal2 id="my_modal_1" class="modal">
+    <app-modal-msg [content]="'Costo de la revista Actulizado con exito'"
+    [title]="'Actualizacion Exitosa'" [className]="'text-purple-700 text-lg'"></app-modal-msg>
+  </dialog>
+  
+  <!-- Modal de Recarga  fallida-->
+  <dialog #modal3 id="my_modal_1" class="modal">
+    <app-modal-msg [content]="'Ah ocurrido un error al realizar sla actualizacion, intente mas tarde'"
+    [title]="'Actualizacion Fallida'" [className]="'text-red-700 text-lg'"></app-modal-msg>
+  </dialog>
