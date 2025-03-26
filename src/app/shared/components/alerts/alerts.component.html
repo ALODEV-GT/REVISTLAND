@@ -3,7 +3,11 @@
   <div
     role="alert"
     class="alert alert-soft"
-    [ngClass]="[`alert-${alert.type}`]"
+    [ngClass]="{
+      'alert-success': alert.type === 'success',
+      'alert-error': alert.type === 'error',
+      'alert-info': alert.type === 'info',
+    }"
   >
     <span>{{ alert.message }}</span>
   </div>

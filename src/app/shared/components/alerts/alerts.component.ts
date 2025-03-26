@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { AlertStore } from '../../../store/alert.store';
+import { AlertStore } from 'app/store/alert.store';
 
 @Component({
   selector: 'app-alerts',
