@@ -51,9 +51,24 @@
       data-tip="Publicar Revista"
     >
       <a class="btn btn-ghost px-4 justify-start w-full" href="/editor/publish">
-        <i-lucide [img]="Publish"></i-lucide>
+        <i-lucide [img]="PublishMagazine"></i-lucide>
         @if (!isCollapsed) {
         <span class="truncate">Publicar Revista</span>
+        }
+      </a>
+    </li>
+
+    <li
+      [ngClass]="{ 'tooltip tooltip-right': isCollapsed }"
+      data-tip="Publicar Numero de Revista"
+    >
+      <a
+        class="btn btn-ghost px-4 justify-start w-full"
+        href="/editor/add-issue"
+      >
+        <i-lucide [img]="PublishIssue"></i-lucide>
+        @if (!isCollapsed) {
+        <span class="truncate">Publicar Numero</span>
         }
       </a>
     </li>

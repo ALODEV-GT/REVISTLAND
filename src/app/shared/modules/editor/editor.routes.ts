@@ -11,6 +11,16 @@ const editorRoutes: Routes = [
     loadComponent: () =>
       import('./pages/publish/publish.page').then((m) => m.PublishPage),
   },
+  {
+    path: 'add-issue',
+    loadComponent: () =>
+      import('./pages/add-issue/add-issue.page').then((m) => m.AddIssuePage),
+  },
+  {
+    path: 'published',
+    loadComponent: () =>
+      import('./pages/published/published.page').then((m) => m.PublishedPage),
+  },
 ];
 
 export const routes: Routes = [

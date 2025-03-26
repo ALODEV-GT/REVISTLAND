@@ -4,6 +4,7 @@ import {
   BookPlus,
   ChartNoAxesCombined,
   ChartPie,
+  FilePlus,
   Library,
   LucideAngularModule,
   Menu,
@@ -22,7 +23,8 @@ export class SidebarComponent {
   readonly Close = X;
   readonly Dashboard = ChartPie;
   readonly Magazines = Library;
-  readonly Publish = BookPlus;
+  readonly PublishMagazine = BookPlus;
+  readonly PublishIssue = FilePlus;
   readonly Reports = ChartNoAxesCombined;
   readonly Wallet = Wallet;
 
