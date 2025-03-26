@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { ConfigurationDto, UpdateCostHidingAdDayDto, UpdateCostMagazineDayDto } from '../models/configuration.interface';
 import { MagazineAdminDto, UpdateCostMagazineDto } from '../models/magazineDto.interface';
 import { AnnouncersDto } from '../models/announcer.interface';
+import { EarningsReport } from '../models/reports/earnings.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,8 @@ export class ReportService {
   private readonly apiConfigService = inject(ApiConfigService);
   private API_AD = this.apiConfigService.API_ANNOUNCER;
   private API_CONFIG = this.apiConfigService.API_CONFIGURATION;
-  private API_ADMIN = this.apiConfigService.API_ADMIN
+  private API_ADMIN = this.apiConfigService.API_ADMIN;
+  private API_REPORT = this.apiConfigService.API_REPORT;
 
   constructor() { }
 
@@ -52,6 +54,15 @@ export class ReportService {
 
   getAllEditors(): Observable<AnnouncersDto[]> {
     return this._http.get<AnnouncersDto[]>(`${this.API_ADMIN}/all-editors`);
+  }
+
+  getReportEarnings(startDate?: string, endDate?: string): Observable<EarningsReport>{
+    let params = new HttpParams();
+  
+    if (startDate) params = params.set('startDate', startDate);
+    if (endDate) params = params.set('endDate', endDate);
+
+    return this._http.get<EarningsReport>(`${this.API_REPORT}/earnings-total`,  { params })
   }
   
 
