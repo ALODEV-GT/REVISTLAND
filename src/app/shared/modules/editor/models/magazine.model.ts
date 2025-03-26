@@ -1,19 +1,33 @@
-import { Category } from './category.model';
-import { Tag } from './tag.model';
-
-export interface Magazine {
+interface BaseMagazine {
   id: number;
   title: string;
   description: string;
-  adBlockingExpirationDate: string;
-  disableLikes: boolean;
-  disableComments: boolean;
-  disableSuscriptions: boolean;
-  category: Category;
-  tags: Tag[];
+  adBlockingExpirationDate?: string;
+  disableLikes?: boolean;
+  disableComments?: boolean;
+  disableSuscriptions?: boolean;
 }
 
-export type NewMagazine = Omit<Magazine, 'id' | 'category' | 'tags'> & {
+export type FlatMagazine = BaseMagazine & {
+  costPerDay?: number;
+  categoryName: string;
+  tagNames: string[];
+  issuesCount: number;
+  subscriptionsCount: number;
+  likesCount: number;
+  commentsCount: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type EditMagazine = Omit<BaseMagazine, 'id'> & {
   categoryId: number;
   tagIds: number[];
 };
+
+export type NewMagazine = EditMagazine;
+
+export interface MinimalMagazine {
+  id: number;
+  title: string;
+}

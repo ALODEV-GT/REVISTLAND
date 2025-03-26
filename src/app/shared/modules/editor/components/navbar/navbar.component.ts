@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { AuthStore } from 'app/store/auth.store';
 
 @Component({
   selector: 'editor-navbar',
@@ -7,4 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent {
+  authStore = inject(AuthStore);
 }

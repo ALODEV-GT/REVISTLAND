@@ -1,0 +1,240 @@
+<div class="text-center mb-2">
+  <h1 class="text-3xl font-bold text-primary">Editar revista</h1>
+  <h6 class="text-xs text-gray-500">Campos vacíos se omitirán</h6>
+</div>
+
+<form [formGroup]="magazineForm" class="space-y-4">
+  @if (!chargingData) {
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend w-3/4">
+      <span>Título</span>
+    </legend>
+    <input
+      type="text"
+      formControlName="title"
+      name="title"
+      class="input input-bordered w-full"
+    />
+  </fieldset>
+
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend w-3/4">
+      <span>Descripción</span>
+    </legend>
+    <textarea
+      formControlName="description"
+      name="description"
+      class="textarea textarea-bordered w-full"
+    >
+    </textarea>
+  </fieldset>
+
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend w-3/4">
+      <span>Categoría</span>
+    </legend>
+    <select
+      formControlName="categoryId"
+      name="categoryId"
+      class="select select-bordered w-full"
+    >
+      <option disabled selected value="0">Seleccionar categoría</option>
+      @for (cat of categories; track cat) {
+      <option [ngValue]="cat.id">{{ cat.name }}</option>
+      }
+    </select>
+  </fieldset>
+
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend w-3/4">
+      <span>Etiquetas</span>
+    </legend>
+    <div class="w-full h-max-[calc(0.25rem*20)] h-fit" value>
+      <label class="fieldset-label flex flex-wrap gap-1 py-1">
+        <span>No seleccionadas</span>
+        @for (tag of unselectedTags; track tag) {
+        <span
+          class="badge badge-accent badge-soft cursor-pointer my-1 mx-2"
+          (click)="toggleTag(tag)"
+        >
+          <span>{{ tag.name }}</span>
+          <span><i-lucide size="18" [img]="Add"></i-lucide></span>
+        </span>
+        }
+      </label>
+    </div>
+    <div class="w-full h-max-[calc(0.25rem*20)] h-fit" value>
+      <label class="fieldset-label flex flex-wrap gap-1 py-1">
+        <span>Seleccionadas</span>
+        @for (tag of selectedTags; track tag) {
+        <span
+          class="badge badge-secondary badge-soft cursor-pointer"
+          (click)="toggleTag(tag)"
+        >
+          <span>{{ tag.name }}</span>
+          <span><i-lucide size="18" [img]="Remove"></i-lucide></span>
+        </span>
+        }
+      </label>
+    </div>
+  </fieldset>
+
+  @if (magazineForm.get('adBlock')?.value) {
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend w-3/4">
+      <span>Fecha de expiración de bloqueo de anuncios</span>
+    </legend>
+    <input
+      type="date"
+      formControlName="adBlockingExpirationDate"
+      name="adBlockingExpirationDate"
+      class="input input-bordered w-full"
+    />
+  </fieldset>
+  }
+
+  <div class="grid grid-cols-2 gap-4">
+    <fieldset class="fieldset flex items-center">
+      <label class="fieldset-label">
+        <input
+          type="checkbox"
+          formControlName="adBlock"
+          name="adBlock"
+          class="toggle toggle-primary"
+        />
+        <legend class="fieldset-legend w-3/4 ml-1">Bloquear anuncios</legend>
+      </label>
+    </fieldset>
+
+    <fieldset class="fieldset flex items-center">
+      <label class="fieldset-label">
+        <input
+          type="checkbox"
+          formControlName="disableLikes"
+          name="disableLikes"
+          class="toggle toggle-primary"
+        />
+        <legend class="fieldset-legend w-3/4 ml-1">
+          Deshabilitar las opciones de likes
+        </legend>
+      </label>
+    </fieldset>
+
+    <fieldset class="fieldset flex items-center">
+      <label class="fieldset-label">
+        <input
+          type="checkbox"
+          formControlName="disableComments"
+          name="disableComments"
+          class="toggle toggle-primary"
+        />
+        <legend class="fieldset-legend w-3/4 ml-1">
+          Deshabilitar las opciones de comentarios
+        </legend>
+      </label>
+    </fieldset>
+
+    <fieldset class="fieldset flex items-center">
+      <label class="fieldset-label">
+        <input
+          type="checkbox"
+          formControlName="disableSuscriptions"
+          name="disableSuscriptions"
+          class="toggle toggle-primary"
+        />
+        <legend class="fieldset-legend w-3/4 ml-1">
+          Deshabilitar las opciones de suscripciones
+        </legend>
+      </label>
+    </fieldset>
+  </div>
+  } @else {
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend w-3/4">
+      <div class="h-4 skeleton w-1/4"></div>
+    </legend>
+    <div class="input input-bordered w-full h-10 skeleton"></div>
+  </fieldset>
+
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend w-3/4">
+      <div class="h-4 skeleton w-1/3"></div>
+    </legend>
+    <div class="textarea textarea-bordered w-full h-20 skeleton"></div>
+  </fieldset>
+
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend w-3/4">
+      <div class="h-4 skeleton w-1/4"></div>
+    </legend>
+    <div class="select select-bordered w-full h-10 skeleton"></div>
+  </fieldset>
+
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend w-3/4">
+      <div class="h-4 skeleton w-1/4"></div>
+    </legend>
+    <div class="h-20 skeleton w-full"></div>
+    <div class="h-20 skeleton w-full mt-2"></div>
+  </fieldset>
+
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend w-3/4">
+      <div class="h-4 skeleton w-1/2"></div>
+    </legend>
+    <div class="input input-bordered w-full h-10 skeleton"></div>
+  </fieldset>
+
+  <div class="grid grid-cols-2 gap-4">
+    <fieldset class="fieldset flex items-center">
+      <label class="fieldset-label w-full">
+        <div class="w-5 h-5 skeleton mr-2"></div>
+        <div class="h-4 skeleton w-1/2"></div>
+      </label>
+    </fieldset>
+
+    <fieldset class="fieldset flex items-center">
+      <label class="fieldset-label w-full">
+        <div class="w-5 h-5 skeleton mr-2"></div>
+        <div class="h-4 skeleton w-3/4"></div>
+      </label>
+    </fieldset>
+
+    <fieldset class="fieldset flex items-center">
+      <label class="fieldset-label w-full">
+        <div class="w-5 h-5 skeleton mr-2"></div>
+        <div class="h-4 skeleton w-3/4"></div>
+      </label>
+    </fieldset>
+
+    <fieldset class="fieldset flex items-center">
+      <label class="fieldset-label w-full">
+        <div class="w-5 h-5 skeleton mr-2"></div>
+        <div class="h-4 skeleton w-2/3"></div>
+      </label>
+    </fieldset>
+  </div>
+  }
+
+  <div class="flex justify-evenly mb-2">
+    <button
+      class="btn transition-all duration-300 ease-in-out"
+      [ngClass]="{
+        'btn-primary': !updatingMagazine,
+        'btn-disabled': updatingMagazine || this.magazineForm.invalid
+      }"
+      (click)="editMagazine()"
+    >
+      @if (updatingMagazine) {
+      <span class="loading loading-dots loading-xs"></span>
+      } @else { Editar Revista }
+    </button>
+
+    <button
+      class="btn btn-outline btn-warning transition-all duration-300 ease-in-out"
+      (click)="editIssues()"
+    >
+      Editar numeros
+    </button>
+  </div>
+</form>
