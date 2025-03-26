@@ -7,10 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Category } from '@editor/models/category.model';
-import {
-  MinimalMagazine,
-  NewMagazine
-} from '@editor/models/magazine.model';
+import { MinimalMagazine, NewMagazine } from '@editor/models/magazine.model';
 import { Tag } from '@editor/models/tag.model';
 import { CategoryService } from '@editor/services/category.service';
 import { MagazineService } from '@editor/services/magazine.service';
@@ -67,6 +64,26 @@ export class PublishFormComponent {
     });
   }
 
+  isValid(field: string) {
+    if (field === 'tagIds') {
+      return this.selectedTags.length > 0;
+    }
+    return (
+      this.magazineForm.get(field)?.touched &&
+      this.magazineForm.get(field)?.valid
+    );
+  }
+
+  isInvalid(field: string) {
+    if (field === 'tagIds') {
+      return this.selectedTags.length === 0;
+    }
+    return (
+      this.magazineForm.get(field)?.touched &&
+      this.magazineForm.get(field)?.invalid
+    );
+  }
+
   toggleTag(tag: Tag) {
     if (this.selectedTags.includes(tag)) {
       this.selectedTags = this.selectedTags.filter((t) => t.id !== tag.id);
@@ -77,11 +94,17 @@ export class PublishFormComponent {
     }
     this.magazineForm
       .get('tagIds')
-      ?.setValue(this.selectedTags.map((t) => t.id));
+      ?.patchValue(this.selectedTags.map((t) => t.id));
   }
 
   publishMagazine() {
+    if (this.magazineForm.invalid) {
+      return;
+    }
     const magazine: NewMagazine = this.magazineForm.getRawValue();
+    if (!this.magazineForm.get('adBlock')?.value) {
+      magazine.adBlockingExpirationDate = '';
+    }
     this.creatingMagazine = true;
     this.magazineService.createMagazine(magazine).subscribe({
       next: (magazine) => {

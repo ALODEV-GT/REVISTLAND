@@ -2,16 +2,16 @@ interface BaseMagazine {
   id: number;
   title: string;
   description: string;
-  adBlockingExpirationDate: string;
-  disableLikes: boolean;
-  disableComments: boolean;
-  disableSuscriptions: boolean;
+  adBlockingExpirationDate?: string;
+  disableLikes?: boolean;
+  disableComments?: boolean;
+  disableSuscriptions?: boolean;
 }
 
 export type FlatMagazine = BaseMagazine & {
   costPerDay?: number;
   categoryName: string;
-  tagsName: string[];
+  tagNames: string[];
   issuesCount: number;
   subscriptionsCount: number;
   likesCount: number;
@@ -20,10 +20,12 @@ export type FlatMagazine = BaseMagazine & {
   updatedAt: string;
 };
 
-export type NewMagazine = Omit<BaseMagazine, 'id'> & {
+export type EditMagazine = Omit<BaseMagazine, 'id'> & {
   categoryId: number;
   tagIds: number[];
 };
+
+export type NewMagazine = EditMagazine;
 
 export interface MinimalMagazine {
   id: number;
