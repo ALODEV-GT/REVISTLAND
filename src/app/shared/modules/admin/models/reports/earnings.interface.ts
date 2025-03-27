@@ -32,3 +32,8 @@ export interface EarningsReport {
     magazineCostTotalDto: MagazineCostTotalDto[];
 }
 
+export interface PostAdReportTotal{
+    adReportDto: AdReportDto[];
+    totalAdPost: number;
+}
+

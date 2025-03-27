@@ -14,6 +14,7 @@ export const ADMIN_ROUTES: Routes = [
             { path: 'management/magazines', loadComponent: () => import('./pages/magazines/magazines.component').then(m => m.MagazinesComponent)},
             { path: 'reports/home', loadComponent: () => import('./pages/reports/home-report/home-report.component').then(m => m.HomeReportComponent)},
             { path: 'reports/earnings', loadComponent: () => import('./pages/reports/earnings/earnings.component').then(m => m.EarningsComponent)},
+            { path: 'reports/posts-ad', loadComponent: () => import('./pages/reports/post-ad/post-ad.component').then(m => m.PostAdComponent)},
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
         ]
     },

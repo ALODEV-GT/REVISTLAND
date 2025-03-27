@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { ConfigurationDto, UpdateCostHidingAdDayDto, UpdateCostMagazineDayDto } from '../models/configuration.interface';
 import { MagazineAdminDto, UpdateCostMagazineDto } from '../models/magazineDto.interface';
 import { AnnouncersDto } from '../models/announcer.interface';
-import { EarningsReport } from '../models/reports/earnings.interface';
+import { EarningsReport, PostAdReportTotal } from '../models/reports/earnings.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -63,6 +63,16 @@ export class ReportService {
     if (endDate) params = params.set('endDate', endDate);
 
     return this._http.get<EarningsReport>(`${this.API_REPORT}/earnings-total`,  { params })
+  }
+
+  getReportPostAd(type:number, startDate?: string, endDate?: string): Observable<PostAdReportTotal>{
+    let params = new HttpParams();
+  
+    if (startDate) params = params.set('startDate', startDate);
+    if (endDate) params = params.set('endDate', endDate);
+    params = params.set('type', type);
+
+    return this._http.get<PostAdReportTotal>(`${this.API_REPORT}/post-ad-total`,  { params })
   }
   
 

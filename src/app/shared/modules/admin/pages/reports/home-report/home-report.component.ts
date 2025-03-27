@@ -16,4 +16,8 @@ export class HomeReportComponent {
     this.route.navigate(['admin/reports/earnings'])
   }
 
+  goReportPostAd(){
+    this.route.navigate(['admin/reports/posts-ad'])
+  }
+
 }
