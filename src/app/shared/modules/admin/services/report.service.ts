@@ -8,6 +8,7 @@ import { MagazineAdminDto, UpdateCostMagazineDto } from '../models/magazineDto.i
 import { AnnouncersDto } from '../models/announcer.interface';
 import { EarningsReport, PostAdReportTotal } from '../models/reports/earnings.interface';
 import { TotalReportPaymentPostAdByAnnouncersDto } from '../models/reports/announcers.interface';
+import { ReportTopMagazineSubscriptions } from '../models/reports/top-magazine-subscripton';
 
 @Injectable({
   providedIn: 'root'
@@ -92,6 +93,15 @@ export class ReportService {
     if (endDate) params = params.set('endDate', endDate);
 
     return this._http.get<TotalReportPaymentPostAdByAnnouncersDto>(`${this.API_REPORT}/post-ad-total-announcers/${id}`,  { params })
+  }
+
+  getTop5MagazinesBySubscriptions(startDate?: string, endDate?: string): Observable<ReportTopMagazineSubscriptions>{
+    let params = new HttpParams();
+  
+    if (startDate) params = params.set('startDate', startDate);
+    if (endDate) params = params.set('endDate', endDate);
+
+    return this._http.get<ReportTopMagazineSubscriptions>(`${this.API_REPORT}/top-5-magazines-subscription`,  { params })
   }
   
 
