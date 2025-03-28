@@ -30,10 +30,13 @@ export interface EarningsReport {
     adReportDto: AdReportDto[];
     magazineReportDto: MagazineReportDto[];
     magazineCostTotalDto: MagazineCostTotalDto[];
+    range: string;
 }
 
 export interface PostAdReportTotal{
     adReportDto: AdReportDto[];
     totalAdPost: number;
+    range: string;
+    filter:string;
 }
 

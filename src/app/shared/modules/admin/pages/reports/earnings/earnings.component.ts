@@ -1,17 +1,24 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { EarningsReport } from '@shared/modules/admin/models/reports/earnings.interface';
+import { ExportService } from '@shared/modules/admin/services/export.service';
 import { ReportService } from '@shared/modules/admin/services/report.service';
+import { ModalMsgComponent } from '@shared/modules/announcer/components/modal-msg/modal-msg.component';
 
 @Component({
   selector: 'app-earnings',
-  imports: [FormsModule],
+  imports: [FormsModule, ModalMsgComponent],
   templateUrl: './earnings.component.html',
   styleUrl: './earnings.component.scss'
 })
 export class EarningsComponent {
 
+
+  @ViewChild('modal2') modalRef2!: ElementRef<HTMLDialogElement>;
+
+  
   private readonly _reportService = inject(ReportService)
+  private readonly _exportReportService = inject(ExportService)
   report!: EarningsReport;
 
   startDate = '';
@@ -19,6 +26,15 @@ export class EarningsComponent {
 
   ngOnInit(){
     //this.getReportEarnings()
+  }
+
+  exportReport(){
+    if (!this.report) {
+      this.modalRef2.nativeElement.showModal()
+    }
+    const range = `${this.startDate} - ${this.endDate}`
+    this.report.range = range;
+    this._exportReportService.downloadReportEarnings(this.report);
   }
 
 

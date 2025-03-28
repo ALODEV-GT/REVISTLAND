@@ -16,5 +16,7 @@ export interface PaymentPostAdPerAnnouncerDto {
 export interface TotalReportPaymentPostAdByAnnouncersDto {
     paymentPostAdPerAnnouncerDtos: PaymentPostAdPerAnnouncerDto[];
     totalAdPost: number;
+    range: string;
+    filter: string;
 
 }

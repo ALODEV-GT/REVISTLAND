@@ -1,23 +1,31 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AnnouncersDto } from '@shared/modules/admin/models/announcer.interface';
-import { PaymentPostAdPerAnnouncerDto } from '@shared/modules/admin/models/reports/announcers.interface';
+import { PaymentPostAdPerAnnouncerDto, TotalReportPaymentPostAdByAnnouncersDto } from '@shared/modules/admin/models/reports/announcers.interface';
+import { ExportService } from '@shared/modules/admin/services/export.service';
 import { ReportService } from '@shared/modules/admin/services/report.service';
+import { ModalMsgComponent } from '@shared/modules/announcer/components/modal-msg/modal-msg.component';
 import { AnnouncerService } from '@shared/modules/announcer/services/announcer.service';
 
 @Component({
   selector: 'app-announcers',
-  imports: [FormsModule],
+  imports: [FormsModule, ModalMsgComponent],
   templateUrl: './announcers.component.html',
   styleUrl: './announcers.component.scss'
 })
 export class AnnouncersComponent {
 
+  @ViewChild('modal2') modalRef2!: ElementRef<HTMLDialogElement>;
+
   private readonly _announcerService = inject(AnnouncerService)
   private readonly _reportService = inject(ReportService)
+  private readonly _exportReportService = inject(ExportService)
+
+
   announcersDto: AnnouncersDto[] = []
   report: PaymentPostAdPerAnnouncerDto[] = []
   totalAdPost: number = 0;
+  export!: TotalReportPaymentPostAdByAnnouncersDto;
 
 
   startDate = '';
@@ -28,6 +36,16 @@ export class AnnouncersComponent {
 
   ngOnInit() {
     this.getAllAnnouncers()
+  }
+
+  exportReport() {
+    if (!this.export && this.report.length <= 0) {
+      this.modalRef2.nativeElement.showModal()
+    }
+    const range = `${this.startDate} - ${this.endDate}`
+    this.export.range = range;
+    this.export.filter = this.getAdvertiserName()
+    this._exportReportService.downloadReportAnnouncersPostAd(this.export);
   }
 
 
@@ -41,15 +59,14 @@ export class AnnouncersComponent {
 
     this.getReportByRangeAdnIdAdvertiser()
 
-
-
   }
 
-  getReportByRangeAdnIdAdvertiser(){
+  getReportByRangeAdnIdAdvertiser() {
     if (this.startDate === '' || this.endDate === '') {
-      
+
       this._reportService.getReportPostAdAnnuncersById(this.idAdvertiser).subscribe({
-        next: value =>{
+        next: value => {
+          this.export = value
           this.report = value.paymentPostAdPerAnnouncerDtos
           this.totalAdPost = value.totalAdPost
 
@@ -59,7 +76,9 @@ export class AnnouncersComponent {
     }
 
     this._reportService.getReportPostAdAnnuncersById(this.idAdvertiser, this.startDate, this.endDate).subscribe({
-      next: value =>{
+      next: value => {
+        this.export = value
+
         this.report = value.paymentPostAdPerAnnouncerDtos
         this.totalAdPost = value.totalAdPost
 
@@ -67,11 +86,12 @@ export class AnnouncersComponent {
     })
   }
 
-  getReportByRange(){
+  getReportByRange() {
     if (this.startDate === '' || this.endDate === '') {
-      
+
       this._reportService.getReportPostAdAnnuncers().subscribe({
-        next: value =>{
+        next: value => {
+          this.export = value
           this.report = value.paymentPostAdPerAnnouncerDtos
           this.totalAdPost = value.totalAdPost
         }
@@ -80,7 +100,8 @@ export class AnnouncersComponent {
     }
 
     this._reportService.getReportPostAdAnnuncers(this.startDate, this.endDate).subscribe({
-      next: value =>{
+      next: value => {
+        this.export = value
         this.report = value.paymentPostAdPerAnnouncerDtos
         this.totalAdPost = value.totalAdPost
 
@@ -114,6 +135,14 @@ export class AnnouncersComponent {
     }
 
     return `${weeks} semana${weeks > 1 ? 's' : ''} y ${remainingDays} día${remainingDays > 1 ? 's' : ''}`;
+  }
+
+  getAdvertiserName():string{
+    this.idAdvertiser = Number(this.idAdvertiser)
+    if (this.idAdvertiser <= 0) {
+      return 'Todos';
+    }
+    return this.announcersDto.find(a => a.id === this.idAdvertiser)?.username || '';
   }
 
 
