@@ -20,4 +20,8 @@ export class HomeReportComponent {
     this.route.navigate(['admin/reports/posts-ad'])
   }
 
+  goReportAnnouncers(){
+    this.route.navigate(['admin/reports/announcers'])
+  }
+
 }

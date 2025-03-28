@@ -7,6 +7,7 @@ import { ConfigurationDto, UpdateCostHidingAdDayDto, UpdateCostMagazineDayDto } 
 import { MagazineAdminDto, UpdateCostMagazineDto } from '../models/magazineDto.interface';
 import { AnnouncersDto } from '../models/announcer.interface';
 import { EarningsReport, PostAdReportTotal } from '../models/reports/earnings.interface';
+import { TotalReportPaymentPostAdByAnnouncersDto } from '../models/reports/announcers.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -73,6 +74,24 @@ export class ReportService {
     params = params.set('type', type);
 
     return this._http.get<PostAdReportTotal>(`${this.API_REPORT}/post-ad-total`,  { params })
+  }
+
+  getReportPostAdAnnuncers(startDate?: string, endDate?: string): Observable<TotalReportPaymentPostAdByAnnouncersDto>{
+    let params = new HttpParams();
+  
+    if (startDate) params = params.set('startDate', startDate);
+    if (endDate) params = params.set('endDate', endDate);
+
+    return this._http.get<TotalReportPaymentPostAdByAnnouncersDto>(`${this.API_REPORT}/post-ad-total-announcers`,  { params })
+  }
+
+  getReportPostAdAnnuncersById(id:number, startDate?: string, endDate?: string): Observable<TotalReportPaymentPostAdByAnnouncersDto>{
+    let params = new HttpParams();
+  
+    if (startDate) params = params.set('startDate', startDate);
+    if (endDate) params = params.set('endDate', endDate);
+
+    return this._http.get<TotalReportPaymentPostAdByAnnouncersDto>(`${this.API_REPORT}/post-ad-total-announcers/${id}`,  { params })
   }
   
 
