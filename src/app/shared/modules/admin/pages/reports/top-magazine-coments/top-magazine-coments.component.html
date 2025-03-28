@@ -1,0 +1,80 @@
+<main class="flex-1 p-2 max-w-7xl mx-auto">
+    <h1 class="text-2xl font-bold text-center mb-2">Revistas Más Populares</h1>
+
+    <!-- Filtros -->
+    <div class="bg-base-100 p-4 shadow-lg rounded-lg mb-3">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+                <label class="label font-semibold">Desde:</label>
+                <input type="date" class="input input-bordered w-full btn btn-sm" [(ngModel)]="startDate" />
+            </div>
+            <div>
+                <label class="label font-semibold">Hasta:</label>
+                <input type="date" class="input input-bordered w-full btn btn-sm" [(ngModel)]="endDate" />
+            </div>
+            <div class="flex flex-col sm:flex-row gap-4 justify-end mt-6">
+                <button class="btn btn-outline btn-primary btn btn-sm" (click)="getReport()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Generar Reporte
+                </button>
+                <button class="btn btn-outline btn-secondary btn btn-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Exportar a PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla de Top revista mas comentada -->
+    <div class="overflow-x-auto bg-base-100 p-4 shadow-lg rounded-lg border border-accent mb-2">
+        <table class="table w-full">
+            <!-- Encabezado -->
+            @for (item of magazineCommentsDtoList; track $index) {
+            <thead>
+                <tr>
+                    <th>Revista</th>
+                    <th colspan="2">Editor</th>
+                    <th>Feha de registro</th>
+                    <th>Cantidad de Commentarios</th>
+                </tr>
+                <tr class="text-purple-400">
+                    <th colspan="2"><strong>{{item.title}}</strong> </th>
+                    <th><strong>{{item.usernameEditor}}</strong> </th>
+                    <th><strong>{{formatDateTime(item.createdAt)}}</strong> </th>
+                    <th><strong>{{item.comments.length}}</strong> </th>
+                </tr>
+                <th colspan="5" class="text-center text-md font-bold bg-base-200">
+                    Detalle de suscripciones
+                </th>
+                <tr>
+                    <th>#</th>
+                    <th>Suscriptor</th>
+                    <th>Email</th>
+                    <th>Comentario</th>
+                    <th>Feha de suscripcion</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @for (comment of item.comments; track $index) {
+                <tr>
+                    <td>{{$index+1}}</td>
+                    <td>{{comment.usernameComment}}</td>
+                    <td>{{comment.emailComment}}</td>
+                    <td>{{comment.contentComment}}</td>
+                    <td>{{formatDateTime(comment.commentAt)}}</td>
+
+                </tr>
+                }
+            </tbody>
+            }
+        </table>
+    </div>
+
+</main>

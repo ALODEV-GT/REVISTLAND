@@ -28,4 +28,9 @@ export class HomeReportComponent {
     this.route.navigate(['admin/reports/top-magazines-subscriptions'])
   }
 
+
+  gotReportTopMagazinesComments(){
+    this.route.navigate(['admin/reports/top-magazines-comments'])
+  }
+
 }
