@@ -9,6 +9,7 @@ import { ModalMsgComponent } from '../../components/modal-msg/modal-msg.componen
 import { Router } from '@angular/router';
 import { SlugService } from '../../services/slug.service';
 import { YouTubePlayerModule } from "@angular/youtube-player";
+import { UploadImgService } from '../../services/upload-img.service';
 
 @Component({
   selector: 'app-post-ad',
@@ -26,13 +27,17 @@ export class PostAdComponent {
   private formBuilder = inject(FormBuilder)
   private readonly route = inject(Router)
   private readonly slugSevice = inject(SlugService)
+  private readonly uploadService = inject(UploadImgService)
 
   //forms
   postForm: FormGroup = this.formBuilder.group({
     content: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(500)]],
     url: ['', [Validators.required, Validators.pattern(/^(https?:\/\/)?([\w.-]+)+(:\d+)?(\/[\w.-]*)*(\?[^\s]*)?(#[^\s]*)?$/)]],
     duration: [1, [Validators.required]]
-  }); 
+  });
+
+  file!: File
+  formData!: FormData
 
 
   viewCarts = true;
@@ -47,12 +52,12 @@ export class PostAdComponent {
   daysDuration: number[] = [];
 
   playerVars = {
-    autoplay: 1,  
-    loop: 1,     
-    modestbranding: 1, 
+    autoplay: 1,
+    loop: 1,
+    modestbranding: 1,
     mute: 1,
-    showinfo: 0,  
-    rel: 0 
+    showinfo: 0,
+    rel: 0
   };
 
   constructor() { }
@@ -113,22 +118,22 @@ export class PostAdComponent {
       return true;
     }
 
-    if (this.TypeAd.VIDEO === this.typeAd && this.isVideo(this.postForm.value.url)) {
+    if (this.TypeAd.TEXT_IMAGE === this.typeAd) {
       return true;
     }
 
-    if (this.TypeAd.TEXT_IMAGE === this.typeAd && this.isImage(this.postForm.value.url)) {
+    if (this.TypeAd.VIDEO === this.typeAd && this.isVideo(this.postForm.value.url)) {
       return true;
     }
 
     return false;
   }
 
-  adPost() {
+  async adPost() {
     this.errorMessage = '';
 
     if (this.TypeAd.TEXT === this.typeAd) {
-      this.postForm.patchValue({ url: 'https://ejemplo' });
+      this.postForm.patchValue({ url: 'https://res.cloudinary.com/ddkp3bobz/image/upload/v1742243659/mvX_HdTWSTynnUrhqrb-AQ_uedas2.webp' });
     }
 
     if (this.TypeAd.VIDEO === this.typeAd) {
@@ -160,7 +165,7 @@ export class PostAdComponent {
       chargePeriodAd: this.findChargePeriodAd(this.postForm.value.duration, this.typeAd)?.id || 0
     };
 
-    this.createdAd(ad);
+    await this.createdAd(ad);
 
   }
 
@@ -171,20 +176,33 @@ export class PostAdComponent {
     this.modalRef2.nativeElement.showModal();
   }
 
-  createdAd(adPost: AdPostDto) {
-    this._announcerService.createAd(adPost).subscribe({
-      next: value => {
-        this._announcerService.ad = value;
-        this.modalRef.nativeElement.showModal();
-        this.modalRef.nativeElement.addEventListener('close', () => {
-          const slug = this.slugSevice.generateSlug(value.createdAt.toString());
-          this.route.navigate([`announcer/my-ad/${slug}`]);
-        }, { once: true });
-      },
-      error: err => {
-        this.handleError(err.error.message)
-      }
-    });
+  async createdAd(adPost: AdPostDto) {
+    try {
+      await this.uplogadImag(); // Esperamos a que termine la subida de imagen
+
+      adPost.imageUrl = this.postForm.get('url')?.value;
+      adPost.videoUrl = this.postForm.get('url')?.value;
+
+      this._announcerService.createAd(adPost).subscribe({
+        next: value => {
+          this._announcerService.ad = value;
+          this.modalRef.nativeElement.showModal();
+          this.modalRef.nativeElement.addEventListener('close', () => {
+            const slug = this.slugSevice.generateSlug(value.createdAt.toString());
+            this.route.navigate([`announcer/my-ad/${slug}`]);
+          }, { once: true });
+        },
+        error: err => {
+          this.handleError(err.error.message);
+        }
+      });
+
+    } catch (error) {
+      this.errorMessageModal = 'Ha ocurrido un error al subir la imagen, intente más tarde';
+      this.modalRef2.nativeElement.showModal();
+    }
+
+
   }
 
   getUniqueDurations(periods: ChargePeriodAdDto[]): number[] {
@@ -228,6 +246,27 @@ export class PostAdComponent {
 
   goCarts() {
     this.viewCarts = true;
+  }
+
+  onFileSelected(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    if (inputElement != null && inputElement.files != null && inputElement.files.length > 0) {
+      this.file = inputElement.files[0];
+      this.formData = new FormData();
+      this.formData.append('file', this.file, this.file.name);
+      this.postForm.patchValue({ url: 'https://res.cloudinary.com/ddkp3bobz/image/upload/v1742243659.web' });
+    }
+  }
+
+  private async uplogadImag(): Promise<void> {
+    if (this.formData) {
+      try {
+        const value = await this.uploadService.saveImg(this.formData).toPromise();
+        this.postForm.patchValue({ url: value.url });
+      } catch (err) {
+        throw new Error('Error en uplogadImag');
+      }
+    }
   }
 
 }

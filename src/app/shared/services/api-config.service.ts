@@ -26,5 +26,6 @@ export class ApiConfigService {
 
     /*Configurations */
     API_CONFIGURATION = `${this.API_BASE}/configurations`
+    API_UPLOAD = `${this.API_BASE}/upload`
 
 }
