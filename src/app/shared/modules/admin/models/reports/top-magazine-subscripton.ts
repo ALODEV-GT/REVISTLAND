@@ -4,13 +4,14 @@ export interface SubscriptionsDto {
     subscribedAt: Date;
 }
 
-export interface MagazineSubscriptions{
+export interface MagazineSubscriptions {
     title: string;
     usernameEditor: string;
     createdAt: Date
     subscriptionsDtos: SubscriptionsDto[]
 }
 
-export interface ReportTopMagazineSubscriptions{
+export interface ReportTopMagazineSubscriptions {
     subscriptions: MagazineSubscriptions[];
+    range: string;
 }

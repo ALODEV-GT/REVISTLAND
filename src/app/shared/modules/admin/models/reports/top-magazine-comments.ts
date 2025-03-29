@@ -14,5 +14,6 @@ export interface MagazineCommentsDto {
 
 export interface ReportMagazineCommentsDto {
     magazineCommentsDtoList: MagazineCommentsDto[];
+    range: string;
 }
 

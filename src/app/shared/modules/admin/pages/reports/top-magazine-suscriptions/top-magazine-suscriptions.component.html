@@ -20,7 +20,7 @@
                     </svg>
                     Generar Reporte
                 </button>
-                <button class="btn btn-outline btn-secondary btn btn-sm">
+                <button class="btn btn-outline btn-secondary btn btn-sm" (click)="exportReport()">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -31,10 +31,9 @@
         </div>
     </div>
 
-    <!-- Tabla de egresos por alojamiento de revistas -->
+    <!-- Tabla de revistas con mas suscriptores -->
     <div class="overflow-x-auto bg-base-100 p-4 shadow-lg rounded-lg border border-secondary mb-2">
         <table class="table w-full">
-            <!-- Encabezado -->
             @for (item of subscriptions; track $index) {
             <thead>
                 <tr>
@@ -67,7 +66,6 @@
                     <td>{{sub.usernameSubscriber}}</td>
                     <td>{{sub.emailSubscriber}}</td>
                     <td>{{formatDateTime(sub.subscribedAt)}}</td>
-
                 </tr>
                 }
             </tbody>
@@ -76,3 +74,11 @@
     </div>
 
 </main>
+
+
+<!-- Modal de Recarga exitosa -->
+<dialog #modal2 id="my_modal_1" class="modal">
+    <app-modal-msg
+        [content]="'Antes de exportar el reporte a pdf, debe generar un reporte, no se pueden generar reportes vacios'"
+        [title]="'Accion no valida'" [className]="'text-purple-700 text-lg'"></app-modal-msg>
+</dialog>
