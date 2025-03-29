@@ -1,0 +1,186 @@
+<main class="flex-1 p-2 max-w-7xl mx-auto">
+  <h1 class="text-2xl font-bold text-center mb-2">Reporte de Ganancias</h1>
+
+  <!-- Filtros -->
+  <div class="bg-base-100 p-4 shadow-lg rounded-lg mb-3">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div>
+        <label class="label font-semibold">Desde:</label>
+        <input type="date" class="input input-bordered w-full btn btn-sm" [(ngModel)]="startDate" />
+      </div>
+      <div>
+        <label class="label font-semibold">Hasta:</label>
+        <input type="date" class="input input-bordered w-full btn btn-sm" [(ngModel)]="endDate" />
+      </div>
+      <div class="flex flex-col sm:flex-row gap-4 justify-end mt-6">
+        <button class="btn btn-outline btn-primary btn btn-sm" (click)="getReport()">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+          Generar Reporte
+        </button>
+        <button class="btn btn-outline btn-secondary btn btn-sm" (click)="exportReport()">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+          Exportar a PDF
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+
+  @if (report) {
+  <!-- Tabla resumen totales -->
+  <div class="overflow-x-auto bg-base-100 p-4 shadow-lg rounded-lg border border-warning mb-2">
+    <table class="table w-full">
+      <thead>
+        <th colspan="2" class="text-center text-md font-bold bg-base-200">
+          Resumen Total de Ganancias
+        </th>
+        <tr>
+          <th>Descripcion</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Total de ingreso por compras de anuncios</td>
+          <td>Q{{report.totalAdPost}}</td>
+        </tr>
+        <tr>
+          <td>Total de ingreso por bloqueo de anuncios de editores</td>
+          <td>Q{{report.totalAdBlocks}}</td>
+        </tr>
+        <tr>
+          <td class="text-center"><strong> Total de Ingresos</strong></td>
+          <td class="font-bold text-green-200">Q{{report.totalIncome}}</td>
+        </tr>
+        <tr>
+          <td>Costo total por almacenamiento de revistas</td>
+          <td>{{`Q${report.totalCostPerDay}`}}</td>
+        </tr>
+        <tr>
+          <td class="text-center"><strong>Total de Egresos</strong></td>
+          <td class="font-bold text-purple-300">{{`Q${report.totalCostPerDay}`}}</td>
+        </tr>
+        <tr>
+          <td class="text-center "><strong>Ganancia Total</strong> </td>
+          <td class="font-bold text-green-600">Q{{report.totalEarnings}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Tabla de ingresos por anuncios comprados -->
+  <div class="overflow-x-auto bg-base-100 p-4 shadow-lg rounded-lg border border-accent mb-2">
+    <table class="table w-full">
+      <!-- Encabezado -->
+      <thead>
+        <th colspan="5" class="text-center text-md font-bold bg-base-200">
+          Detalle de anuncios comprados
+        </th>
+        <tr>
+          <th>Tipo de anuncio</th>
+          <th>Anunciador</th>
+          <th>Feha de pago</th>
+          <th>Plan comprado</th>
+          <th>Cantidad</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (ad of report.adReportDto; track $index) {
+        <td>{{ad.adType}}</td>
+        <td>{{ad.username}}</td>
+        <td>{{formatDateTime(ad.datePay)}}</td>
+        <td>{{conversWeek(ad.plan)}}</td>
+        <td>Q{{ad.amount}}</td>
+        }
+        <tr>
+
+        </tr>
+        <tr>
+          <td class="text-center" colspan="4"><strong>Total de ingresos por anuncios comprados</strong> </td>
+          <td class="font-bold text-green-200">Q{{report.totalAdPost}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Tabla de ingresos por bloqueos de anuncios -->
+  <div class="overflow-x-auto bg-base-100 p-4 shadow-lg rounded-lg border border-accent mb-2">
+    <table class="table w-full">
+      <!-- Encabezado -->
+      <thead>
+        <th colspan="5" class="text-center text-md font-bold bg-base-200">
+          Detalle de ingresos por bloqueos de anuncios
+        </th>
+        <tr>
+          <th>Revista</th>
+          <th>Editor</th>
+          <th>Feha de pago</th>
+          <th>Cantidad</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of report.magazineReportDto; track $index) {
+        <tr>
+          <td>{{item.title}}</td>
+          <td>{{item.editor}}</td>
+          <td>{{formatDateTime(item.datePay)}}</td>
+          <td>q{{item.amount}}</td>
+        </tr>
+        }
+        <tr>
+          <td class="text-center" colspan="3"><strong>Total de ingresos por anuncios bloqueado</strong> </td>
+          <td class="font-bold text-green-200">Q{{report.totalAdBlocks}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Tabla de egresos por alojamiento de revistas -->
+  <div class="overflow-x-auto bg-base-100 p-4 shadow-lg rounded-lg border border-secondary mb-2">
+    <table class="table w-full">
+      <!-- Encabezado -->
+      <thead>
+        <th colspan="5" class="text-center text-md font-bold bg-base-200">
+          Detalle de egresos por alojamiento de Revistas
+        </th>
+        <tr>
+          <th>Revista</th>
+          <th>Editor</th>
+          <th>Feha de registro</th>
+          <th>costo por dia</th>
+          <th>Cantidad</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of report.magazineCostTotalDto; track $index) {
+        <tr>
+          <td>{{item.title}}</td>
+          <td>{{item.username}}</td>
+          <td>{{formatDateTime(item.createdAt)}}</td>
+          <td>Q{{item.costPerDay}}</td>
+          <td>Q{{item.costTotal}}</td>
+        </tr>
+        }
+        <tr>
+          <td class="text-center" colspan="4"><strong>Total de egresos alojamiento de Revistas</strong> </td>
+          <td class="font-bold text-purple-400">Q{{report.totalCostPerDay}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  }
+</main>
+
+
+<!-- Modal de Recarga exitosa -->
+<dialog #modal2 id="my_modal_1" class="modal">
+  <app-modal-msg [content]="'Antes de exportar el reporte a pdf, debe generar un reporte'"
+  [title]="'Accion no valida'" [className]="'text-purple-700 text-lg'"></app-modal-msg>
+</dialog>

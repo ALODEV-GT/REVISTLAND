@@ -16,6 +16,7 @@ export class DashboadService {
   private API_AD = this.apiConfigService.API_ANNOUNCER;
   private API_MAGAZINE = this.apiConfigService.API_MAGAZINES;
   private API_REPORT = this.apiConfigService.API_REPORT;
+  private API_ADMIN = this.apiConfigService.API_ADMIN;
 
 
   constructor() { }
@@ -81,6 +82,15 @@ export class DashboadService {
     if (endDate) params = params.set('endDate', endDate);
 
     return this._http.get<CountRegisterByRolDto[]>(`${this.API_REPORT}/count-by-role`,  { params });
+  }
+
+  getRegisterUsers(startDate?: string, endDate?: string): Observable<PostAdMount[]>{
+    let params = new HttpParams();
+  
+    if (startDate) params = params.set('startDate', startDate);
+    if (endDate) params = params.set('endDate', endDate);
+
+    return this._http.get<PostAdMount[]>(`${this.API_ADMIN}/total-registers-month`,  { params });
   }
 
 

@@ -31,20 +31,17 @@
   </div>
 
   <!-- tajets -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 mb-6">
-    <div class="bg-neutral-content	rounded-xl shadow-lg p-2 text-center">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 mb-6">
+    <div class="bg-neutral-content	rounded-xl shadow-lg p-3 text-center">
       <app-tarjet [type]="TypeTarjet.AD_POST" [endDate]="endDate" [startDate]="startDate"></app-tarjet>
     </div>
-    <div class="bg-neutral-content rounded-xl shadow-lg p-2 text-center">
+    <div class="bg-neutral-content rounded-xl shadow-lg p-3 text-center">
       <app-tarjet [type]="TypeTarjet.MAGAZINE_POST" [endDate]="endDate" [startDate]="startDate"></app-tarjet>
     </div>
-    <div class="bg-neutral-content rounded-xl shadow-lg p-2 text-center">
-      <app-tarjet [type]="TypeTarjet.REVENUE" [endDate]="endDate" [startDate]="startDate"></app-tarjet>
-    </div>
-    <div class="bg-neutral-content rounded-xl shadow-lg p-2 text-center">
+    <div class="bg-neutral-content rounded-xl shadow-lg p-3 text-center">
       <app-tarjet [type]="TypeTarjet.EDITOR" [endDate]="endDate" [startDate]="startDate"></app-tarjet>
     </div>
-    <div class="bg-neutral-content rounded-xl shadow-lg p-2 text-center">
+    <div class="bg-neutral-content rounded-xl shadow-lg p-3 text-center">
       <app-tarjet [type]="TypeTarjet.ANNOUNCER" [endDate]="endDate" [startDate]="startDate"></app-tarjet>
     </div>
   </div>
@@ -52,12 +49,13 @@
   <!-- Gráficas -->
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-    <div class="bg-neutral-content rounded-xl shadow-lg p-3">
-      <h3 class="text-base font-semibold text-gray-700 text-center">Ganancias por mes</h3>
+    <div class="bg-secondary-content rounded-xl shadow-lg p-5">
+      <h3 class="text-base font-semibold text-gray-700 text-center">Revistas publicadas por mes</h3>
       <!-- tipo bar -->
-
-
+      <app-chart-bar [postAdCountMount]="postMagazineCountMount" [title]="'Total de Revistas'" [label]="'Publicaciones'"
+        [category]="'Mes'"></app-chart-bar>
     </div>
+
     <div class="bg-secondary-content rounded-xl shadow-lg p-5">
       <h3 class="text-base font-semibold text-gray-700 text-center">Anuncios publicados por mes</h3>
       <!-- tipo bar -->
@@ -65,13 +63,15 @@
         [category]="'Mes'"></app-chart-bar>
     </div>
 
-    <div class="bg-secondary-content rounded-xl shadow-lg p-5">
-      <h3 class="text-base font-semibold text-gray-700 text-center">Revistas publicadas por mes</h3>
+    <div class="bg-neutral-content rounded-xl shadow-lg p-3">
+      <h3 class="text-base font-semibold text-gray-700 text-center">Usuarios Registrados por mes</h3>
       <!-- tipo bar -->
-      <app-chart-bar [postAdCountMount]="postMagazineCountMount" [title]="'Total de Revistas'" [label]="'Publicaciones'"
-        [category]="'Mes'"></app-chart-bar>
+      <app-chart-bar [postAdCountMount]="registerUserMonth" [title]="'Total de Registros'" [label]="'Usuarios'"
+      [category]="'Mes'"></app-chart-bar>
 
     </div>
+
+
 
     <div class="bg-white rounded-xl shadow-lg p-5">
       <h3 class="text-base font-semibold text-gray-700 text-center">Tipos de usuarios Registrados</h3>

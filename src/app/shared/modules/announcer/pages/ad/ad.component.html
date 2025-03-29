@@ -20,7 +20,7 @@
         </div>
         }
 
-        @if (getEnumValue(ad.changePeriodAd.adType) === TypeAd.TEXT) {
+        @if (getEnumValue(ad.changePeriodAd.adType) !== TypeAd.VIDEO) {
         <!-- Información del Anuncio -->
         <div class="mt-4">
             <h2 class="text-xl font-semibold text-gray-700">Contenido del anuncio</h2>
