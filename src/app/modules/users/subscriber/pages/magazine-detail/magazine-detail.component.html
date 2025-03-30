@@ -10,9 +10,7 @@
                 </div>
             </div>
 
-            <!-- Contenido Central -->
             <div class="col-span-1 lg:col-span-8">
-                <!-- Portada y Detalles Básicos -->
                 <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow relative">
                     <div class="absolute top-2 right-2 cursor-pointer">
                         <span class="badge badge-primary">{{magazine?.category?.name}}</span>
@@ -22,7 +20,17 @@
                             class="w-full h-64 sm:h-80 md:h-96 object-cover rounded-t-xl" />
                     </figure>
                     <div class="card-body">
-                        <h2 class="card-title text-lg sm:text-xl md:text-2xl">{{magazine?.title}}</h2>
+                        <div class="flex flex-row justify-between">
+                            <h2 class="card-title text-lg sm:text-xl md:text-2xl">{{magazine?.title}}</h2>
+                            <button (click)="toggleSubscription()" class="btn" [class.btn-soft]="subscribed"
+                                [class.btn-accent]="!subscribed">
+                                @if (subscribed) {
+                                Desuscribirse
+                                }@else {
+                                Suscribirse
+                                }
+                            </button>
+                        </div>
                         <p class="text-sm sm:text-base text-gray-200">
                             {{magazine?.description}}
                         </p>

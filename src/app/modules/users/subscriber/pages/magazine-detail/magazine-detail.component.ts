@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { IssuesService } from '@shared/modules/editor/services/issues.service';
 import { Issue } from '@shared/modules/editor/models/magazine.model';
 import { CategoryService } from '@shared/modules/editor/services/category.service';
+import { SubscriptionService } from '@shared/modules/editor/services/subscription.service';
 
 
 @Component({
@@ -24,11 +25,12 @@ export default class MagazineDetailComponent implements OnInit {
   private readonly commentService = inject(CommentService)
   private readonly issueService = inject(IssuesService)
   readonly categoryService = inject(CategoryService)
-
+  readonly subscriptionService = inject(SubscriptionService)
 
   readonly Heart = Heart
   activateRoute = inject(ActivatedRoute)
   liked: boolean = false
+  subscribed: boolean = false
   comment: FormControl = new FormControl("", [Validators.required, Validators.minLength(2)])
 
   magazine: MagazineItem | null = null
@@ -48,6 +50,12 @@ export default class MagazineDetailComponent implements OnInit {
     this.likeService.userLikedMagazine(id!).subscribe({
       next: (resp: boolean) => {
         this.liked = resp
+      }
+    })
+
+    this.subscriptionService.userSubscribedMagazine(id!).subscribe({
+      next: (resp: boolean) => {
+        this.subscribed = resp
       }
     })
   }
@@ -77,6 +85,27 @@ export default class MagazineDetailComponent implements OnInit {
         next: () => {
           this.magazine!.likeCount += 1
           this.liked = true
+        }
+      })
+    }
+  }
+
+  toggleSubscription() {
+    if (this.magazine?.disableSuscriptions) {
+      //TODO: Mostrar erro que no se puede suscribir
+      return
+    }
+
+    if (this.subscribed) {
+      this.subscriptionService.unsubscribeMagazine(this.magazine!.id).subscribe({
+        next: () => {
+          this.subscribed = false
+        }
+      })
+    } else {
+      this.subscriptionService.subscribeMagazine(this.magazine!.id).subscribe({
+        next: () => {
+          this.subscribed = true
         }
       })
     }
