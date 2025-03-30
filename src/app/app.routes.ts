@@ -15,6 +15,7 @@ export const routes: Routes = [
     {
         path: 'rl',
         component: LayoutSubscriberComponent,
+        canActivate: [authGuard],
         children: [
             {
                 path: 'home',
@@ -31,7 +32,7 @@ export const routes: Routes = [
         ]
     },
     {
-        path: 'profile',
+        path: 'profile/:id',
         loadComponent: () => import('@users/components/profile/profile.component')
     },
     {

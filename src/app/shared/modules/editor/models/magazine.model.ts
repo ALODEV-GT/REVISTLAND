@@ -17,3 +17,14 @@ export type NewMagazine = Omit<Magazine, 'id' | 'category' | 'tags'> & {
   categoryId: number;
   tagIds: number[];
 };
+
+
+export interface Issue {
+  id: number;
+  title: string;
+  pdfUrl: string;
+  magazineId: number;
+  magazineTitle: string;
+  publishedAt: string;
+  updatedAt: string;
+}

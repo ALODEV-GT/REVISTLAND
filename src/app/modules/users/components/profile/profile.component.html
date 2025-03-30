@@ -1,40 +1,51 @@
-<div
-    class="w-screen min-h-screen flex bg-base-300 p-4 sm:min-h-0 sm:bg-gray-800 sm:w-screen sm:h-screen sm:flex sm:flex-col sm:items-center sm:justify-center">
-    <div class="w-full h-full sm:h-fit flex flex-col sm:bg-base-200 sm:rounded-xl sm:p-5 sm:w-[50vw]">
+<div class="w-screen min-h-screen flex bg-base-300 p-4 sm:min-h-0 sm:bg-gray-800 sm:w-screen sm:h-screen sm:flex sm:flex-col sm:items-center sm:justify-center">
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="w-full h-full sm:h-fit flex flex-col sm:bg-base-200 sm:rounded-xl sm:p-5 sm:w-[50vw]">
         <div class="flex flex-col bg-gradient-to-r from-purple-900 to-pink-500 p-3 rounded-xl">
-            <button class="btn bg-white text-black border-[#e5e5e5] w-fit">
-                <lucide-icon [name]="PenLine"></lucide-icon>
-            </button>
-            <div class="flex flex-row justify-center">
+            <div class="flex justify-between items-center">
+                @if (allowEdit) {
+                    <button *ngIf="!isEditing" type="button" (click)="enableEdit()" class="btn bg-white text-black border-[#e5e5e5] w-fit">
+                        <lucide-icon [name]="PenLine"></lucide-icon>
+                        Edit
+                    </button>
+                }
+                <div *ngIf="isEditing" class="flex gap-2">
+                    <button type="submit" class="btn btn-success">Save</button>
+                    <button type="button" (click)="cancelEdit()" class="btn btn-warning">Cancel</button>
+                </div>
+            </div>
+            <div class="flex flex-row justify-center mt-2">
                 <div class="avatar avatar-online avatar-placeholder">
                     <div class="bg-neutral text-neutral-content w-30 rounded-full">
-                        <span class="text-xl">BA</span>
-                    </div>
+                        <span class="text-xl">{{profile?.firstname?.charAt(0) || 'X'}}{{profile?.lastname?.charAt(0) || 'X'}}</span>
+                    </div> 
                 </div>
             </div>
             <div class="text-center text-white text-2xl">
-                Brayan alonzo
+                {{profile?.firstname}} {{profile?.lastname}}
             </div>
             <div class="text-center text-white text-sm">
-                {{'brayan.quialo@gmail.com'}}
+                {{profile?.user?.email}}
             </div>
             <div class="flex flex-row justify-center mt-2">
-                <div class="badge badge-accent">Editor</div>
+                <div class="badge badge-accent">{{profile?.role?.name | titlecase}}</div>
             </div>
         </div>
+
         <div class="card bg-base-100 card-xs shadow-sm rounded-xl mt-3 p-3">
             <div class="flex flex-row items-center">
                 <div class="flex flex-row gap-2 text-2xl">
                     <lucide-icon [name]="User"></lucide-icon>
-                    Sobre mi
+                    Sobre mí
                 </div>
             </div>
             <div class="divider m-0"></div>
-            <div>
-                Desarrollador Fullstack con experiencia en el desarrollo de aplicaciones web y móviles. Apasionado por
-                crear soluciones eficientes y escalables.
+            <div *ngIf="!isEditing">{{profile?.description}}</div>
+            <textarea *ngIf="isEditing" formControlName="description" class="textarea textarea-bordered w-full" placeholder="Sobre mí"></textarea>
+            <div *ngIf="isEditing && profileForm.get('description')?.invalid && profileForm.get('description')?.touched" class="text-error text-sm">
+                La descripción es requerida (mínimo 2 caracteres)
             </div>
         </div>
+
         <div class="card bg-base-100 card-xs shadow-sm rounded-xl mt-3 p-3">
             <div class="flex flex-row items-center">
                 <div class="flex flex-row gap-2 text-2xl">
@@ -42,12 +53,15 @@
                 </div>
             </div>
             <div class="divider m-0 mb-1"></div>
-            <div class="flex flex-row gap-3 flex-wrap">
-                <div class="badge badge-primary">Hobbie 1</div>
-                <div class="badge badge-primary">Hobbie 2</div>
-                <div class="badge badge-primary">Hobbie 3</div>
+            <div *ngIf="!isEditing" class="flex flex-row gap-3 flex-wrap">
+                <div *ngFor="let hobby of getHobbies()" class="badge badge-primary">{{hobby}}</div>
+            </div>
+            <input *ngIf="isEditing" formControlName="hobbies" type="text" class="input input-bordered w-full" placeholder="Escribe tus hobbies separados por coma">
+            <div *ngIf="isEditing && profileForm.get('hobbies')?.invalid && profileForm.get('hobbies')?.touched" class="text-error text-sm">
+                Los hobbies son requeridos (mínimo 2 caracteres)
             </div>
         </div>
+
         <div class="card bg-base-100 card-xs shadow-sm rounded-xl mt-3 p-3">
             <div class="flex flex-row items-center">
                 <div class="flex items-center flex-row gap-2 text-2xl">
@@ -56,11 +70,13 @@
                 </div>
             </div>
             <div class="divider m-0"></div>
-            <div class="flex flex-row gap-3 flex-wrap">
-                <div class="badge badge-error">Interes 1</div>
-                <div class="badge badge-error">Interes 2</div>
-                <div class="badge badge-error">Interes 3</div>
+            <div *ngIf="!isEditing" class="flex flex-row gap-3 flex-wrap">
+                <div *ngFor="let interest of getInterests()" class="badge badge-error">{{interest}}</div>
+            </div>
+            <input *ngIf="isEditing" formControlName="interestsTopics" type="text" class="input input-bordered w-full" placeholder="Escribe tus temas de interes separados por coma">
+            <div *ngIf="isEditing && profileForm.get('interestsTopics')?.invalid && profileForm.get('interestsTopics')?.touched" class="text-error text-sm">
+                Los intereses son requeridos (mínimo 2 caracteres)
             </div>
         </div>
-    </div>
+    </form>
 </div>
