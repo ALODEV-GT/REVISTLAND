@@ -2,7 +2,7 @@
     <!-- Anuncio Izquierdo -->
     <div class="hidden lg:block lg:col-span-2 min-w-[200px] py-[70px]">
         <div>
-            @for (ad of leftAds; track ad.id) {
+            @for (ad of leftAds; track $index) {
             <div class="card bg-base-100 shadow-md p-4">
                 @if (ad.changePeriodAd.adType === 'TEXT_IMAGE') {
                 <img [src]="ad.imageUrl" alt="Anuncio" class="w-full h-48 rounded-lg mb-2" />
@@ -83,7 +83,7 @@
 
             <div class="mt-6 lg:hidden">
                 <div class="space-y-4">
-                    @for (ad of allAds; track ad.id) {
+                    @for (ad of allAds; track $index) {
                     <div class="card bg-base-100 shadow-md p-4">
                         @if (ad.changePeriodAd.adType === 'TEXT_IMAGE') {
                         <img [src]="ad.imageUrl" alt="Anuncio" class="w-full h-24 object-cover rounded-lg mb-2" />
@@ -148,7 +148,7 @@
     <!-- Anuncios Derechos -->
     <div class="hidden lg:block lg:col-span-2 min-w-[200px] py-[70px]">
         <div class="space-y-4">
-            @for (ad of rightAds; track ad.id) {
+            @for (ad of rightAds; track $index) {
             <div class="card bg-base-100 shadow-md p-4">
                 @if (ad.changePeriodAd.adType === 'TEXT_IMAGE') {
                 <img [src]="ad.imageUrl" alt="Anuncio" class="w-full h-48 rounded-lg mb-2" />
