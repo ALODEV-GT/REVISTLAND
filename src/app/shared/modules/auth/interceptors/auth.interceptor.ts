@@ -18,8 +18,6 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
 
     let session = localStorageService.getState().session;
 
-    console.log('Agregando token: ' + session.token);
-
     const reqWithHeaders = req.clone({
         setHeaders: {
             Authorization: `Bearer ${session.token}`

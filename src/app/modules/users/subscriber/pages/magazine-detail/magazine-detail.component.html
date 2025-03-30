@@ -1,0 +1,169 @@
+<div class="font-sans pt-16">
+    <div class="container mx-auto py-10 px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <!-- Anuncio Izquierdo (Desktop) -->
+            <div class="hidden lg:block lg:col-span-2">
+                @for (ad of leftAds; track $index) {
+                <div class="card bg-base-100 shadow-md p-4 mb-4">
+                    @if (ad.changePeriodAd.adType === 'TEXT_IMAGE') {
+                    <img [src]="ad.imageUrl" alt="Anuncio" class="w-full h-48 object-cover rounded-lg mb-2" />
+                    <p class="font-semibold text-sm">{{ ad.content }}</p>
+                    } @else if (ad.changePeriodAd.adType === 'VIDEO') {
+                    <iframe [src]="ad.videoUrl | safeUrl" class="w-full h-48 rounded-lg mb-2" frameborder="0"
+                        allowfullscreen></iframe>
+                    } @else if (ad.changePeriodAd.adType === 'TEXT') {
+                    <p class="font-semibold text-sm">{{ ad.content }}</p>
+                    }
+                </div>
+                }
+            </div>
+
+            <!-- Contenido Principal -->
+            <div class="col-span-1 lg:col-span-8">
+                <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow relative">
+                    <div class="absolute top-2 right-2 cursor-pointer">
+                        <span class="badge badge-primary">{{magazine?.category?.name}}</span>
+                    </div>
+                    <figure>
+                        <img [src]="categoryService.getImageCategory(magazine?.category?.name!)" alt="Category logo"
+                            class="w-full h-64 sm:h-80 md:h-96 object-cover rounded-t-xl" />
+                    </figure>
+                    <div class="card-body">
+                        <div class="flex flex-row justify-between">
+                            <h2 class="card-title text-lg sm:text-xl md:text-2xl">{{magazine?.title}}</h2>
+                            <button (click)="toggleSubscription()" class="btn" [class.btn-soft]="subscribed"
+                                [class.btn-accent]="!subscribed">
+                                @if (subscribed) {
+                                Desuscribirse
+                                }@else {
+                                Suscribirse
+                                }
+                            </button>
+                        </div>
+                        <p class="text-sm sm:text-base text-gray-200">
+                            {{magazine?.description}}
+                        </p>
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <span class="badge badge-outline badge-sm">Tech</span>
+                            <span class="badge badge-outline badge-sm">Innovación</span>
+                        </div>
+                        <div class="divider m-0"></div>
+                        <div class="flex flex-row items-center justify-between flex-wrap gap-2">
+                            <span class="text-sm sm:text-base">
+                                <strong>Autor:</strong> {{magazine?.editor?.profile?.firstName}}
+                                {{magazine?.editor?.profile?.lastName}}
+                            </span>
+                            <span (click)="togglelike()"
+                                class="flex flex-row items-center gap-2 sm:gap-4 text-sm sm:text-base"
+                                [class.cursor-pointer]="!magazine?.disableLikes">
+                                <svg xmlns="http://www.w3.org/2000/svg" [class.text-red-500]="liked" class="h-5 w-5"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                </svg>
+                                {{magazine?.likeCount}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Anuncios en Móvil (antes de Ediciones Disponibles) -->
+                <div class="mt-10 lg:hidden">
+                    <h2 class="text-xl sm:text-2xl font-semibold mb-4">Anuncios</h2>
+                    <div class="space-y-4">
+                        @for (ad of allAds.slice(0, 2); track $index) {
+                        <div
+                            class="card bg-base-100 shadow-md flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4">
+                            @if (ad.changePeriodAd.adType === 'TEXT_IMAGE') {
+                            <img [src]="ad.imageUrl" alt="Anuncio"
+                                class="w-full sm:w-32 h-24 object-cover rounded-lg" />
+                            <div class="flex-1">
+                                <p class="font-semibold text-sm sm:text-base">{{ ad.content }}</p>
+                            </div>
+                            } @else if (ad.changePeriodAd.adType === 'VIDEO') {
+                            <iframe [src]="ad.videoUrl | safeUrl" class="w-full sm:w-32 h-24 rounded-lg" frameborder="0"
+                                allowfullscreen></iframe>
+                            } @else if (ad.changePeriodAd.adType === 'TEXT') {
+                            <p class="font-semibold text-sm sm:text-base">{{ ad.content }}</p>
+                            }
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Ediciones Disponibles -->
+                <div class="mt-10">
+                    <h2 class="text-xl sm:text-2xl font-semibold mb-4">Ediciones Disponibles</h2>
+                    <div class="space-y-4">
+                        @for (issue of issues; track $index) {
+                        <div
+                            class="card bg-base-100 shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between p-4">
+                            <div class="flex items-center gap-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                </svg>
+                                <div>
+                                    <p class="font-semibold text-sm sm:text-base">{{issue.magazineTitle}}</p>
+                                    <p class="text-xs text-gray-500">{{issue.publishedAt | date: 'dd/MM/yyyy HH:mm'}}
+                                    </p>
+                                </div>
+                            </div>
+                            <button (click)="openPdfInNewTab(issue.pdfUrl)"
+                                class="btn btn-outline btn-sm mt-2 sm:mt-0">Descargar</button>
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Sección de Comentarios -->
+                <div class="mt-10">
+                    <h2 class="text-xl sm:text-2xl font-semibold">Comentarios</h2>
+                    @if (magazine && !magazine.disableComments) {
+                    <div class="card bg-base-100 shadow-md p-4">
+                        <textarea [formControl]="comment" class="textarea textarea-bordered w-full text-sm sm:text-base"
+                            placeholder="Escribe tu comentario..."></textarea>
+                        <button (click)="saveComment()" class="btn btn-primary mt-2 w-full sm:w-auto">Publicar</button>
+                    </div>
+                    }
+                    @for (comment of comments; track $index) {
+                    <div class="space-y-4 mt-6">
+                        <div class="flex flex-row sm:flex-row gap-4">
+                            <div class="avatar">
+                                <div class="w-10 h-10 sm:w-12 rounded-full">
+                                    <img src="https://cdn.pixabay.com/photo/2016/09/22/16/38/avatar-1687700_1280.jpg"
+                                        alt="Usuario" />
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold text-sm sm:text-base">{{comment.user.profile.firstName}}
+                                    {{comment.user.profile.lastName}}</p>
+                                <p class="text-sm text-gray-300">{{comment.content}}</p>
+                                <p class="text-xs text-gray-500 mt-1">{{comment.timeAgo}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Anuncio Derecho (Desktop) -->
+            <div class="hidden lg:block lg:col-span-2">
+                @for (ad of rightAds; track $index) {
+                <div class="card bg-base-100 shadow-md p-4 mb-4">
+                    @if (ad.changePeriodAd.adType === 'TEXT_IMAGE') {
+                    <img [src]="ad.imageUrl" alt="Anuncio" class="w-full h-48 object-cover rounded-lg mb-2" />
+                    <p class="font-semibold text-sm">{{ ad.content }}</p>
+                    } @else if (ad.changePeriodAd.adType === 'VIDEO') {
+                    <iframe [src]="ad.videoUrl | safeUrl" class="w-full h-48 rounded-lg mb-2" frameborder="0"
+                        allowfullscreen></iframe>
+                    } @else if (ad.changePeriodAd.adType === 'TEXT') {
+                    <p class="font-semibold text-sm">{{ ad.content }}</p>
+                    }
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

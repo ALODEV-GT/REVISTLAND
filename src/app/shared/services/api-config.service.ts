@@ -18,6 +18,7 @@ export class ApiConfigService {
     API_MAGAZINES = `${this.API_BASE}/magazines`;
     API_CATEGORIES = `${this.API_BASE}/categories`;
     API_TAGS = `${this.API_BASE}/tags`;
+    API_PROFILE = `${this.API_BASE}/user`
 
     /* reports admin*/
     API_REPORT = `${this.API_BASE}/reports`
