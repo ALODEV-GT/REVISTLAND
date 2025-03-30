@@ -1,15 +1,22 @@
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-2 px-2 mx-auto max-w-screen-xl">
     <!-- Anuncio Izquierdo -->
-    <div class="hidden lg:block lg:col-span-2 min-w-[200px]">
-        <div class="card bg-base-100 shadow-md p-4 sticky top-20">
-            <img src="https://cdn.pixabay.com/photo/2017/08/30/07/56/coffee-2696174_1280.jpg" 
-                 alt="Anuncio 1" 
-                 class="w-full h-48 object-cover rounded-lg mb-2" />
-            <p class="font-semibold text-sm">¡Prueba el mejor café tecnológico!</p>
-            <p class="text-xs text-gray-500">Descubre la nueva cafetera inteligente.</p>
+    <div class="hidden lg:block lg:col-span-2 min-w-[200px] py-[70px]">
+        <div>
+            @for (ad of leftAds; track ad.id) {
+            <div class="card bg-base-100 shadow-md p-4">
+                @if (ad.changePeriodAd.adType === 'TEXT_IMAGE') {
+                <img [src]="ad.imageUrl" alt="Anuncio" class="w-full h-48 rounded-lg mb-2" />
+                <p class="font-semibold text-sm">{{ ad.content }}</p>
+                } @else if (ad.changePeriodAd.adType === 'VIDEO') {
+                <iframe [src]="ad.videoUrl | safeUrl" class="w-full h-48 rounded-lg mb-2" frameborder="0"
+                    allowfullscreen></iframe>
+                } @else if (ad.changePeriodAd.adType === 'TEXT') {
+                <p class="font-semibold text-sm">{{ ad.content }}</p>
+                }
+            </div>
+            }
         </div>
     </div>
-
     <div class="col-span-1 lg:col-span-8">
         <div class="hero h-fit mt-[66px] py-[20px] bg-gradient-to-r from-primary to-secondary text-white">
             <div class="hero-content text-center">
@@ -76,24 +83,19 @@
 
             <div class="mt-6 lg:hidden">
                 <div class="space-y-4">
-                    <div
-                        class="card bg-base-100 shadow-md flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4">
-                        <img src="https://cdn.pixabay.com/photo/2017/08/30/07/56/coffee-2696174_1280.jpg"
-                            alt="Anuncio 1" class="w-full sm:w-32 h-24 object-cover rounded-lg" />
-                        <div class="flex-1">
-                            <p class="font-semibold text-sm sm:text-base">¡Prueba el mejor café tecnológico!</p>
-                            <p class="text-xs sm:text-sm text-gray-500">Descubre la nueva cafetera inteligente.</p>
-                        </div>
+                    @for (ad of allAds; track ad.id) {
+                    <div class="card bg-base-100 shadow-md p-4">
+                        @if (ad.changePeriodAd.adType === 'TEXT_IMAGE') {
+                        <img [src]="ad.imageUrl" alt="Anuncio" class="w-full h-24 object-cover rounded-lg mb-2" />
+                        <p class="font-semibold text-sm">{{ ad.content }}</p>
+                        } @else if (ad.changePeriodAd.adType === 'VIDEO') {
+                        <iframe [src]="ad.videoUrl | safeUrl" class="w-full h-24 rounded-lg mb-2" frameborder="0"
+                            allowfullscreen></iframe>
+                        } @else if (ad.changePeriodAd.adType === 'TEXT') {
+                        <p class="font-semibold text-sm">{{ ad.content }}</p>
+                        }
                     </div>
-                    <div
-                        class="card bg-base-100 shadow-md flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4">
-                        <img src="https://cdn.pixabay.com/photo/2015/07/17/22/43/student-849825_1280.jpg"
-                            alt="Anuncio 2" class="w-full sm:w-32 h-24 object-cover rounded-lg" />
-                        <div class="flex-1">
-                            <p class="font-semibold text-sm sm:text-base">Cursos de IA para el futuro</p>
-                            <p class="text-xs sm:text-sm text-gray-500">Aprende con los mejores expertos.</p>
-                        </div>
-                    </div>
+                    }
                 </div>
             </div>
         </div>
@@ -143,14 +145,22 @@
         }
     </div>
 
-    <!-- Anuncio Derecho -->
-    <div class="hidden lg:block lg:col-span-2 min-w-[200px]">
-        <div class="card bg-base-100 shadow-md p-4 sticky top-20">
-            <img src="https://cdn.pixabay.com/photo/2015/07/17/22/43/student-849825_1280.jpg" 
-                 alt="Anuncio 2" 
-                 class="w-full h-48 object-cover rounded-lg mb-2" />
-            <p class="font-semibold text-sm">Cursos de IA para el futuro</p>
-            <p class="text-xs text-gray-500">Aprende con los mejores expertos.</p>
+    <!-- Anuncios Derechos -->
+    <div class="hidden lg:block lg:col-span-2 min-w-[200px] py-[70px]">
+        <div class="space-y-4">
+            @for (ad of rightAds; track ad.id) {
+            <div class="card bg-base-100 shadow-md p-4">
+                @if (ad.changePeriodAd.adType === 'TEXT_IMAGE') {
+                <img [src]="ad.imageUrl" alt="Anuncio" class="w-full h-48 rounded-lg mb-2" />
+                <p class="font-semibold text-sm">{{ ad.content }}</p>
+                } @else if (ad.changePeriodAd.adType === 'VIDEO') {
+                <iframe [src]="ad.videoUrl | safeUrl" class="w-full h-48 rounded-lg mb-2" frameborder="0"
+                    allowfullscreen></iframe>
+                } @else if (ad.changePeriodAd.adType === 'TEXT') {
+                <p class="font-semibold text-sm">{{ ad.content }}</p>
+                }
+            </div>
+            }
         </div>
     </div>
 </div>
