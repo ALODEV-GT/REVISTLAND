@@ -1,0 +1,85 @@
+<div class="card bg-base-300">
+  <div class="card-body gap-6">
+    <h1 class="card-title flex-col items-center gap-0">
+      <span class="text-primary">Mi Cartera Digital</span>
+      <span class="text-gray-500 text-sm">Saldo disponible</span>
+    </h1>
+
+    <div class="flex flex-col justify-between items-center">
+      <p class="text-sm text-gray-300">Saldo actual</p>
+      <p class="text-3xl font-bold text-success">
+        {{ wallet?.balance || 0 | currency : "GTQ" : "symbol-narrow" }}
+      </p>
+    </div>
+
+    <div
+      class="overflow-hidden transition-all duration-300 easy-in-out"
+      [ngClass]="{ 'h-0': !formOpen, 'h-[8rem]': formOpen }"
+    >
+      <form [formGroup]="walletForm" class="w-full">
+        <fieldset
+          class="fieldset border border-base-300 rounded-box relative pt-2 p-0"
+        >
+          <legend class="fieldset-legend">Recargar saldo en cartera</legend>
+
+          <label class="fieldset-label">
+            Cantidad a recargar
+            <span class="text-xs text-error">*</span>
+          </label>
+
+          <div class="join">
+            <input
+              type="number"
+              class="input join-item"
+              formControlName="amount"
+              name="amount"
+              [ngClass]="{
+                'input-error': walletForm.touched && walletForm.invalid,
+                'input-success': walletForm.touched && walletForm.valid
+              }"
+            />
+            <button
+              class="btn join-item"
+              (click)="updateWallet()"
+              [ngClass]="{
+                'btn-disabled': walletForm.invalid,
+                'btn-primary': walletForm.valid
+              }"
+            >
+              Recargar
+            </button>
+          </div>
+
+          @if (walletForm.touched) { @if (walletForm.valid) {
+          <label class="fieldset-label text-slate-500">
+            Cantidad resultante {{ walletForm.value.amount }}
+          </label>
+          } @else {
+          <label class="fieldset-label text-slate-500 text-error">
+            El monto no puede ser menor a 1
+          </label>
+          } }
+        </fieldset>
+      </form>
+    </div>
+
+    <div class="card-actions justify-end">
+      <button
+        class="btn align-center"
+        [ngClass]="{
+          'btn-primary': !formOpen,
+          'btn-outline btn-error': formOpen
+        }"
+        (click)="toggleForm()"
+      >
+        @if (formOpen) {
+        <i-lucide size="14" [img]="Cancel"></i-lucide>
+        <span>Cancelar</span>
+        } @else {
+        <i-lucide size="14" [img]="Recharge"></i-lucide>
+        <span>Recargar</span>
+        }
+      </button>
+    </div>
+  </div>
+</div>

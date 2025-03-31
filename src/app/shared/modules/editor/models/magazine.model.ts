@@ -6,6 +6,7 @@ interface BaseMagazine {
   disableLikes?: boolean;
   disableComments?: boolean;
   disableSuscriptions?: boolean;
+  createdAt: string;
 }
 
 export type FlatMagazine = BaseMagazine & {

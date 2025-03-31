@@ -71,6 +71,15 @@ export class MagazineService {
     return this.http.put<MinimalMagazine>(`${this.baseUrl}/${id}`, magazine);
   }
 
+  updateAdBlockingExpirationDate(
+    id: number,
+    expirationDate: string
+  ): Observable<MinimalMagazine> {
+    return this.http.patch<MinimalMagazine>(`${this.baseUrl}/${id}/ads`, {
+      adBlockingExpirationDate: expirationDate,
+    });
+  }
+
   updateIssue(
     magazineId: number,
     issueId: number,

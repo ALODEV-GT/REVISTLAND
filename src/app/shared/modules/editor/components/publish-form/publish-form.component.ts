@@ -46,8 +46,8 @@ export class PublishFormComponent {
     description: ['', [Validators.required, Validators.minLength(3)]],
     categoryId: [0, [Validators.required, Validators.min(1)]],
     tagIds: [[], [Validators.required, Validators.minLength(1)]],
-    adBlockingExpirationDate: [''],
-    adBlock: [false],
+    createdAt: [''],
+    customCreatedAt: [false],
     disableLikes: [false],
     disableComments: [false],
     disableSuscriptions: [false],
@@ -102,8 +102,8 @@ export class PublishFormComponent {
       return;
     }
     const magazine: NewMagazine = this.magazineForm.getRawValue();
-    if (!this.magazineForm.get('adBlock')?.value) {
-      magazine.adBlockingExpirationDate = '';
+    if (!isNaN(Date.parse(magazine.createdAt))) {
+      magazine.createdAt = '';
     }
     this.creatingMagazine = true;
     this.magazineService.createMagazine(magazine).subscribe({
