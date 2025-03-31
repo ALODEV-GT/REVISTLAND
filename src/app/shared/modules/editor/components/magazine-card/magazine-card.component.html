@@ -104,9 +104,12 @@
 
     <!-- BEDGIN: Botones de acciones -->
     <div class="flex justify-evenly mt-4">
-      <button class="btn btn-sm btn-soft outline btn-info h-fit p-1">
-        <i-lucide size="18" [img]="Details" />
-        Detalles
+      <button
+        class="btn btn-sm btn-soft outline btn-info h-fit p-1"
+        (click)="blockAds()"
+      >
+        <i-lucide size="18" [img]="BlockAds" />
+        Mejorar
       </button>
 
       <button

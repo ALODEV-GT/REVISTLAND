@@ -98,7 +98,11 @@
     class="border-1 border-slate-600 p-6 rounded-sm flex flex-col gap-8 items-center"
     (click)="toggleFilter(false)"
   >
-    @if (chargingData) { Cargando... } @else if (reportData) {
+    @if (chargingData) {
+    <p class="text-center">
+      <span class="loading loading-dots loading-xs"></span>
+    </p>
+    } @else if (reportData) {
     <h2 class="text-primary text-3xl font-bold">{{ activeReport.name }}</h2>
     @if (reportData.stats) {
     <div class="stats shadow bg-base-300">

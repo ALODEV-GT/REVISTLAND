@@ -21,10 +21,7 @@ export type FlatMagazine = BaseMagazine & {
   updatedAt: string;
 };
 
-export type EditMagazine = Omit<
-  BaseMagazine,
-  'id' | 'adBlockingExpirationDate'
-> & {
+export type EditMagazine = Omit<BaseMagazine, 'id'> & {
   categoryId: number;
   tagIds: number[];
 };
