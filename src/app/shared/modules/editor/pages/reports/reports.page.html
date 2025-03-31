@@ -106,21 +106,26 @@
     <h2 class="text-primary text-3xl font-bold">{{ activeReport.name }}</h2>
     @if (reportData.stats) {
     <div class="stats shadow bg-base-300">
-      <div class="stat grid-cols-[24px_24px_40px] text-accent">
+      <div class="stat grid-cols-[24px_24px_1fr] text-accent">
         <div class="stat-figure col-start-1">
           <i-lucide [img]="Total" />
         </div>
         <div class="stat-figure col-start-2">
           <i-lucide [img]="activeReport.Icon" />
         </div>
-        <div class="stat-value col-start-3">{{ reportData.stats.total }}</div>
-        <div class="stat-title col-span-4">{{ activeReport.totalTitle }}</div>
+        <div class="stat-value col-start-3">
+          {{ activeReport.titleInCurrency ? (reportData.stats.total | currency :
+          "GTQ" : "symbol-narrow") : reportData.stats.total }}
+        </div>
+        <div class="stat-title col-span-3 text-right">{{ activeReport.totalTitle }}</div>
       </div>
 
       @if (reportData.stats.averagePerMagazine) {
-      <div class="stat grid-cols-[40px_24px_32px] text-info">
+      <div class="stat grid-cols-[1fr_24px_32px] text-info">
         <div class="stat-value col-start-1 text-right">
-          {{ reportData.stats.averagePerMagazine }}
+          {{ activeReport.titleInCurrency ? (reportData.stats.averagePerMagazine
+          | currency : "GTQ" : "symbol-narrow") :
+          reportData.stats.averagePerMagazine }}
         </div>
         <div class="stat-figure col-start-2">
           <i-lucide [img]="activeReport.Icon" />
@@ -129,7 +134,7 @@
           <span class="text-[0.65rem]">por</span>
           <i-lucide [img]="Average" />
         </div>
-        <div class="stat-title col-span-4">{{ activeReport.averageTitle }}</div>
+        <div class="stat-title col-span-3">{{ activeReport.averageTitle }}</div>
       </div>
       }
     </div>

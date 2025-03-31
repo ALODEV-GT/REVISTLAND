@@ -7,6 +7,7 @@ export interface Report {
   name: string;
   totalTitle: string;
   averageTitle: string;
+  titleInCurrency?: boolean;
   Icon: typeof MessagesSquare;
   topTitle?: string;
 }
@@ -58,8 +59,9 @@ export const allReports: Report[] = [
   {
     type: 'payments',
     name: 'Reporte de pagos',
-    totalTitle: 'Total de pagos',
-    averageTitle: 'Media de pagos por revista',
+    totalTitle: 'Total pagado',
+    averageTitle: 'Media pagado por revista',
+    titleInCurrency: true,
     Icon: Banknote,
   },
 ];
