@@ -74,7 +74,12 @@ export class PublishIssueFormComponent implements OnChanges {
       return;
     }
     const file = target.files[0];
-    if (file.type !== 'application/pdf') {
+    if (file.type !== 'application/pdf' || file.size > 10485760) {
+      this.alertStore.addAlert({
+        message:
+          'El archivo debe ser un archivo PDF de un tamaño inferior a 10MB',
+        type: 'error',
+      });
       return;
     }
     this.issueForm.get('pdf')?.setValue(file);

@@ -1,0 +1,183 @@
+<div class="min-w-fit max-w-full mx-2 sm:mx-8">
+  <div class="tabs tabs-lift relative">
+    @for (report of reports; track report) {
+    <input
+      type="radio"
+      class="tab bg-base-300 mx-px [--tab-border-color:gray]"
+      name="report-tabs"
+      [value]="report.type"
+      [checked]="activeReport.type === report.type"
+      [attr.aria-label]="report.name"
+      (change)="toggleTab($event)"
+    />
+    }
+
+    <div class="grow"></div>
+
+    <div class="flex items-center gap-2">
+      <button
+        class="btn btn-xs btn-outline border-none btn-secondary items-center"
+        (click)="toggleFilter()"
+        [ngClass]="{ 'btn-active': isFilterOpen }"
+      >
+        <i-lucide size="16" [img]="AddFilter" />
+        <span>
+          {{ (+!!filterForm.value.endDate + +!!filterForm.value.startDate +
+          +!!filterForm.value.magazineId) || "" }}
+        </span>
+        <span>Filtros</span>
+      </button>
+
+      <button
+        class="btn btn-xs btn-outline border-none btn-error items-center"
+        (click)="toggleFilter(false)"
+      >
+        <i-lucide size="16" [img]="Export" />
+        <span>Exportar</span>
+      </button>
+
+      <button
+        class="btn btn-xs btn-soft btn-primary items-center"
+        (click)="toggleFilter(false); generateReport();"
+      >
+        <i-lucide size="16" [img]="GenerateReport" />
+        <span>Generar</span>
+      </button>
+    </div>
+
+    <form
+      class="absolute top-10 right-0 z-500 bg-base-300 shadow-md transition-all duration-300 ease-in-out overflow-hidden"
+      [formGroup]="filterForm"
+      [ngClass]="{ 'h-0 w-[4rem]': !isFilterOpen, 'h-[16rem] w-[20rem]': isFilterOpen }"
+    >
+      <fieldset
+        class="fieldset w-xs border border-base-300 p-4 rounded-box relative"
+      >
+        <legend class="fieldset-legend">Filtrar por</legend>
+
+        <button
+          class="absolute -top-6 right-1 btn btn-xs btn-outline border-none btn-error items-center"
+        >
+          <i-lucide size="16" [img]="ClearFilter" />
+        </button>
+
+        <label class="fieldset-label">Fecha de publicación</label>
+
+        <label class="fieldset-label text-xs text-gray-500 gap-4">
+          <span>Desde:</span>
+          <input
+            type="date"
+            class="input"
+            formControlName="startDate"
+            name="startDate"
+          />
+        </label>
+
+        <label class="fieldset-label text-xs text-gray-500 gap-4">
+          <span class="mr-1">Hasta:</span>
+          <input
+            type="date"
+            class="input"
+            formControlName="endDate"
+            name="endDate"
+          />
+        </label>
+
+        <label class="fieldset-label mt-2">Revista</label>
+        <select formControlName="magazineId" name="magazineId" class="select">
+          <option selected [ngValue]="0">Sin filtro</option>
+          @for (magazine of magazines; track magazine) {
+          <option [ngValue]="magazine.id">{{ magazine.title }}</option>
+          }
+        </select>
+      </fieldset>
+    </form>
+  </div>
+
+  <div
+    class="border-1 border-slate-600 p-6 rounded-sm flex flex-col gap-8 items-center"
+    (click)="toggleFilter(false)"
+  >
+    @if (chargingData) { Cargando... } @else if (reportData) {
+    <h2 class="text-primary text-3xl font-bold">{{ activeReport.name }}</h2>
+    @if (reportData.stats) {
+    <div class="stats shadow bg-base-300">
+      <div class="stat grid-cols-[24px_24px_40px] text-accent">
+        <div class="stat-figure col-start-1">
+          <i-lucide [img]="Total" />
+        </div>
+        <div class="stat-figure col-start-2">
+          <i-lucide [img]="activeReport.Icon" />
+        </div>
+        <div class="stat-value col-start-3">{{ reportData.stats.total }}</div>
+        <div class="stat-title col-span-4">{{ activeReport.totalTitle }}</div>
+      </div>
+
+      @if (reportData.stats.averagePerMagazine) {
+      <div class="stat grid-cols-[40px_24px_32px] text-info">
+        <div class="stat-value col-start-1 text-right">
+          {{ reportData.stats.averagePerMagazine }}
+        </div>
+        <div class="stat-figure col-start-2">
+          <i-lucide [img]="activeReport.Icon" />
+        </div>
+        <div class="stat-figure col-start-3 flex items-center gap-1">
+          <span class="text-[0.65rem]">por</span>
+          <i-lucide [img]="Average" />
+        </div>
+        <div class="stat-title col-span-4">{{ activeReport.averageTitle }}</div>
+      </div>
+      }
+    </div>
+    } @if (reportData.data.length) {
+    <div class="overflow-x-auto w-full">
+      <table class="table">
+        <thead class="text-primary bg-base-300">
+          <tr>
+            <th class="text-slate-500">#</th>
+            @for (header of reportData.headers; track $index) {
+            <th>{{ header }}</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of reportData.data; track $index) {
+          <tr class="even:bg-base-200 hover:bg-accent-content">
+            <td class="text-slate-500">{{ $index + 1 }}</td>
+            @for (cell of row; track $index) { @if (toDate(cell)) {
+            <td>{{ toDate(cell) | date: 'mediumDate' }}</td>
+            } @else {
+            <td>{{ cell }}</td>
+            } }
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    } @if (reportData.topDataHeaders && reportData.topData?.length) {
+    <h2 class="text-secondary text-2xl font-bold">Top Revistas</h2>
+    <div class="overflow-x-auto w-full">
+      <table class="table">
+        <thead class="text-secondary bg-base-300">
+          <tr>
+            @for (header of reportData.topDataHeaders; track $index) {
+            <th>{{ header }}</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of reportData.topData; track $index) {
+          <tr class="even:bg-base-200 hover:bg-accent-content">
+            @for (cell of row; track $index) { @if (toDate(cell)) {
+            <td>{{ toDate(cell) | date: 'mediumDate' }}</td>
+            } @else {
+            <td>{{ cell }}</td>
+            } }
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    } }
+  </div>
+</div>

@@ -6,6 +6,7 @@ interface BaseMagazine {
   disableLikes?: boolean;
   disableComments?: boolean;
   disableSuscriptions?: boolean;
+  createdAt: string;
 }
 
 export type FlatMagazine = BaseMagazine & {
@@ -20,7 +21,10 @@ export type FlatMagazine = BaseMagazine & {
   updatedAt: string;
 };
 
-export type EditMagazine = Omit<BaseMagazine, 'id'> & {
+export type EditMagazine = Omit<
+  BaseMagazine,
+  'id' | 'adBlockingExpirationDate'
+> & {
   categoryId: number;
   tagIds: number[];
 };
