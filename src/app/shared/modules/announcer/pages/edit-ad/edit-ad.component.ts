@@ -149,8 +149,11 @@ export class EditAdComponent {
   }
 
   formatDateTime(date: any): string {
-    const parsedDate = date instanceof Date ? date : new Date(date);
-    return parsedDate.toISOString().split('T')[0] + ' ' + parsedDate.toTimeString().slice(0, 5) + ' hrs';
+    const dateString = `${date}`
+    const [datePart, timePart] = dateString.split('T');
+    const time = timePart.slice(0, 5);
+
+    return `${datePart} ${time} hrs`;
   }
 
   validateURL(url: string): boolean {
