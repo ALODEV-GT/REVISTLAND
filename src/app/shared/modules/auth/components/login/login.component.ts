@@ -57,6 +57,7 @@ export class LoginComponent {
       case 'EDITOR':
         break
       case 'ADMIN':
+        this.router.navigate(['admin/dashboard'])
         break
       case 'USER':
         this.router.navigate(['rl/home'])

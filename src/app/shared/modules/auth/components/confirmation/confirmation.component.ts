@@ -67,7 +67,7 @@ export class ConfirmationComponent {
         this.router.navigate(['admin/'])
         break;
       case 'USER':
-
+        this.router.navigate(['rl/home'])
         break;
 
       case 'ANNOUNCER':
