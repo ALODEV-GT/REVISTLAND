@@ -26,7 +26,7 @@
         class="max-w-3xl mx-auto bg-base-100 p-6 shadow-lg rounded-lg grid grid-cols-1 md:grid-cols-2 gap-4">
 
 
-        @if (TypeAd.TEXT !== typeAd) {
+        @if (TypeAd.VIDEO === typeAd) {
         <!-- Input URL -->
         <div>
             <label class="label"><span class="label-text">URL del Anuncio</span></label>
@@ -38,10 +38,17 @@
         </div>
         }
 
+        @if (TypeAd.TEXT_IMAGE === typeAd) {
+        <div>
+            <label class="label"><span class="label-text">Imagen del anuncio</span></label>
+            <input type="file" class="input input-bordered w-full" placeholder="https://ejemplo.com/anuncio"
+                accept="image/*" required (change)="onFileSelected($event)" />
+        </div>
+        }
+
         <div>
             <label class="label"><span class="label-text">Fecha Expiracion</span></label>
-            <input type="url" class="input input-bordered w-full" value={{formatDateTime(ad.expiresAt)}}
-                 disabled />
+            <input type="url" class="input input-bordered w-full" value={{formatDateTime(ad.expiresAt)}} disabled />
         </div>
 
         @if (TypeAd.VIDEO !== typeAd) {
@@ -103,7 +110,8 @@
 <dialog #modal class="modal">
     <div class="modal-box">
         <h3 class="font-bold text-lg">Seguro de Desactivar el anuncio?</h3>
-        <p class="py-2">Al desactivar el anuncio acepta: Al volver activarlo tendra que elegir otro periodo de vigencia y se le cobrara</p>
+        <p class="py-2">Al desactivar el anuncio acepta: Al volver activarlo tendra que elegir otro periodo de vigencia
+            y se le cobrara</p>
 
         <div class="modal-action">
             <button class="btn btn-success" (click)="confirm()">Confirmar</button>
@@ -115,14 +123,12 @@
 
 <!-- Modal de exitosa -->
 <dialog #modal1 id="my_modal_1" class="modal">
-    <app-modal-msg [title]="titleModal" [content]="titleModal"
-        [className]="'text-purple-700 text-lg'">
+    <app-modal-msg [title]="titleModal" [content]="titleModal" [className]="'text-purple-700 text-lg'">
     </app-modal-msg>
 </dialog>
 
 <!-- Modal de  fallida-->
 <dialog #modal2 id="my_modal_1" class="modal">
-    <app-modal-msg [title]="titleModal" [content]="errorMessageModal"
-        [className]="'text-red-700 text-lg'">
+    <app-modal-msg [title]="titleModal" [content]="errorMessageModal" [className]="'text-red-700 text-lg'">
     </app-modal-msg>
 </dialog>

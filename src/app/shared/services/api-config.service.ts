@@ -18,11 +18,16 @@ export class ApiConfigService {
     API_MAGAZINES = `${this.API_BASE}/magazines`;
     API_CATEGORIES = `${this.API_BASE}/categories`;
     API_TAGS = `${this.API_BASE}/tags`;
+    API_PROFILE = `${this.API_BASE}/user`
 
-    /* reports */
+    /* reports admin*/
     API_REPORT = `${this.API_BASE}/reports`
+    API_ADMIN = `${this.API_BASE}/admin`
+    API_EXPORT = `${this.API_ADMIN}/exports`
+    API_EDITOR_REPORTS = `${this.API_BASE}/editors/reports`
 
     /*Configurations */
     API_CONFIGURATION = `${this.API_BASE}/configurations`
+    API_UPLOAD = `${this.API_BASE}/upload`
 
 }

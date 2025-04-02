@@ -55,15 +55,19 @@ export class LoginComponent {
   redirect(role: string) {
     switch (role) {
       case 'EDITOR':
+        break
       case 'ADMIN':
+        this.router.navigate(['admin/dashboard'])
+        break
       case 'USER':
+        this.router.navigate(['rl/home'])
+        break
       case 'ANNOUNCER':
         this.router.navigate([`${role.toLocaleLowerCase()}/`])
         break;
-
       default:
         // defult to USER
-        this.router.navigate(['suscriptor/'])
+        this.router.navigate(['rl/home'])
         break;
     }
   }

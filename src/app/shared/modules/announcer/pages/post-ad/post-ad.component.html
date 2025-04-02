@@ -96,7 +96,7 @@
             </select>
         </div>
 
-        @if (TypeAd.TEXT !== typeAd) {
+        @if (TypeAd.VIDEO === typeAd) {
         <!-- Input URL -->
         <div>
             <label class="label"><span class="label-text">URL del Anuncio</span></label>
@@ -106,6 +106,14 @@
             <p class="text-red-600 text-sm">Debe ingresar una URL válida.</p>
             }
         </div>
+        }
+
+        @if (TypeAd.TEXT_IMAGE === typeAd) {
+            <div>
+                <label class="label"><span class="label-text">Imagen del anuncio</span></label>
+                <input type="file" class="input input-bordered w-full" placeholder="https://ejemplo.com/anuncio" 
+                accept="image/*" required  (change)="onFileSelected($event)"/>
+            </div>
         }
 
         @if (TypeAd.VIDEO !== typeAd) {

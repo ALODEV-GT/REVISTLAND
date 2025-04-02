@@ -6,6 +6,7 @@ interface BaseMagazine {
   disableLikes?: boolean;
   disableComments?: boolean;
   disableSuscriptions?: boolean;
+  createdAt: string;
 }
 
 export type FlatMagazine = BaseMagazine & {
@@ -24,6 +25,17 @@ export type EditMagazine = Omit<BaseMagazine, 'id'> & {
   categoryId: number;
   tagIds: number[];
 };
+
+
+export interface Issue {
+  id: number;
+  title: string;
+  pdfUrl: string;
+  magazineId: number;
+  magazineTitle: string;
+  publishedAt: string;
+  updatedAt: string;
+}
 
 export type NewMagazine = EditMagazine;
 

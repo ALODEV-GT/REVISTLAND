@@ -1,0 +1,101 @@
+<div class="container mx-auto py-10 mt-[66px]">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 px-4">
+        <!-- Anuncios Izquierdos (Desktop) -->
+        <div class="hidden lg:block lg:col-span-2">
+            @for (ad of leftAds; track $index) {
+            <div class="card bg-base-100 shadow-md p-4 mb-4">
+                @if (ad.changePeriodAd.adType === 'TEXT_IMAGE') {
+                <img [src]="ad.imageUrl" alt="Anuncio" class="w-full h-48 rounded-lg mb-2" />
+                <p class="font-semibold text-sm">{{ ad.content }}</p>
+                } @else if (ad.changePeriodAd.adType === 'VIDEO') {
+                <iframe [src]="ad.videoUrl | safeUrl" class="w-full h-48 rounded-lg mb-2" frameborder="0"
+                    allowfullscreen></iframe>
+                } @else if (ad.changePeriodAd.adType === 'TEXT') {
+                <p class="font-semibold text-sm">{{ ad.content }}</p>
+                }
+            </div>
+            }
+        </div>
+
+        <!-- Contenido Principal -->
+        <div class="col-span-1 lg:col-span-8">
+            <div class="mt-10 lg:hidden">
+                <h2 class="text-xl sm:text-2xl font-semibold mb-4">Anuncios</h2>
+                <div class="space-y-4">
+                    @for (ad of allAds.slice(0, 2); track $index) {
+                    <div
+                        class="card bg-base-100 shadow-md flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4">
+                        @if (ad.changePeriodAd.adType === 'TEXT_IMAGE') {
+                        <img [src]="ad.imageUrl" alt="Anuncio" class="w-full sm:w-32 h-24 object-cover rounded-lg" />
+                        <div class="flex-1">
+                            <p class="font-semibold text-sm sm:text-base">{{ ad.content }}</p>
+                        </div>
+                        } @else if (ad.changePeriodAd.adType === 'VIDEO') {
+                        <iframe [src]="ad.videoUrl | safeUrl" class="w-full sm:w-32 h-24 rounded-lg" frameborder="0"
+                            allowfullscreen></iframe>
+                        } @else if (ad.changePeriodAd.adType === 'TEXT') {
+                        <p class="font-semibold text-sm sm:text-base">{{ ad.content }}</p>
+                        }
+                    </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Mis Suscripciones -->
+            <h2 class="text-3xl font-semibold text-center mb-8">Mis suscripciones</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+                @if (magazines.length > 0) {
+                @for (magazine of magazines; track magazine.id) {
+                <div (click)="seeMagazineDetail(magazine.id)"
+                    class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow relative cursor-pointer">
+                    <div class="absolute top-2 right-2">
+                        <span class="badge badge-primary">{{magazine.category.name}}</span>
+                    </div>
+                    <figure><img [src]="categoryService.getImageCategory(magazine.category.name)" alt="Revista 1"
+                            class="w-full h-48 object-cover rounded-t-xl" />
+                    </figure>
+                    <div class="card-body">
+                        <h2 class="card-title text-lg">{{magazine.title}}</h2>
+                        <p class="text-sm text-gray-600">{{magazine.description}}</p>
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <span class="badge badge-outline badge-sm">Tech</span>
+                            <span class="badge badge-outline badge-sm">Innovación</span>
+                        </div>
+                        <div class="divider m-0"></div>
+                        <div class="flex flex-row items-center justify-between">
+                            <span>
+                                <strong>Autor:</strong> {{magazine.editor.profile.firstName}}
+                                {{magazine.editor.profile.lastName}}
+                            </span>
+                            <span class="flex flex-row gap-4">
+                                <lucide-icon [name]="Heart"></lucide-icon>
+                                {{magazine.likeCount}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                }
+                } @else {
+                <h2>No hay ninguna suscripción.</h2>
+                }
+            </div>
+        </div>
+
+        <!-- Anuncios Derechos (Desktop) -->
+        <div class="hidden lg:block lg:col-span-2">
+            @for (ad of rightAds; track $index) {
+            <div class="card bg-base-100 shadow-md p-4 mb-4">
+                @if (ad.changePeriodAd.adType === 'TEXT_IMAGE') {
+                <img [src]="ad.imageUrl" alt="Anuncio" class="w-full h-48 object-cover rounded-lg mb-2" />
+                <p class="font-semibold text-sm">{{ ad.content }}</p>
+                } @else if (ad.changePeriodAd.adType === 'VIDEO') {
+                <iframe [src]="ad.videoUrl | safeUrl" class="w-full h-48 rounded-lg mb-2" frameborder="0"
+                    allowfullscreen></iframe>
+                } @else if (ad.changePeriodAd.adType === 'TEXT') {
+                <p class="font-semibold text-sm">{{ ad.content }}</p>
+                }
+            </div>
+            }
+        </div>
+    </div>
+</div>

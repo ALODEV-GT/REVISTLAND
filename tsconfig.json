@@ -5,6 +5,12 @@
   "compilerOptions": {
     "baseUrl": "src",
     "paths": {
+      "@subscriber/*": [
+        "app/modules/users/subscriber/*"
+      ],
+      "@users/*": [
+        "app/modules/users/*"
+      ],
       "@environment/*": [
         "environments/*"
       ],

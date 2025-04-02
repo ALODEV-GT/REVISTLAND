@@ -1,0 +1,52 @@
+<div class="text-center mb-2">
+  <h1 class="text-3xl font-bold text-primary">Mejorar revista</h1>
+  <h6 class="text-xs text-gray-500 mb-4">
+    El bloqueo de anuncios mejora la experiencia de lectura
+  </h6>
+
+  <form [formGroup]="blockAdsForm" class="space-y-4">
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">
+        <span>Fecha de expiración del bloqueo de anuncios</span>
+      </legend>
+      <input
+        type="date"
+        formControlName="expirationDate"
+        name="expirationDate"
+        class="input input-bordered w-full"
+      />
+    </fieldset>
+
+    <div class="flex justify-evenly mb-4">
+      <span class="badge badge-secondary badge-soft">
+        Costo diario @if (costPerDay) {
+        {{ costPerDay | currency : "GTQ" : "symbol-narrow" }}
+        } @else {
+        <span class="loading loading-dots loading-xs"></span>
+        }
+      </span>
+      <span class="badge badge-success badge-soft">
+        Saldo actual @if (currentBalance) {
+        {{ currentBalance | currency : "GTQ" : "symbol-narrow" }}
+        } @else {
+        <span class="loading loading-dots loading-xs"></span>
+        }
+      </span>
+    </div>
+
+    <div class="flex justify-evenly mb-2">
+      <button
+        class="btn transition-all duration-300 ease-in-out"
+        [ngClass]="{
+          'btn-primary': !updatingMagazine,
+          'btn-disabled': updatingMagazine || this.blockAdsForm.invalid
+        }"
+        (click)="blockAds()"
+      >
+        @if (updatingMagazine) {
+        <span class="loading loading-dots loading-xs"></span>
+        } @else { Mejorar revista }
+      </button>
+    </div>
+  </form>
+</div>

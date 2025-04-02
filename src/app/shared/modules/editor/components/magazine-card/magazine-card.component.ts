@@ -6,8 +6,8 @@ import { AlertStore } from 'app/store/alert.store';
 import { ModalStore } from 'app/store/modal.store';
 import {
   Banknote,
+  BrickWall,
   CalendarArrowUp,
-  ExternalLink,
   Eye,
   Files,
   Heart,
@@ -38,11 +38,21 @@ export class MagazineCardComponent {
   readonly Likes = Heart;
   readonly Comments = MessagesSquare;
   readonly Follow = Eye;
-  readonly Details = ExternalLink;
+  readonly BlockAds = BrickWall;
   readonly Edit = Pencil;
   readonly Delete = Trash2;
 
   @Input() magazine!: FlatMagazine;
+
+  blockAds() {
+    this.modalStore.openModal(
+      () =>
+        import('@editor/components/block-ads/block-ads.component').then(
+          (m) => m.BlockAdsComponent
+        ),
+      { magazineId: this.magazine.id }
+    );
+  }
 
   editMagazine() {
     this.modalStore.openModal(

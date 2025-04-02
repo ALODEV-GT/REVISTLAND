@@ -39,11 +39,12 @@ export class DashboardComponent {
 
   // awecixwa
   private readonly _dashboardService = inject(DashboadService)
-  
-  
+
+
   //arrays
   postAdCountMount: PostAdMount[] = []
   postMagazineCountMount: PostAdMount[] = []
+  registerUserMonth: PostAdMount[] = []
 
   startDate: string = '';
   endDate: string = '';
@@ -58,7 +59,7 @@ export class DashboardComponent {
         width: 380,
         type: "pie"
       },
-      labels: ["Editor", "Anunciador", "Subscriptor"],
+      labels: ["Editor", "Anunciador", "Suscriptor"],
       responsive: [
         {
           breakpoint: 480,
@@ -76,15 +77,16 @@ export class DashboardComponent {
   }
 
   ngOnInit() {
-    this.getAdCountsByMonth()
-    this.getMagazineCountsByMonth()
-    this.getCountRegisterByroler()
+    this.getAdCountsByMonth();
+    this.getMagazineCountsByMonth();
+    this.getCountRegisterByroler();
+    this.getUserRegisterByMonth();
   }
 
   getAdCountsByMonth() {
     if (this.startDate === '' || this.endDate === '') {
       this._dashboardService.getAdCountsByMonth().subscribe({
-        next: value => {          
+        next: value => {
           this.postAdCountMount = value
         }
       })
@@ -94,6 +96,24 @@ export class DashboardComponent {
     this._dashboardService.getAdCountsByMonth(this.startDate, this.endDate).subscribe({
       next: value => {
         this.postAdCountMount = value
+      }
+    })
+
+  }
+
+  getUserRegisterByMonth() {
+    if (this.startDate === '' || this.endDate === '') {
+      this._dashboardService.getRegisterUsers().subscribe({
+        next: value => {
+          this.registerUserMonth = value
+        }
+      })
+      return
+    }
+
+    this._dashboardService.getRegisterUsers(this.startDate, this.endDate).subscribe({
+      next: value => {
+        this.registerUserMonth = value
       }
     })
 
@@ -140,7 +160,7 @@ export class DashboardComponent {
     this.getCountRegisterByroler()
   }
 
-  buildCharPie(value: CountRegisterByRolDto[]){
+  buildCharPie(value: CountRegisterByRolDto[]) {
     const series = [0, 0, 0]
     for (const a of value) {
       if (a.typeUser === 'ANNOUNCER') {
@@ -163,7 +183,7 @@ export class DashboardComponent {
         width: 380,
         type: "pie"
       },
-      labels: ["Editor", "Anunciador", "Subscriptor"],
+      labels: ["Editor", "Anunciador", "Suscriptor"],
       responsive: [
         {
           breakpoint: 480,

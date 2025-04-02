@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
   MagazineIssue,
@@ -12,6 +12,8 @@ import {
 } from '@editor/models/magazine.model';
 import { ApiConfigService } from '@shared/services/api-config.service';
 import { Observable } from 'rxjs';
+import { Page } from '@shared/models/Page';
+import { MagazineItem } from '@subscriber/models/magazine';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +22,7 @@ export class MagazineService {
   private readonly baseUrl = inject(ApiConfigService).API_MAGAZINES;
   private readonly http = inject(HttpClient);
 
+  constructor() { }
   getMagazineIssue(
     magazineId: number,
     issueId: number
@@ -68,6 +71,15 @@ export class MagazineService {
     return this.http.put<MinimalMagazine>(`${this.baseUrl}/${id}`, magazine);
   }
 
+  updateAdBlockingExpirationDate(
+    id: number,
+    expirationDate: string
+  ): Observable<MinimalMagazine> {
+    return this.http.patch<MinimalMagazine>(`${this.baseUrl}/${id}/ads`, {
+      adBlockingExpirationDate: expirationDate,
+    });
+  }
+
   updateIssue(
     magazineId: number,
     issueId: number,
@@ -85,5 +97,23 @@ export class MagazineService {
 
   deleteIssue(magazineId: number, id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${magazineId}/issues/${id}`);
+  }
+
+  getMagazineByCategory(idCategory: number) {
+    const params = new HttpParams()
+      .set("idCategory", idCategory)
+    return this.http.get<Page<MagazineItem>>(`${this.baseUrl}`, { params })
+  }
+
+  getMagazine(id: string) {
+    return this.http.get<MagazineItem>(`${this.baseUrl}/${id}`)
+  }
+
+  getUserMagazines() {
+    return this.http.get<MagazineItem[]>(`${this.baseUrl}/my-subscriptions`)
+  }
+
+  getNewestMagazines() {
+    return this.http.get<MagazineItem[]>(`${this.baseUrl}/newest`)
   }
 }

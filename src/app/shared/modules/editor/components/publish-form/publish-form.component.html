@@ -106,15 +106,15 @@
     </div>
   </fieldset>
 
-  @if (magazineForm.get('adBlock')?.value) {
+  @if (magazineForm.get('customCreatedAt')?.value) {
   <fieldset class="fieldset">
     <legend class="fieldset-legend">
-      <span>Fecha de expiración de bloqueo de anuncios</span>
+      <span>Fecha de creación</span>
     </legend>
     <input
       type="date"
-      formControlName="adBlockingExpirationDate"
-      name="adBlockingExpirationDate"
+      formControlName="createdAt"
+      name="createdAt"
       class="input input-bordered w-full"
     />
   </fieldset>
@@ -125,11 +125,11 @@
       <label class="fieldset-label">
         <input
           type="checkbox"
-          formControlName="adBlock"
-          name="adBlock"
+          formControlName="customCreatedAt"
+          name="customCreatedAt"
           class="toggle toggle-primary"
         />
-        <legend class="fieldset-legend ml-1">Bloquear anuncios</legend>
+        <legend class="fieldset-legend ml-1">Efectos de calificación</legend>
       </label>
     </fieldset>
 

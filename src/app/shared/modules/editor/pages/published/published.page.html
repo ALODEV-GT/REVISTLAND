@@ -1,9 +1,9 @@
-<div class="min-w-fit max-w-full mx-2 sm:mx-8">
+<div class="min-w-fit max-w-full mx-2">
   <div
-    class="flex flex-wrap items-stretch justify-around lg:justify-start gap-8"
+    class="grid grid-cols-[repeat(auto-fill,minmax(26rem,1fr))] justify-items-center w-full gap-4"
   >
     @for (magazine of magazines; track magazine) {
-    <editor-magazine-card [magazine]="magazine" />
+    <editor-magazine-card class="w-fit" [magazine]="magazine" />
     }
   </div>
 </div>

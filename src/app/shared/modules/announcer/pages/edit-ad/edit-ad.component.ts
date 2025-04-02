@@ -8,6 +8,7 @@ import { ChargePeriodAdDto } from '../../models/charge-period-ad.interface';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ModalMsgComponent } from '../../components/modal-msg/modal-msg.component';
+import { UploadImgService } from '../../services/upload-img.service';
 
 @Component({
   selector: 'app-edit-ad',
@@ -25,6 +26,8 @@ export class EditAdComponent {
   private readonly _announcerService = inject(AnnouncerService)
   private readonly route = inject(Router)
   private formBuilder = inject(FormBuilder)
+  private readonly uploadService = inject(UploadImgService)
+
 
   postForm!: FormGroup;
 
@@ -37,6 +40,9 @@ export class EditAdComponent {
   errorMessageModal: string = '';
   titleModal: string = '';
   cost!: number;
+  file!: File
+  formData!: FormData
+
 
 
   chargePeriodAds: ChargePeriodAdDto[] = [];
@@ -143,8 +149,11 @@ export class EditAdComponent {
   }
 
   formatDateTime(date: any): string {
-    const parsedDate = date instanceof Date ? date : new Date(date);
-    return parsedDate.toISOString().split('T')[0] + ' ' + parsedDate.toTimeString().slice(0, 5) + ' hrs';
+    const dateString = `${date}`
+    const [datePart, timePart] = dateString.split('T');
+    const time = timePart.slice(0, 5);
+
+    return `${datePart} ${time} hrs`;
   }
 
   validateURL(url: string): boolean {
@@ -170,18 +179,19 @@ export class EditAdComponent {
       return true;
     }
 
+    if (this.TypeAd.TEXT_IMAGE === this.typeAd) {
+      return true;
+    }
+
     if (this.TypeAd.VIDEO === this.typeAd && this.isVideo(this.postForm.value.url)) {
       return true;
     }
 
-    if (this.TypeAd.TEXT_IMAGE === this.typeAd && this.isImage(this.postForm.value.url)) {
-      return true;
-    }
 
     return false;
   }
 
-  editAd() {
+  async editAd() {
     this.postForm.markAllAsTouched();
     this.postForm.updateValueAndValidity();
 
@@ -200,23 +210,30 @@ export class EditAdComponent {
       return
     }
 
-    const updateAd: updateAd = {content: this.postForm.value.content, imageUrl: this.postForm.value.url,  videoUrl: this.postForm.value.url}
+    try {
+      await this.uplogadImag();
 
-    this._announcerService.updateAD(updateAd, this.ad.id).subscribe({
-      next: value => {
-        this.titleModal = 'Actulizacion Exitosa'
-        this.errorMessageModal = 'El anuncio a sido actualizado exitosamente'
-        this.modalRef1.nativeElement.showModal();
-        this.modalRef1.nativeElement.addEventListener('close', () => {
-          this.route.navigate([`announcer/my-ads`]);
-        }, { once: true });
-      },
-      error: err => {
-        this.titleModal = 'Actualizacion fallida'
-        this.errorMessageModal = err.error.message
-        this.modalRef2.nativeElement.showModal();
-      }
-    })
+      const updateAd: updateAd = { content: this.postForm.value.content, imageUrl: this.postForm.value.url, videoUrl: this.postForm.value.url }
+
+      this._announcerService.updateAD(updateAd, this.ad.id).subscribe({
+        next: value => {
+          this.titleModal = 'Actulizacion Exitosa'
+          this.errorMessageModal = 'El anuncio a sido actualizado exitosamente'
+          this.modalRef1.nativeElement.showModal();
+          this.modalRef1.nativeElement.addEventListener('close', () => {
+            this.route.navigate([`announcer/my-ads`]);
+          }, { once: true });
+        },
+        error: err => {
+          this.titleModal = 'Actualizacion fallida'
+          this.errorMessageModal = err.error.message
+          this.modalRef2.nativeElement.showModal();
+        }
+      })
+    } catch (error) {
+      this.errorMessageModal = 'Ha ocurrido un error al subir la imagen, intente más tarde';
+      this.modalRef2.nativeElement.showModal();
+    }
 
   }
 
@@ -274,6 +291,28 @@ export class EditAdComponent {
 
   goBack() {
     this.route.navigate(['/announcer/my-ads'])
+  }
+
+
+  onFileSelected(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    if (inputElement != null && inputElement.files != null && inputElement.files.length > 0) {
+      this.file = inputElement.files[0];
+      this.formData = new FormData();
+      this.formData.append('file', this.file, this.file.name);
+      this.postForm.patchValue({ url: 'https://res.cloudinary.com/ddkp3bobz/image/upload/v1742243659.web' });
+    }
+  }
+
+  private async uplogadImag(): Promise<void> {
+    if (this.formData) {
+      try {
+        const value = await this.uploadService.saveImg(this.formData).toPromise();
+        this.postForm.patchValue({ url: value.url });
+      } catch (err) {
+        throw new Error('Error en uplogadImag');
+      }
+    }
   }
 
 }

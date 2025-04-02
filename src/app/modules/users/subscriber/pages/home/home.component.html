@@ -1,0 +1,166 @@
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-2 px-2 mx-auto max-w-screen-xl">
+    <!-- Anuncio Izquierdo -->
+    <div class="hidden lg:block lg:col-span-2 min-w-[200px] py-[70px]">
+        <div>
+            @for (ad of leftAds; track $index) {
+            <div class="card bg-base-100 shadow-md p-4">
+                @if (ad.changePeriodAd.adType === 'TEXT_IMAGE') {
+                <img [src]="ad.imageUrl" alt="Anuncio" class="w-full h-48 rounded-lg mb-2" />
+                <p class="font-semibold text-sm">{{ ad.content }}</p>
+                } @else if (ad.changePeriodAd.adType === 'VIDEO') {
+                <iframe [src]="ad.videoUrl | safeUrl" class="w-full h-48 rounded-lg mb-2" frameborder="0"
+                    allowfullscreen></iframe>
+                } @else if (ad.changePeriodAd.adType === 'TEXT') {
+                <p class="font-semibold text-sm">{{ ad.content }}</p>
+                }
+            </div>
+            }
+        </div>
+    </div>
+    <div class="col-span-1 lg:col-span-8">
+        <div class="hero h-fit mt-[66px] py-[20px] bg-gradient-to-r from-primary to-secondary text-white">
+            <div class="hero-content text-center">
+                <div class="max-w-md">
+                    <h1 class="text-4xl font-bold">Descubre Tu Próxima Revista Favorita</h1>
+                    <p class="py-6">Explora una amplia colección de revistas digitales y suscríbete a las que más te
+                        inspiren.</p>
+                    <button class="btn btn-outline btn-accent text-white">Explorar Ahora</button>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="text-3xl font-semibold text-center my-8">Categorias</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 px-5">
+            @for (category of categories; track $index) {
+            <div (click)="loadMagazineByCategory(category)"
+                class="card bg-base-100 shadow-md hover:shadow-lg hover:bg-primary hover:text-white transform hover:scale-105 transition-all duration-200 cursor-pointer">
+                <div class="card-body flex flex-row items-center p-4">
+                    <lucide-icon [name]="package"></lucide-icon>
+                    <p class="ml-2 font-semibold">{{category.name}}</p>
+                </div>
+            </div>
+            }
+        </div>
+
+        <div class="container mx-auto py-10">
+            <h2 class="text-3xl font-semibold text-center mb-4">Lo mas nuevo</h2>
+            <div class="mx-0">
+                <swiper-container #recomendedCarousel init="false">
+                    @for (magazine of newest; track $index) {
+                    <swiper-slide (click)="seeMagazineDetail(magazine.id)">
+                        <div
+                            class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow relative cursor-pointer w-full">
+                            <div class="absolute top-2 right-2">
+                                <span class="badge badge-primary">{{magazine.category.name}}</span>
+                            </div>
+                            <figure><img [src]="categoryService.getImageCategory(magazine.category.name)"
+                                    alt="Revista 1" class="w-full h-48 object-cover rounded-t-xl" />
+                            </figure>
+                            <div class="card-body">
+                                <h2 class="card-title text-lg">{{magazine.title}}</h2>
+                                <p class="text-sm text-gray-600">{{magazine.description}}</p>
+                                <div class="flex flex-wrap gap-2 mt-2">
+                                    <span class="badge badge-outline badge-sm">Tech</span>
+                                    <span class="badge badge-outline badge-sm">Innovación</span>
+                                </div>
+                                <div class="divider m-0"></div>
+                                <div class="flex flex-row items-center justify-between">
+                                    <span>
+                                        <strong>Autor:</strong> {{magazine.editor.profile.firstName}}
+                                        {{magazine.editor.profile.lastName}}
+                                    </span>
+                                    <span class="flex flex-row gap-4">
+                                        <lucide-icon [name]="Heart"></lucide-icon>
+                                        {{magazine.likeCount}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </swiper-slide>
+                    }
+                </swiper-container>
+            </div>
+
+            <div class="mt-6 lg:hidden">
+                <div class="space-y-4">
+                    @for (ad of allAds; track $index) {
+                    <div class="card bg-base-100 shadow-md p-4">
+                        @if (ad.changePeriodAd.adType === 'TEXT_IMAGE') {
+                        <img [src]="ad.imageUrl" alt="Anuncio" class="w-full h-24 object-cover rounded-lg mb-2" />
+                        <p class="font-semibold text-sm">{{ ad.content }}</p>
+                        } @else if (ad.changePeriodAd.adType === 'VIDEO') {
+                        <iframe [src]="ad.videoUrl | safeUrl" class="w-full h-24 rounded-lg mb-2" frameborder="0"
+                            allowfullscreen></iframe>
+                        } @else if (ad.changePeriodAd.adType === 'TEXT') {
+                        <p class="font-semibold text-sm">{{ ad.content }}</p>
+                        }
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        @if (categorySelected) {
+        <div class="container mx-auto py-10">
+            <h2 class="text-3xl font-semibold text-center mb-4">{{categorySelected.name}}</h2>
+            @if (magazineCategory.length > 0) {
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-0">
+                @for (magazine of magazineCategory; track $index) {
+                <div (click)="seeMagazineDetail(magazine.id)"
+                    class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow relative cursor-pointer w-full">
+                    <div class="absolute top-2 right-2">
+                        <span class="badge badge-primary">{{magazine.category.name}}</span>
+                    </div>
+                    <figure><img [src]="categoryService.getImageCategory(magazine.category.name)" alt="Revista 1"
+                            class="w-full h-48 object-cover rounded-t-xl" />
+                    </figure>
+                    <div class="card-body">
+                        <h2 class="card-title text-lg">{{magazine.title}}</h2>
+                        <p class="text-sm text-gray-600">{{magazine.description}}</p>
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <span class="badge badge-outline badge-sm">Tech</span>
+                            <span class="badge badge-outline badge-sm">Innovación</span>
+                        </div>
+                        <div class="divider m-0"></div>
+                        <div class="flex flex-row items-center justify-between">
+                            <span>
+                                <strong>Autor:</strong> {{magazine.editor.profile.firstName}}
+                                {{magazine.editor.profile.lastName}}
+                            </span>
+                            <span class="flex flex-row gap-4">
+                                <lucide-icon [name]="Heart"></lucide-icon>
+                                {{magazine.likeCount}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+            } @else {
+            <div class="flex flex-row justify-center">
+                <h3>No hay resultados para esta categoria</h3>
+            </div>
+            }
+        </div>
+        }
+    </div>
+
+    <!-- Anuncios Derechos -->
+    <div class="hidden lg:block lg:col-span-2 min-w-[200px] py-[70px]">
+        <div class="space-y-4">
+            @for (ad of rightAds; track $index) {
+            <div class="card bg-base-100 shadow-md p-4">
+                @if (ad.changePeriodAd.adType === 'TEXT_IMAGE') {
+                <img [src]="ad.imageUrl" alt="Anuncio" class="w-full h-48 rounded-lg mb-2" />
+                <p class="font-semibold text-sm">{{ ad.content }}</p>
+                } @else if (ad.changePeriodAd.adType === 'VIDEO') {
+                <iframe [src]="ad.videoUrl | safeUrl" class="w-full h-48 rounded-lg mb-2" frameborder="0"
+                    allowfullscreen></iframe>
+                } @else if (ad.changePeriodAd.adType === 'TEXT') {
+                <p class="font-semibold text-sm">{{ ad.content }}</p>
+                }
+            </div>
+            }
+        </div>
+    </div>
+</div>

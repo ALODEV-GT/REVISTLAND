@@ -48,8 +48,6 @@ export class EditFormComponent implements OnChanges {
     description: ['', [Validators.minLength(3)]],
     categoryId: [0, [Validators.min(1)]],
     tagIds: [[], [Validators.minLength(1)]],
-    adBlockingExpirationDate: [''],
-    adBlock: [false],
     disableLikes: [false],
     disableComments: [false],
     disableSuscriptions: [false],
@@ -72,7 +70,6 @@ export class EditFormComponent implements OnChanges {
       .subscribe((magazine) => {
         this.magazineForm.patchValue({
           ...magazine,
-          adBlock: !!magazine.adBlockingExpirationDate,
         });
 
         this.selectedTags = magazine.tagIds
@@ -114,9 +111,6 @@ export class EditFormComponent implements OnChanges {
       return;
     }
     const magazine: EditMagazine = this.magazineForm.getRawValue();
-    if (!this.magazineForm.get('adBlock')?.value) {
-      magazine.adBlockingExpirationDate = '';
-    }
     this.updatingMagazine = true;
     this.magazineService.updateMagazine(this.magazineId, magazine).subscribe({
       next: (magazine) => {
