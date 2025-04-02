@@ -1,11 +1,11 @@
-<div class="text-center mb-2">
+<div class="text-center mb-2 pt-4">
   <h1 class="text-3xl font-bold text-primary">Publicar revista</h1>
 </div>
 
 <form
   [formGroup]="magazineForm"
   (ngSubmit)="publishMagazine()"
-  class="space-y-4"
+  class="space-y-4 p-4"
 >
   <fieldset class="fieldset">
     <legend class="fieldset-legend">
@@ -120,7 +120,7 @@
   </fieldset>
   }
 
-  <div class="grid grid-cols-2 gap-4">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <fieldset class="fieldset flex items-center">
       <label class="fieldset-label">
         <input

@@ -25,6 +25,7 @@ export class ApiConfigService {
     API_ADMIN = `${this.API_BASE}/admin`
     API_EXPORT = `${this.API_ADMIN}/exports`
     API_EDITOR_REPORTS = `${this.API_BASE}/editors/reports`
+    API_EDITOR_DASHBOARD = `${this.API_BASE}/editors/dashboard`
 
     /*Configurations */
     API_CONFIGURATION = `${this.API_BASE}/configurations`
