@@ -28,12 +28,7 @@ export default class LandingComponent {
   redirect(role: string) {
     switch (role) {
       case 'EDITOR':
-        break
       case 'ADMIN':
-        break
-      case 'USER':
-        this.router.navigate(['rl/home'])
-        break
       case 'ANNOUNCER':
         this.router.navigate([`${role.toLocaleLowerCase()}/`])
         break;
