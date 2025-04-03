@@ -1,7 +1,7 @@
 import { MagazineService } from '@editor/services/magazine.service';
 import { Component, inject, OnInit } from '@angular/core';
 import { Heart, LucideAngularModule } from 'lucide-angular';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MagazineItem, Comment } from '@subscriber/models/magazine';
 import { LikeService } from '@shared/modules/editor/services/like.service';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -15,6 +15,7 @@ import { AdUserService } from '@shared/modules/editor/services/ad-user.service';
 import { AdUser, AdViewCreateDto } from '@shared/modules/editor/models/adUser';
 import { SafeUrlPipe } from '@shared/utils/SafeUrlPipe';
 import { forkJoin } from 'rxjs';
+import { AuthStore } from 'app/store/auth.store';
 
 @Component({
   selector: 'app-magazine-detail',
@@ -30,12 +31,15 @@ export default class MagazineDetailComponent implements OnInit {
   private readonly adUserService = inject(AdUserService);
   readonly categoryService = inject(CategoryService);
   readonly subscriptionService = inject(SubscriptionService);
+  readonly store = inject(AuthStore);
+  private readonly router = inject(Router);
 
   readonly Heart = Heart;
   activateRoute = inject(ActivatedRoute);
   liked: boolean = false;
   subscribed: boolean = false;
   comment: FormControl = new FormControl("", [Validators.required, Validators.minLength(2)]);
+
 
   magazine: MagazineItem | null = null;
   comments: Comment[] = [];
@@ -159,5 +163,12 @@ export default class MagazineDetailComponent implements OnInit {
       return;
     }
     window.open(pdfUrl, '_blank');
+  }
+
+  goProfile(idUser: number | undefined) {
+    if (!idUser) {
+      return
+    }
+    this.router.navigate([`profile/${idUser}`])
   }
 }

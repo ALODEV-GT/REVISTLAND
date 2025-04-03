@@ -7,14 +7,18 @@ import { Profile } from '../models/user';
     providedIn: 'root',
 })
 export class ProfileService {
-    private readonly baseUrl = inject(ApiConfigService).API_PROFILE;
+    private readonly baseUrl = inject(ApiConfigService);
     private readonly http = inject(HttpClient);
 
     getProfile(idUser: string) {
-        return this.http.get<Profile>(`${this.baseUrl}/${idUser}/profile`)
+        return this.http.get<Profile>(`${this.baseUrl.API_PROFILE}/${idUser}/profile`)
     }
 
     updateProfile(profile: Profile) {
-        return this.http.put<Profile>(`${this.baseUrl}/${profile.user.id}/profile`, profile)
+        return this.http.put<Profile>(`${this.baseUrl.API_PROFILE}/${profile.user.id}/profile`, profile)
+    }
+
+    uploadProfileImage(formData: FormData) {
+        return this.http.post<any>(`${this.baseUrl.API_UPLOAD}/upload`, formData);
     }
 }

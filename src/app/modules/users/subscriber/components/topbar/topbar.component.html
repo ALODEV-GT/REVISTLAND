@@ -21,19 +21,21 @@
         </ul>
     </div>
     <div class="navbar-end">
-        <div class="form-control">
-            <input type="text" placeholder="Buscar..." class="input input-bordered w-24 md:w-auto" />
-        </div>
         <div class="dropdown dropdown-end ml-4">
-            <div class="avatar avatar-online avatar-placeholder">
+            <div tabindex="0" role="button" class="avatar avatar-online avatar-placeholder btn btn-ghost btn-circle">
                 <div class="bg-neutral text-neutral-content w-10 rounded-full">
-                    <span class="text-xl">BA</span>
+                    <span class="text-xl">{{this.store.session().firstname.charAt(0) ||
+                        'X'}}{{this.store.session().lastname.charAt(0) || 'X'}}</span>
                 </div>
             </div>
             <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                <li><a>Perfil</a></li>
-                <li><a>Ajustes</a></li>
-                <li><a>Cerrar Sesión</a></li>
+                <li>
+                    <button class="justify-between" (click)="goProfile()">
+                        Profile
+                        <span class="badge">edit</span>
+                    </button>
+                </li>
+                <li><button (click)="store.logout()">Logout</button></li>
             </ul>
         </div>
     </div>

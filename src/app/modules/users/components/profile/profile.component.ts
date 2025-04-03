@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Profile } from '@shared/modules/editor/models/user';
@@ -15,6 +15,7 @@ import { Heart, LucideAngularModule, PenLine, User } from 'lucide-angular';
   imports: [LucideAngularModule, CommonModule, ReactiveFormsModule]
 })
 export default class ProfileComponent implements OnInit {
+  @ViewChild('fileInput') fileInput!: ElementRef;
   readonly PenLine = PenLine;
   readonly User = User;
   readonly Heart = Heart;
@@ -93,5 +94,26 @@ export default class ProfileComponent implements OnInit {
 
   getInterests(): string[] {
     return this.profile?.interestsTopics?.split(',').map(i => i.trim()) || [];
+  }
+
+  openFileSelector() {
+    this.fileInput.nativeElement.click();
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      const formData = new FormData();
+      formData.append('file', file, Date.now().toString())
+
+      this.profileService.uploadProfileImage(formData).subscribe({
+        next: (response) => {
+          this.profile!.profilePicture = response.url
+        },
+        error: () => {
+        }
+      });
+    }
   }
 }
