@@ -5,6 +5,7 @@ import { AuthPage } from '@shared/modules/auth/models/auth-control-page';
 import { AuthService } from '@shared/modules/auth/services/auth.service';
 import { Login, Session } from '../../models/auth';
 import { AuthStore } from 'app/store/auth.store';
+import { AlertStore } from 'app/store/alert.store';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,7 @@ export class LoginComponent {
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
   private readonly store = inject(AuthStore);
+  private readonly alertStore = inject(AlertStore);
 
   errorMessage: string = '';
 
@@ -73,7 +75,15 @@ export class LoginComponent {
   }
 
   handleErrorLogin(error: any) {
-
+    const erroCode: number = error.status
+    switch (erroCode) {
+      case 401:
+        this.alertStore.addAlert({
+          message: `Credenciales incorrectas`,
+          type: 'error',
+        });
+        break
+    }
   }
 
   togglePasswordVisibility() {

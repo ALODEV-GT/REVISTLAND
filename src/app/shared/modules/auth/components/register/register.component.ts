@@ -5,6 +5,7 @@ import { AuthService } from '@shared/modules/auth/services/auth.service';
 import { Register } from '../../models/auth';
 import { RoleDto } from '../../models/role.interface';
 import { AuthStore } from 'app/store/auth.store';
+import { AlertStore } from 'app/store/alert.store';
 
 @Component({
   selector: 'app-register',
@@ -18,6 +19,8 @@ export class RegisterComponent {
   private readonly formBuilder = inject(FormBuilder);
   private readonly authService = inject(AuthService)
   private readonly store = inject(AuthStore);
+  private readonly alertStore = inject(AlertStore);
+
 
   showPassword = false;
   errorMessage: string = '';
@@ -63,6 +66,20 @@ export class RegisterComponent {
   }
 
   handlerErrorRegister(error: any) {
+    const erroCode: number = error.error.status
+    switch (erroCode) {
+      case 409:
+        this.alertStore.addAlert({
+          message: `El correo electronico ya esta en uso`,
+          type: 'error',
+        });
+        break
+      case 500:
+        this.alertStore.addAlert({
+          message: `El nombre de usuario ya esta en uso`,
+          type: 'error',
+        });
+    }
   }
 
   togglePasswordVisibility() {
