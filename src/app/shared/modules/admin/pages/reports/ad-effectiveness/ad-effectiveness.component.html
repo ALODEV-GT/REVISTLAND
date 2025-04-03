@@ -1,0 +1,92 @@
+<main class="flex-1 p-2 max-w-7xl mx-auto">
+    <h1 class="text-2xl font-bold text-center mb-2">Efectividad de Anuncios</h1>
+
+    <!-- Filtros -->
+    <div class="bg-base-100 p-4 shadow-lg rounded-lg mb-3">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+                <label class="label font-semibold">Desde:</label>
+                <input type="date" class="input input-bordered w-full btn btn-sm" [(ngModel)]="startDate" />
+            </div>
+            <div>
+                <label class="label font-semibold">Hasta:</label>
+                <input type="date" class="input input-bordered w-full btn btn-sm" [(ngModel)]="endDate" />
+            </div>
+            <div class="flex flex-col sm:flex-row gap-4 justify-end mt-6">
+                <button class="btn btn-outline btn-primary btn btn-sm" (click)="getReport()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Generar Reporte
+                </button>
+                <button class="btn btn-outline btn-secondary btn btn-sm" (click)="exportReport()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Exportar a PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla de usuario con sus Anuncios y vistas-->
+    <div class="overflow-x-auto bg-base-100 p-4 shadow-lg rounded-lg border border-secondary mb-2">
+        @for (item of advertiserAdViews; track $index) {
+        <p class="text-md font-bold text-center mb-2">Usuario:
+            <strong class="text-purple-600">{{item.username}}</strong> correo electronico: <strong
+                class="text-purple-600">{{item.email}}</strong>
+        </p>
+        <table class="table w-full">
+            @for (ad of item.adViewsDtos; track $index) {
+            <thead>
+                <th colspan="4" class="text-center text-md font-bold bg-base-200">
+                    Detalle del Anuncio
+                </th>
+                <tr>
+                    <th>Tipo de Anuncio</th>
+                    <th>Vigencia</th>
+                    <th>Fecha de Registro</th>
+                    <th>Cantidad de vistas</th>
+                </tr>
+                <tr>
+                    <th>{{ad.adType}}</th>
+                    <th>{{ad.durationDays}} dia(s)</th>
+                    <th>{{formatDateTime(ad.createdAtAd)}}</th>
+                    <th>{{ad.views.length}}</th>
+                </tr>
+                <th colspan="4" class="text-center text-md font-bold bg-base-200">
+                    Detalle de Vistas
+                </th>
+                <tr>
+                    <th>#</th>
+                    <th colspan="2">URL de vista</th>
+                    <th>Fecha de vista</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (view of ad.views; track $index) {
+                <tr>
+                    <td>{{$index+1}}</td>
+                    <td colspan="2">{{view.urlView}}</td>
+                    <td>{{formatDateTime(view.createdAtView)}}</td>
+                </tr>
+                }
+            </tbody>
+            }
+
+
+        </table>
+        }
+
+    </div>
+
+</main>
+
+<!-- Modal de Recarga exitosa -->
+<dialog #modal2 id="my_modal_1" class="modal">
+    <app-modal-msg
+        [content]="'Antes de exportar el reporte a pdf, debe generar un reporte, no se pueden generar reportes vacios'"
+        [title]="'Accion no valida'" [className]="'text-purple-700 text-lg'"></app-modal-msg>
+</dialog>

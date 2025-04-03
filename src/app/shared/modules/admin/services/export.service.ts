@@ -5,6 +5,7 @@ import { EarningsReport, PostAdReportTotal } from '../models/reports/earnings.in
 import { TotalReportPaymentPostAdByAnnouncersDto } from '../models/reports/announcers.interface';
 import { ReportTopMagazineSubscriptions } from '../models/reports/top-magazine-subscripton';
 import { ReportMagazineCommentsDto } from '../models/reports/top-magazine-comments';
+import { ReportAdvertiserAdViews } from '../models/reports/ad-effective';
 
 @Injectable({
   providedIn: 'root'
@@ -91,7 +92,7 @@ export class ExportService {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'reporte_top-5-magazine-mas-suscriptores.pdf'; 
+        a.download = 'reporte_top-5-magazine-mas-suscriptores.pdf';
         a.click();
         window.URL.revokeObjectURL(url);
       },
@@ -112,9 +113,30 @@ export class ExportService {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'reporte_top-5-revistas-mas-comentadas.pdf'; 
+        a.download = 'reporte_top-5-revistas-mas-comentadas.pdf';
         a.click();
         window.URL.revokeObjectURL(url);
+      },
+      error: (err) => {
+        console.error('Error al descargar el PDF:', err);
+      }
+    });
+  }
+
+  exportReportAdEffectiveness(dto: ReportAdvertiserAdViews) {
+    // Realiza la petición POST enviando el objeto en el body
+    this._http.post(`${this.API_EXPORT}/ad-effectiveness`, dto, {
+      responseType: 'blob' // Importante para manejar el PDF como Blob
+    }).subscribe({
+      next: (response) => {
+        // Descargar el archivo PDF
+        const blob = new Blob([response], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'reporte_de_eefectividad_anuncios.pdf'; // Nombre del archivo descargado
+        a.click();
+        window.URL.revokeObjectURL(url); // Limpia la URL temporal
       },
       error: (err) => {
         console.error('Error al descargar el PDF:', err);
