@@ -1,6 +1,6 @@
 <div class="navbar bg-base-100 shadow-sm">
   <div class="flex-1">
-    <a class="btn btn-ghost text-xl">
+    <a routerLink="/editor" class="btn btn-ghost text-xl">
       Revist
       <span class="text-green-400">Land</span>
     </a>
@@ -8,11 +8,8 @@
   <div class="flex-none">
     <div class="dropdown dropdown-end px-12">
       <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
-        <div class="w-14 rounded-full">
-          <img
-            alt="Tailwind CSS Navbar component"
-            src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-          />
+        <div class="bg-neutral text-neutral-content w-10 rounded-full">
+          <span class="text-xl">{{ getProfileImage() }}</span>
         </div>
       </div>
       <ul
@@ -20,7 +17,7 @@
         class="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-3 w-52 p-2 shadow"
       >
         <li>
-          <a class="justify-between">
+          <a [routerLink]="`/profile/${authStore.session().id}`">
             Perfil
             <span class="badge">Editar</span>
           </a>

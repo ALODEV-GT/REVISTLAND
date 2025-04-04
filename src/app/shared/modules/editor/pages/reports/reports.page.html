@@ -32,7 +32,7 @@
 
       <button
         class="btn btn-xs btn-outline border-none btn-error items-center"
-        (click)="toggleFilter(false)"
+        (click)="toggleFilter(false); generatePDF()"
       >
         <i-lucide size="16" [img]="Export" />
         <span>Exportar</span>
@@ -48,8 +48,8 @@
     </div>
 
     <div
+      #report
       class="grow border-1 border-slate-600 p-6 rounded-sm flex flex-col gap-8 items-center w-full max-w-[80vw] md:max-w-[83vw] lg:max-w-full relative"
-      (click)="toggleFilter(false)"
     >
       @if (chargingData) {
       <p class="text-center">
@@ -161,6 +161,7 @@
 
           <button
             class="absolute -top-6 right-1 btn btn-xs btn-outline border-none btn-error items-center"
+            (click)="clearFilter()"
           >
             <i-lucide size="16" [img]="ClearFilter" />
           </button>

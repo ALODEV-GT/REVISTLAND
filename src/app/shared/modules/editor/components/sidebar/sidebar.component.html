@@ -22,7 +22,7 @@
     >
       <a
         class="btn btn-ghost px-4 justify-start w-full"
-        href="/editor/dashboard"
+        routerLink="/editor/dashboard"
       >
         <i-lucide [img]="Dashboard"></i-lucide>
         @if (!isCollapsed) {
@@ -37,7 +37,7 @@
     >
       <a
         class="btn btn-ghost px-4 justify-start w-full"
-        href="/editor/published"
+        routerLink="/editor/published"
       >
         <i-lucide [img]="Magazines"></i-lucide>
         @if (!isCollapsed) {
@@ -50,7 +50,10 @@
       [ngClass]="{ 'tooltip tooltip-right': isCollapsed }"
       data-tip="Publicar Revista"
     >
-      <a class="btn btn-ghost px-4 justify-start w-full" href="/editor/publish">
+      <a
+        class="btn btn-ghost px-4 justify-start w-full"
+        routerLink="/editor/publish"
+      >
         <i-lucide [img]="PublishMagazine"></i-lucide>
         @if (!isCollapsed) {
         <span class="truncate">Publicar Revista</span>
@@ -64,7 +67,7 @@
     >
       <a
         class="btn btn-ghost px-4 justify-start w-full"
-        href="/editor/add-issue"
+        routerLink="/editor/add-issue"
       >
         <i-lucide [img]="PublishIssue"></i-lucide>
         @if (!isCollapsed) {
@@ -77,7 +80,10 @@
       [ngClass]="{ 'tooltip tooltip-right': isCollapsed }"
       data-tip="Reportes"
     >
-      <a class="btn btn-ghost px-4 justify-start w-full" href="/editor/reports">
+      <a
+        class="btn btn-ghost px-4 justify-start w-full"
+        routerLink="/editor/reports"
+      >
         <i-lucide [img]="Reports"></i-lucide>
         @if (!isCollapsed) {
         <span class="truncate">Reportes</span>
@@ -86,7 +92,10 @@
     </li>
 
     <li [ngClass]="{ 'tooltip tooltip-right': isCollapsed }" data-tip="Cartera">
-      <a class="btn btn-ghost px-4 justify-start w-full" href="/editor/wallet">
+      <a
+        class="btn btn-ghost px-4 justify-start w-full"
+        routerLink="/editor/wallet"
+      >
         <i-lucide [img]="Wallet"></i-lucide>
         @if (!isCollapsed) {
         <span class="truncate">Cartera</span>

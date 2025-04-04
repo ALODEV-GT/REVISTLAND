@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import {
   BookPlus,
   ChartNoAxesCombined,
@@ -14,7 +15,7 @@ import {
 
 @Component({
   selector: 'editor-sidebar',
-  imports: [CommonModule, LucideAngularModule],
+  imports: [CommonModule, RouterModule, LucideAngularModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })

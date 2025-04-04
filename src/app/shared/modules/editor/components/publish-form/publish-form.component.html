@@ -70,7 +70,7 @@
       <span class="text-xs text-error">*</span>
     </legend>
     <div class="w-full h-max-[calc(0.25rem*20)] h-fit" value>
-      <label class="fieldset-label flex flex-wrap gap-1 py-1">
+      <label class="fieldset-label flex flex-wrap gap-1 py-1 max-w-[40rem]">
         <span>No seleccionadas</span>
         @for (tag of unselectedTags; track tag) {
         <span
@@ -84,7 +84,7 @@
       </label>
     </div>
     <div class="w-full h-max-[calc(0.25rem*20)] h-fit" value>
-      <label class="fieldset-label flex flex-wrap gap-1 py-1">
+      <label class="fieldset-label flex flex-wrap gap-1 py-1 max-w-[40rem]">
         <span
           [ngClass]="{
             'text-error': isInvalid('tagIds'),
