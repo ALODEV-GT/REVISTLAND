@@ -64,6 +64,20 @@ export default class MagazineDetailComponent implements OnInit {
         this.magazine = resp;
         this.loadComments();
         this.loadIssues();
+
+        if (!this.isAdBlockingActive(resp.adBlockingExpirationDate!)) {
+          const adRequests = Array(6).fill(null).map(() => this.adUserService.getRandomAd());
+          forkJoin(adRequests).subscribe(ads => {
+            this.leftAds = ads.slice(0, 3);
+            this.rightAds = ads.slice(3, 6);
+            this.allAds = ads.slice(0, 2);
+
+            ads.forEach(ad => {
+              const view: AdViewCreateDto = { adId: ad.id, urlView: window.location.href };
+              this.adUserService.saveView(view).subscribe();
+            });
+          });
+        }
       }
     });
 
@@ -79,19 +93,17 @@ export default class MagazineDetailComponent implements OnInit {
       }
     });
 
-    const adRequests = Array(6).fill(null).map(() => this.adUserService.getRandomAd());
-    forkJoin(adRequests).subscribe(ads => {
-      this.leftAds = ads.slice(0, 3);
-      this.rightAds = ads.slice(3, 6);
-      this.allAds = ads.slice(0, 2);
-
-      ads.forEach(ad => {
-        const view: AdViewCreateDto = { adId: ad.id, urlView: window.location.href };
-        this.adUserService.saveView(view).subscribe();
-      });
-    });
   }
 
+  isAdBlockingActive(adBlockingExpirationDate: string): boolean {
+    const expirationDate = new Date(adBlockingExpirationDate);
+    const currentDate = new Date();
+
+    expirationDate.setHours(0, 0, 0, 0);
+    currentDate.setHours(0, 0, 0, 0);
+
+    return expirationDate > currentDate;
+  }
 
   loadIssues() {
     this.issueService.getIssues(this.magazine?.id!).subscribe({
