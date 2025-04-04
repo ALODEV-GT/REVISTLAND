@@ -8,8 +8,8 @@
                 <img [src]="ad.imageUrl" alt="Anuncio" class="w-full h-48 rounded-lg mb-2" />
                 <p class="font-semibold text-sm">{{ ad.content }}</p>
                 } @else if (ad.changePeriodAd.adType === 'VIDEO') {
-                <iframe [src]="ad.videoUrl | safeUrl" class="w-full h-48 rounded-lg mb-2" frameborder="0"
-                    allowfullscreen></iframe>
+                <youtube-player [videoId]="ad.videoUrl" [width]="200" [height]="150" [playerVars]="playerVars">
+                </youtube-player>
                 } @else if (ad.changePeriodAd.adType === 'TEXT') {
                 <p class="font-semibold text-sm">{{ ad.content }}</p>
                 }
@@ -89,8 +89,8 @@
                         <img [src]="ad.imageUrl" alt="Anuncio" class="w-full h-24 object-cover rounded-lg mb-2" />
                         <p class="font-semibold text-sm">{{ ad.content }}</p>
                         } @else if (ad.changePeriodAd.adType === 'VIDEO') {
-                        <iframe [src]="ad.videoUrl | safeUrl" class="w-full h-24 rounded-lg mb-2" frameborder="0"
-                            allowfullscreen></iframe>
+                        <youtube-player [videoId]="ad.videoUrl" [width]="640" [height]="360" [playerVars]="playerVars">
+                        </youtube-player>
                         } @else if (ad.changePeriodAd.adType === 'TEXT') {
                         <p class="font-semibold text-sm">{{ ad.content }}</p>
                         }
@@ -154,8 +154,8 @@
                 <img [src]="ad.imageUrl" alt="Anuncio" class="w-full h-48 rounded-lg mb-2" />
                 <p class="font-semibold text-sm">{{ ad.content }}</p>
                 } @else if (ad.changePeriodAd.adType === 'VIDEO') {
-                <iframe [src]="ad.videoUrl | safeUrl" class="w-full h-48 rounded-lg mb-2" frameborder="0"
-                    allowfullscreen></iframe>
+                <youtube-player [videoId]="ad.videoUrl" [width]="200" [height]="150" [playerVars]="playerVars">
+                </youtube-player>
                 } @else if (ad.changePeriodAd.adType === 'TEXT') {
                 <p class="font-semibold text-sm">{{ ad.content }}</p>
                 }

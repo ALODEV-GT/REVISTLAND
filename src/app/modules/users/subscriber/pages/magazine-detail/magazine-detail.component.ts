@@ -13,13 +13,13 @@ import { CategoryService } from '@shared/modules/editor/services/category.servic
 import { SubscriptionService } from '@shared/modules/editor/services/subscription.service';
 import { AdUserService } from '@shared/modules/editor/services/ad-user.service';
 import { AdUser, AdViewCreateDto } from '@shared/modules/editor/models/adUser';
-import { SafeUrlPipe } from '@shared/utils/SafeUrlPipe';
 import { forkJoin } from 'rxjs';
 import { AuthStore } from 'app/store/auth.store';
+import { YouTubePlayerModule } from '@angular/youtube-player';
 
 @Component({
   selector: 'app-magazine-detail',
-  imports: [LucideAngularModule, ReactiveFormsModule, CommonModule, SafeUrlPipe],
+  imports: [LucideAngularModule, ReactiveFormsModule, CommonModule, YouTubePlayerModule],
   templateUrl: './magazine-detail.component.html',
   styleUrl: './magazine-detail.component.scss'
 })
@@ -33,6 +33,15 @@ export default class MagazineDetailComponent implements OnInit {
   readonly subscriptionService = inject(SubscriptionService);
   readonly store = inject(AuthStore);
   private readonly router = inject(Router);
+
+  playerVars = {
+    autoplay: 1,
+    loop: 1,
+    modestbranding: 1,
+    mute: 1,
+    showinfo: 0,
+    rel: 0
+  };
 
   readonly Heart = Heart;
   activateRoute = inject(ActivatedRoute);
@@ -55,6 +64,20 @@ export default class MagazineDetailComponent implements OnInit {
         this.magazine = resp;
         this.loadComments();
         this.loadIssues();
+
+        if (!this.isAdBlockingActive(resp.adBlockingExpirationDate!)) {
+          const adRequests = Array(6).fill(null).map(() => this.adUserService.getRandomAd());
+          forkJoin(adRequests).subscribe(ads => {
+            this.leftAds = ads.slice(0, 3);
+            this.rightAds = ads.slice(3, 6);
+            this.allAds = ads.slice(0, 2);
+
+            ads.forEach(ad => {
+              const view: AdViewCreateDto = { adId: ad.id, urlView: window.location.href };
+              this.adUserService.saveView(view).subscribe();
+            });
+          });
+        }
       }
     });
 
@@ -70,19 +93,17 @@ export default class MagazineDetailComponent implements OnInit {
       }
     });
 
-    const adRequests = Array(6).fill(null).map(() => this.adUserService.getRandomAd());
-    forkJoin(adRequests).subscribe(ads => {
-      this.leftAds = ads.slice(0, 3);
-      this.rightAds = ads.slice(3, 6);
-      this.allAds = ads.slice(0, 2);
-
-      ads.forEach(ad => {
-        const view: AdViewCreateDto = { adId: ad.id, urlView: window.location.href };
-        this.adUserService.saveView(view).subscribe();
-      });
-    });
   }
 
+  isAdBlockingActive(adBlockingExpirationDate: string): boolean {
+    const expirationDate = new Date(adBlockingExpirationDate);
+    const currentDate = new Date();
+
+    expirationDate.setHours(0, 0, 0, 0);
+    currentDate.setHours(0, 0, 0, 0);
+
+    return expirationDate > currentDate;
+  }
 
   loadIssues() {
     this.issueService.getIssues(this.magazine?.id!).subscribe({
