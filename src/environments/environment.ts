@@ -1,3 +1,3 @@
 export const environment = {
-    API_ROOT: ''
+    API_ROOT: 'http://localhost:3333/api/v1'
 };
