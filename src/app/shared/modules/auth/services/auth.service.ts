@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { inject, Injectable } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { Confirmation, Login, Register, Session } from "@shared/modules/auth/models/auth";
 import { ApiConfigService } from "@shared/services/api-config.service";
 import { Observable } from "rxjs";
@@ -9,10 +9,11 @@ import { RoleDto } from "../models/role.interface";
     providedIn: 'root'
 })
 export class AuthService {
-    private readonly apiConfigService = inject(ApiConfigService);
-    private readonly http = inject(HttpClient);
 
-    constructor() { }
+    constructor(
+        private http: HttpClient,
+        private apiConfigService: ApiConfigService
+    ) { }
 
     login(login: Login): Observable<Session> {
         return this.http.post<Session>(`${this.apiConfigService.API_AUTH}/sign-in`, login);
