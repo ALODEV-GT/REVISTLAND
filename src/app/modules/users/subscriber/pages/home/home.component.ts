@@ -14,10 +14,11 @@ import { SafeUrlPipe } from '@shared/utils/SafeUrlPipe';
 
 
 import { register } from 'swiper/element/bundle';
+import { YouTubePlayerModule } from '@angular/youtube-player';
 register();
 @Component({
   selector: 'app-home',
-  imports: [LucideAngularModule, CommonModule, SafeUrlPipe],
+  imports: [LucideAngularModule, CommonModule, SafeUrlPipe, YouTubePlayerModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -30,6 +31,15 @@ export default class HomeComponent implements OnInit {
   private readonly router = inject(Router)
   readonly Heart = Heart
   readonly package = Package
+
+  playerVars = {
+    autoplay: 1,
+    loop: 1,
+    modestbranding: 1,
+    mute: 1,
+    showinfo: 0,
+    rel: 0
+  };
 
   magazineCategory: MagazineItem[] = []
   categorySelected: any

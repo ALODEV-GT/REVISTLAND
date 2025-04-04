@@ -6,13 +6,13 @@ import { MagazineItem } from '@subscriber/models/magazine';
 import { Heart, LucideAngularModule } from 'lucide-angular';
 import { AdUserService } from '@shared/modules/editor/services/ad-user.service';
 import { AdUser, AdViewCreateDto } from '@shared/modules/editor/models/adUser';
-import { SafeUrlPipe } from '@shared/utils/SafeUrlPipe';
 import { forkJoin } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { YouTubePlayerModule } from '@angular/youtube-player';
 
 @Component({
   selector: 'app-my-subscriptions',
-  imports: [LucideAngularModule, CommonModule, SafeUrlPipe],
+  imports: [LucideAngularModule, CommonModule, YouTubePlayerModule],
   templateUrl: './my-subscriptions.component.html',
   styleUrl: './my-subscriptions.component.scss'
 })
@@ -26,6 +26,15 @@ export default class MySubscriptionsComponent implements OnInit {
   leftAds: AdUser[] = [];
   rightAds: AdUser[] = [];
   allAds: AdUser[] = [];
+
+  playerVars = {
+    autoplay: 1,
+    loop: 1,
+    modestbranding: 1,
+    mute: 1,
+    showinfo: 0,
+    rel: 0
+  };
 
   ngOnInit(): void {
     this.magazineService.getUserMagazines().subscribe({
@@ -49,4 +58,6 @@ export default class MySubscriptionsComponent implements OnInit {
   seeMagazineDetail(idMagazine: number) {
     this.router.navigate([`rl`, idMagazine]);
   }
+
+  
 }

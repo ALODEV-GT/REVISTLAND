@@ -13,13 +13,13 @@ import { CategoryService } from '@shared/modules/editor/services/category.servic
 import { SubscriptionService } from '@shared/modules/editor/services/subscription.service';
 import { AdUserService } from '@shared/modules/editor/services/ad-user.service';
 import { AdUser, AdViewCreateDto } from '@shared/modules/editor/models/adUser';
-import { SafeUrlPipe } from '@shared/utils/SafeUrlPipe';
 import { forkJoin } from 'rxjs';
 import { AuthStore } from 'app/store/auth.store';
+import { YouTubePlayerModule } from '@angular/youtube-player';
 
 @Component({
   selector: 'app-magazine-detail',
-  imports: [LucideAngularModule, ReactiveFormsModule, CommonModule, SafeUrlPipe],
+  imports: [LucideAngularModule, ReactiveFormsModule, CommonModule, YouTubePlayerModule],
   templateUrl: './magazine-detail.component.html',
   styleUrl: './magazine-detail.component.scss'
 })
@@ -33,6 +33,15 @@ export default class MagazineDetailComponent implements OnInit {
   readonly subscriptionService = inject(SubscriptionService);
   readonly store = inject(AuthStore);
   private readonly router = inject(Router);
+
+  playerVars = {
+    autoplay: 1,
+    loop: 1,
+    modestbranding: 1,
+    mute: 1,
+    showinfo: 0,
+    rel: 0
+  };
 
   readonly Heart = Heart;
   activateRoute = inject(ActivatedRoute);
