@@ -113,6 +113,7 @@
           [colors]="['var(--color-secondary)', 'var(--color-info)', 'var(--color-primary)']"
           [stroke]="{curve: 'smooth'}"
           [responsive]="responsive"
+          [tooltip]="tooltip"
         />
         } @else {
         <h2 class="card-title">
@@ -138,6 +139,7 @@
           [plotOptions]="{bar: {horizontal: true}}"
           [colors]="['var(--color-secondary)', 'var(--color-info)', 'var(--color-primary)']"
           [responsive]="responsive"
+          [tooltip]="tooltip"
         />
         } @else {
         <h2 class="card-title">
@@ -165,6 +167,7 @@
           [colors]="['var(--color-primary)', 'var(--color-warning)']"
           [plotOptions]="{pie: {donut: {labels: {show: true, name: {fontSize: '1rem'}}}}}"
           [responsive]="responsive"
+          [tooltip]="tooltip"
         />
         } @else {
         <h2 class="card-title">
