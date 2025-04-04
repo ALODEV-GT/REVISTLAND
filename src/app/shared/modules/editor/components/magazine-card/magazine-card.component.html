@@ -1,0 +1,133 @@
+<div class="card h-full bg-base-300 w-96 shadow-sm relative group">
+  <!-- BEGIN: Informacion principal -->
+  <span class="badge badge-sm badge-primary absolute -top-1 -right-1">
+    {{ magazine.categoryName }}
+  </span>
+  <div class="card-body">
+    <h2 class="card-title">{{ magazine.title }}</h2>
+    <p
+      class="text-gray-300 overflow-hidden max-h-15 group-hover:overflow-y-auto [scrollbar-gutter:stable]"
+    >
+      {{ magazine.description }}
+    </p>
+    <div class="flex flex-col mt-1 mb-2">
+      <span class="text-xs text-gray-500 mb-1">Etiquetas:</span>
+      <div class="flex flex-wrap gap-1">
+        <i-lucide size="14" [img]="Tags" />
+        @for (tag of magazine.tagNames; track tag) {
+        <span class="badge badge-xs badge-soft badge-info">
+          {{ tag }}
+        </span>
+        }
+      </div>
+    </div>
+    <!-- END: Informacion principal -->
+
+    <!-- BEGIN: Contadores de acciones -->
+    <div class="flex justify-around flex-wrap gap-2">
+      <div class="tooltip" data-tip="Numeros publicados">
+        <div
+          class="badge badge-xs badge-outline badge-error border-none flex items-center"
+        >
+          <i-lucide size="18" [img]="Issues" />
+          <span class="text-xs">{{ magazine.issuesCount }}</span>
+        </div>
+      </div>
+
+      <div class="tooltip" data-tip="Me gusta">
+        <div
+          class="badge badge-xs badge-outline badge-secondary border-none flex items-center"
+        >
+          <i-lucide size="18" [img]="Likes" />
+          <span class="text-xs">{{ magazine.likesCount }}</span>
+        </div>
+      </div>
+
+      <div class="tooltip" data-tip="Comentarios">
+        <div
+          class="badge badge-xs badge-outline badge-info border-none flex items-center"
+        >
+          <i-lucide size="18" [img]="Comments" />
+          <span class="text-xs">{{ magazine.commentsCount }}</span>
+        </div>
+      </div>
+
+      <div class="tooltip" data-tip="Subscripciones">
+        <div
+          class="badge badge-xs badge-outline badge-accent border-none flex items-center"
+        >
+          <i-lucide size="18" [img]="Follow" />
+          <span class="text-xs">{{ magazine.subscriptionsCount }}</span>
+        </div>
+      </div>
+    </div>
+    <!-- END: Contadores de acciones -->
+
+    <div class="divider my-0"></div>
+
+    <!-- BEGIN: Informacion complementaria -->
+    <div class="flex justify-between">
+      <div class="tooltip" data-tip="Fecha de publicación">
+        <div class="badge badge-sm badge-outline border-none flex items-center">
+          <i-lucide size="18" [img]="PublishedAt" />
+          <span class="text-xs">
+            {{ magazine.createdAt | date : "dd/MM/yyyy" }}
+          </span>
+        </div>
+      </div>
+
+      @if (magazine.costPerDay) {
+      <div class="tooltip" data-tip="Costo diario">
+        <div
+          class="badge badge-sm badge-outline badge-success border-none flex items-center"
+        >
+          <i-lucide size="18" [img]="Price" />
+          <span>{{ magazine.costPerDay | currency }}</span>
+        </div>
+      </div>
+      } @else {
+      <div>
+        <div
+          class="badge badge-xs badge-outline badge-warning border-none flex items-center"
+        >
+          <i-lucide
+            size="18"
+            class="motion-safe:animate-pulse"
+            [img]="Unapproved"
+          />
+          <span class="text-xs">Falta de aprobación</span>
+        </div>
+      </div>
+      }
+    </div>
+    <!-- END: Informacion complementaria -->
+
+    <!-- BEDGIN: Botones de acciones -->
+    <div class="flex justify-evenly mt-4">
+      <button
+        class="btn btn-sm btn-soft outline btn-info h-fit p-1"
+        (click)="blockAds()"
+      >
+        <i-lucide size="18" [img]="BlockAds" />
+        Mejorar
+      </button>
+
+      <button
+        class="btn btn-sm btn-soft outline btn-warning h-fit p-1"
+        (click)="editMagazine()"
+      >
+        <i-lucide size="18" [img]="Edit" />
+        Editar
+      </button>
+
+      <button
+        class="btn btn-sm btn-soft outline btn-error h-fit p-1"
+        (click)="deleteMagazine()"
+      >
+        <i-lucide size="18" [img]="Delete" />
+        Eliminar
+      </button>
+    </div>
+    <!-- END: Botones de acciones -->
+  </div>
+</div>

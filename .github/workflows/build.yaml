@@ -1,0 +1,74 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  build:
+    name: Build Statics and Dockerize
+    runs-on: ubuntu-latest
+    environment: "${{ github.ref_name == 'main' && 'prod' || 'dev' }}"
+    steps:
+      # BEGIN - Enviroment setup
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Determine environment
+        id: determine-env
+        run: |
+          # Determine environment based on branch
+          if [ "${{ github.ref_name }}" == "main" ]; then
+            echo "ENV=prod" >> $GITHUB_ENV
+          else
+            echo "ENV=dev" >> $GITHUB_ENV
+          fi
+
+      # END - Enviroment setup
+
+      # BEGIN - npm build tasks
+      - name: Build the app
+        run: npm run build:${{ env.ENV }}
+
+      # END - npm build tasks
+
+      # BEGIN - GCP setup
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_DEPLOY_SA }}
+
+      - name: Set up gcloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Configure Docker to use gcloud as a credential helper
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.GCP_REGION }}-docker.pkg.dev
+          username: _json_key
+          password: ${{ secrets.GCP_DEPLOY_SA }}
+
+      # END - GCP setup
+
+      # BEGIN - Docker build
+      - name: Build and Push Docker image
+        run: |
+          IMAGE_URI="${{ secrets.GCP_LOCATION }}/revistland-${{ env.ENV  }}:latest"
+          docker build -t "$IMAGE_URI" .
+          docker push "$IMAGE_URI"
+
+      # END - Docker build

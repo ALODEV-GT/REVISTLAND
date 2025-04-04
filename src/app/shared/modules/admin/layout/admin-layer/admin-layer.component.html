@@ -1,0 +1,14 @@
+<div class="layout flex flex-col h-screen px-1">
+    <!-- Navbar -->
+    <app-navbar class="w-full"></app-navbar>
+  
+    <div class="flex flex-1 overflow-hidden">
+      <!-- Sidebar -->
+      <app-sidebar class="flex-none h-full"></app-sidebar>
+  
+      <!-- Contenido dinámico (Lazy Loaded) -->
+      <div class="flex-1 p-4 overflow-auto">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>

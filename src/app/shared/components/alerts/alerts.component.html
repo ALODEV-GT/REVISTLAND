@@ -1,0 +1,15 @@
+<div class="fixed right-4 bottom-4 w-fit z-50 flex flex-col gap-2 items-center">
+  @for (alert of alertStore.alerts(); track alert) {
+  <div
+    role="alert"
+    class="alert alert-soft"
+    [ngClass]="{
+      'alert-success': alert.type === 'success',
+      'alert-error': alert.type === 'error',
+      'alert-info': alert.type === 'info',
+    }"
+  >
+    <span>{{ alert.message }}</span>
+  </div>
+  }
+</div>

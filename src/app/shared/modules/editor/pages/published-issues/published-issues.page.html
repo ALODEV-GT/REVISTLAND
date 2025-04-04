@@ -1,0 +1,19 @@
+<div class="min-w-fit max-w-full mx-2 sm:mx-8">
+  <div class="flex flex-col items-stretch gap-2">
+    @for (issue of issues; track issue) {
+    <editor-issue-card [issue]="issue" />
+    } @empty {
+    <div class="text-center">
+      <h1 class="text-3xl font-bold text-primary">No hay numeros publicados</h1>
+    </div>
+    }
+
+    <button
+      type="button"
+      class="btn btn-outline btn-warning transition-all duration-300 ease-in-out mt-4"
+      (click)="goBack()"
+    >
+      Volver
+    </button>
+  </div>
+</div>

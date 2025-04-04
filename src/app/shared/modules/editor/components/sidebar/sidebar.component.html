@@ -1,0 +1,97 @@
+<aside
+  class="bg-transparent shadow-md transition-all duration-300 ease-in-out h-full py-4"
+  [ngClass]="{
+    'w-[60px]': isCollapsed,
+    'w-[180px]': !isCollapsed
+  }"
+>
+  <button
+    class="btn btn-ghost btn-sm mt-1 mx-1 mb-3"
+    (click)="toggleCollapsed()"
+  >
+    <i-lucide [img]="isCollapsed ? Menu : Close"></i-lucide>
+  </button>
+
+  <!-- Menú -->
+  <ul
+    class="bg-base-100 px-0 flex flex-col items-stretch space-y-2 h-full pt-2 transition-all duration-300 ease-in-out border-t-1 border-r-1 rounded-tr-md"
+  >
+    <li
+      [ngClass]="{ 'tooltip tooltip-right': isCollapsed }"
+      data-tip="Dashboard"
+    >
+      <a
+        class="btn btn-ghost px-4 justify-start w-full"
+        href="/editor/dashboard"
+      >
+        <i-lucide [img]="Dashboard"></i-lucide>
+        @if (!isCollapsed) {
+        <span class="truncate">Dashboard</span>
+        }
+      </a>
+    </li>
+
+    <li
+      [ngClass]="{ 'tooltip tooltip-right': isCollapsed }"
+      data-tip="Mis Publicaciones"
+    >
+      <a
+        class="btn btn-ghost px-4 justify-start w-full"
+        href="/editor/published"
+      >
+        <i-lucide [img]="Magazines"></i-lucide>
+        @if (!isCollapsed) {
+        <span class="truncate">Mis Publicaciones</span>
+        }
+      </a>
+    </li>
+
+    <li
+      [ngClass]="{ 'tooltip tooltip-right': isCollapsed }"
+      data-tip="Publicar Revista"
+    >
+      <a class="btn btn-ghost px-4 justify-start w-full" href="/editor/publish">
+        <i-lucide [img]="PublishMagazine"></i-lucide>
+        @if (!isCollapsed) {
+        <span class="truncate">Publicar Revista</span>
+        }
+      </a>
+    </li>
+
+    <li
+      [ngClass]="{ 'tooltip tooltip-right': isCollapsed }"
+      data-tip="Publicar Numero de Revista"
+    >
+      <a
+        class="btn btn-ghost px-4 justify-start w-full"
+        href="/editor/add-issue"
+      >
+        <i-lucide [img]="PublishIssue"></i-lucide>
+        @if (!isCollapsed) {
+        <span class="truncate">Publicar Numero</span>
+        }
+      </a>
+    </li>
+
+    <li
+      [ngClass]="{ 'tooltip tooltip-right': isCollapsed }"
+      data-tip="Reportes"
+    >
+      <a class="btn btn-ghost px-4 justify-start w-full" href="/editor/reports">
+        <i-lucide [img]="Reports"></i-lucide>
+        @if (!isCollapsed) {
+        <span class="truncate">Reportes</span>
+        }
+      </a>
+    </li>
+
+    <li [ngClass]="{ 'tooltip tooltip-right': isCollapsed }" data-tip="Cartera">
+      <a class="btn btn-ghost px-4 justify-start w-full" href="/editor/wallet">
+        <i-lucide [img]="Wallet"></i-lucide>
+        @if (!isCollapsed) {
+        <span class="truncate">Cartera</span>
+        }
+      </a>
+    </li>
+  </ul>
+</aside>

@@ -1,0 +1,111 @@
+<main class="flex-1 px-4">
+    <h1 class="text-2xl font-bold text-center">Edicion de Anuncio</h1>
+    <p class="py-6 px-12 text-md animate-fade-in delay-100">
+        Anuncio del tipo: <strong class="text-purple-700 text-lg">{{ typeAd }}.</strong>
+        El tipo no se puede cambiar, los datos a editar son los siguientes.
+    </p>
+
+    @if (TypeAd.VIDEO === typeAd) {
+    <div class="mt-4 flex justify-center">
+        <youtube-player [videoId]="videoId" [width]="640" [height]="360" [playerVars]="playerVars">
+        </youtube-player>
+    </div>
+    }
+
+
+    @if (TypeAd.TEXT_IMAGE === typeAd) {
+    <div class="mt-4 flex justify-center">
+        <figure>
+            <img [src]="ad.imageUrl" alt="Imagen del anuncio" class="w-full h-64 object-cover rounded-lg">
+        </figure>
+    </div>
+    }
+
+
+    <form class="max-w-3xl mx-auto bg-base-100 p-6 shadow-lg rounded-lg grid grid-cols-1 md:grid-cols-2 gap-4">
+
+
+        @if (TypeAd.TEXT !== typeAd) {
+        <!-- Input URL -->
+        <div>
+            <label class="label"><span class="label-text">URL del Anuncio</span></label>
+            <input type="url" class="input input-bordered w-full" placeholder="https://ejemplo.com/anuncio" required
+                [disabled]=true [value]="ad.imageUrl" />
+        </div>
+        }
+
+        <div>
+            <label class="label"><span class="label-text">Fecha Expiracion</span></label>
+            <input type="url" class="input input-bordered w-full" value={{formatDateTime(ad.expiresAt)}} disabled />
+        </div>
+
+        @if (TypeAd.VIDEO !== typeAd) {
+        <div class="md:col-span-2">
+            <label class="label"><span class="label-text">Contenido</span></label>
+            <textarea class="textarea textarea-bordered w-full"
+                placeholder="Escribe el contenido del anuncio, maximo 500 caracteres" required
+                [disabled]="true"></textarea>
+        </div>
+        }
+
+        <!-- Select 1 -->
+        <div>
+            <label class="label"><span class="label-text">Tiempo vigencia del anuncio</span></label>
+            <select class="select select-bordered w-full" required [disabled]="true">
+                @for (item of daysDuration; track $index) {
+                <option value={{item}}>{{conversWeek(item)}}</option>
+                }
+            </select>
+        </div>
+
+        <div>
+            <label class="label"><span class="label-text">Precio (Q.)</span></label>
+            <input type="number" class="input input-bordered w-full" placeholder="0.00" [value]="ad.changePeriodAd.cost"
+                disabled />
+        </div>
+
+        <div></div>
+
+        @if (!ad.isActive) {
+        <div class="md:col-span-2">
+            <label class="label"><span class="label-text">Anuncio se encuentra desactivado</span></label>
+        </div>
+        }
+
+        @if (ad.isActive) {
+        <div class="md:col-span-2">
+            <button class="btn btn-warning w-full" (click)="enabled()">Desactivar</button>
+        </div>
+        }
+
+    </form>
+
+</main>
+
+
+<!-- Modal de desactivar -->
+<dialog #modal class="modal">
+    <div class="modal-box">
+        <h3 class="font-bold text-lg">Seguro de Desactivar el anuncio?</h3>
+        <p class="py-2">Al desactivar el anuncio acepta: Al volver activarlo tendra que elegir otro periodo de vigencia
+            y se le cobrara</p>
+
+        <div class="modal-action">
+            <button class="btn btn-success" (click)="confirm()">Confirmar</button>
+            <button class="btn btn-error" (click)="closeModal()">Cancelar</button>
+        </div>
+    </div>
+</dialog>
+
+
+<!-- Modal de exitosa -->
+<dialog #modal1 id="my_modal_1" class="modal">
+    <app-modal-msg [title]="titleModal" [content]="titleModal" [className]="'text-purple-700 text-lg'">
+    </app-modal-msg>
+</dialog>
+
+<!-- Modal de  fallida-->
+<dialog #modal2 id="my_modal_1" class="modal">
+    <app-modal-msg [title]="titleModal" [content]="errorMessageModal" [className]="'text-red-700 text-lg'">
+    </app-modal-msg>
+</dialog>

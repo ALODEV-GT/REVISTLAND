@@ -1,0 +1,55 @@
+<main class="flex-1 p-4 max-w-7xl mx-auto">
+    <h1 class="text-xl font-bold text-center mb-6">Reportes</h1>
+
+    <!-- Contenedor de filtros -->
+    <div class="bg-base-100 shadow-xl rounded-xl p-6 mb-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+            <!-- Fecha de inicio -->
+            <div>
+                <label class="label">
+                    <span class="label-text">Fecha de inicio</span>
+                </label>
+                <input type="date" class="input input-bordered w-full" [(ngModel)]="startDate" />
+            </div>
+
+            <!-- Fecha de fin -->
+            <div>
+                <label class="label">
+                    <span class="label-text">Fecha de fin</span>
+                </label>
+                <input type="date" class="input input-bordered w-full" [(ngModel)]="endDate" />
+            </div>
+
+            <!-- Filtro de reportes -->
+            <div>
+                <label class="label">
+                    <span class="label-text">Tipo de Reporte</span>
+                </label>
+                <select class="select select-bordered w-full" [(ngModel)]="typeReport">
+                    <option value="views">Vista de anuncios</option>
+                    <option value="ads">Anuncios Vigentes</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-end">
+            <button class="btn btn-primary" (click)="genertedReport()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                Generar Reporte
+            </button>
+        </div>
+    </div>
+
+    <!-- Tabla de Reporte -->
+    @if (typeReport === "views") {
+    <app-report-views-ad [ads]="viewsAd"></app-report-views-ad>
+    }
+    @if (typeReport === "ads") {
+        <app-report-ad [ads]="adsReport"></app-report-ad>
+        }
+
+</main>

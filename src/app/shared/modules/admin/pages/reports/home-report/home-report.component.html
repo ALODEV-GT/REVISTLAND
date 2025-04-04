@@ -1,0 +1,77 @@
+<main class="flex-1 p-4 max-w-7xl mx-auto">
+    <h1 class="text-xl font-bold text-center mb-6">Área de Reportes</h1>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Reporte de ganancias -->
+        <div class="card bg-base-100 shadow-xl rounded-xl border border-secondary">
+            <div class="card-body">
+                <h2 class="card-title text-primary">Reporte de Ganancias</h2>
+                <p>Consulta las ganancias en un intervalo de tiempo, incluyendo costos, anuncios comprados e ingresos
+                    por pagos de editores.</p>
+                <div class="card-actions justify-end">
+                    <button class="btn btn-sm btn-primary" (click)="goReportEarning()">Ver Reporte</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reporte de anuncios comprados -->
+        <div class="card bg-base-100 shadow-xl rounded-xl border border-secondary">
+            <div class="card-body">
+                <h2 class="card-title text-primary">Reporte de Anuncios Comprados</h2>
+                <p>Consulta los anuncios comprados en un intervalo de tiempo. Filtra por tipo de anuncios y periodo de
+                    tiempo.</p>
+                <div class="card-actions justify-end">
+                    <button class="btn btn-sm btn-primary" (click)="goReportPostAd()">Ver Reporte</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reporte de ganancias por anunciante -->
+        <div class="card bg-base-100 shadow-xl rounded-xl border border-secondary">
+            <div class="card-body">
+                <h2 class="card-title text-primary">Ganancias por Anunciante</h2>
+                <p>Consulta las ganancias generadas por cada anunciante en un intervalo de tiempo. Filtra por anunciante
+                    si es necesario.</p>
+                <div class="card-actions justify-end">
+                    <button class="btn btn-sm btn-primary" (click)="goReportAnnouncers()">Ver Reporte</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reporte de revistas más populares -->
+        <div class="card bg-base-100 shadow-xl rounded-xl border border-accent">
+            <div class="card-body">
+                <h2 class="card-title text-primary">Revistas Más Populares</h2>
+                <p>Consulta las 5 revistas más populares en un intervalo de tiempo. Incluye el listado de suscriptores y
+                    el total de suscripciones.</p>
+                <div class="card-actions justify-end">
+                    <button class="btn btn-sm btn-primary" (click)="gotReportTopMagazinesSubscriptons()">Ver Reporte</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reporte de revistas más comentadas -->
+        <div class="card bg-base-100 shadow-xl rounded-xl border border-accent">
+            <div class="card-body">
+                <h2 class="card-title text-primary">Revistas Más Comentadas</h2>
+                <p>Consulta las 5 revistas con más comentarios en un intervalo de tiempo. Se incluye un listado de
+                    comentarios.</p>
+                <div class="card-actions justify-end">
+                    <button class="btn btn-sm btn-primary" (click)="gotReportTopMagazinesComments()">Ver Reporte</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reporte de efectividad de anuncios -->
+        <div class="card bg-base-100 shadow-xl rounded-xl border border-accent">
+            <div class="card-body">
+                <h2 class="card-title text-primary">Efectividad de Anuncios</h2>
+                <p>Consulta el rendimiento de los anuncios por anunciante, incluyendo la cantidad de veces mostrados y
+                    la URL donde aparecieron.</p>
+                <div class="card-actions justify-end">
+                    <button class="btn btn-sm btn-primary" (click)="gotReportAdsEffective()">Ver Reporte</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

@@ -1,0 +1,219 @@
+<main class="min-w-fit max-w-full mx-2 sm:mx-8 p-4 space-y-6">
+  <h1 class="text-2xl font-bold mb-4 text-center text-primary">
+    Dashboard de Editor
+  </h1>
+
+  <div class="w-fit mx-auto">
+    <div
+      class="stats shadow grid-flow-dense md:grid-cols-2 xl:grid-cols-4 gap-4"
+    >
+      @if (stats) {
+      <div class="stat bg-base-300 text-success">
+        <div class="stat-figure">
+          <i-lucide [img]="Wallet" />
+        </div>
+        <div class="stat-title">Saldo en Cartera</div>
+        <div class="stat-value">
+          {{ stats.wallet.totalCurrentMonth | currency : 'GTQ' : 'symbol-narrow'
+          }}
+        </div>
+      </div>
+
+      <div class="stat bg-base-300 text-secondary">
+        <div class="stat-figure">
+          <i-lucide [img]="Likes" />
+        </div>
+        <div class="stat-title">Likes en revistas</div>
+        <div class="stat-value">{{ stats.likes.totalCurrentMonth }}</div>
+        <div
+          class="stat-desc flex align-items gap-2"
+          [ngClass]="{ 'text-error': stats.likes.trend! < 0, 'text-success': stats.likes.trend! >= 0 }"
+        >
+          @if (stats.likes.trend! >= 0) {
+          <i-lucide size="14" [img]="Up" />
+          } @else {
+          <i-lucide size="14" [img]="Down" />
+          }
+          <span>{{ stats.likes.trend! }}% vs mes anterior</span>
+        </div>
+      </div>
+
+      <div class="stat bg-base-300 text-info">
+        <div class="stat-figure">
+          <i-lucide [img]="Comments" />
+        </div>
+        <div class="stat-title">Comentarios en revistas</div>
+        <div class="stat-value">{{ stats.comments.totalCurrentMonth }}</div>
+        <div
+          class="stat-desc flex align-items gap-2"
+          [ngClass]="{ 'text-error': stats.comments.trend! < 0, 'text-success': stats.comments.trend! >= 0 }"
+        >
+          @if (stats.comments.trend! >= 0) {
+          <i-lucide size="14" [img]="Up" />
+          } @else {
+          <i-lucide size="14" [img]="Down" />
+          }
+          <span>{{ stats.comments.trend! | percent }} vs mes anterior</span>
+        </div>
+      </div>
+
+      <div class="stat bg-base-300 text-primary">
+        <div class="stat-figure">
+          <i-lucide [img]="Subscriptions" />
+        </div>
+        <div class="stat-title">Suscripciones en revistas</div>
+        <div class="stat-value">
+          {{ stats.subscriptions.totalCurrentMonth }}
+        </div>
+        <div
+          class="stat-desc flex align-items gap-2"
+          [ngClass]="{ 'text-error': stats.subscriptions.trend! < 0, 'text-success': stats.subscriptions.trend! >= 0 }"
+        >
+          @if (stats.subscriptions.trend! >= 0) {
+          <i-lucide size="14" [img]="Up" />
+          } @else {
+          <i-lucide size="14" [img]="Down" />
+          }
+          <span>{{ stats.subscriptions.trend! }}% vs mes anterior</span>
+        </div>
+      </div>
+      } @else { @for (i of [1, 2, 3, 4]; track $index) {
+      <div class="stat bg-base-300 w-full md:w-1/2 xl:w-1/4">
+        <div class="stat-figure">
+          <div class="skeleton w-10 h-10 rounded-full"></div>
+        </div>
+        <div class="stat-title">
+          <div class="skeleton h-4 w-1/2 mb-2"></div>
+        </div>
+        <div class="stat-value">
+          <div class="skeleton h-8 w-3/4"></div>
+        </div>
+        <div class="stat-desc">
+          <div class="skeleton h-3 w-full mt-2"></div>
+        </div>
+      </div>
+      } }
+    </div>
+  </div>
+
+  <div class="grid lg:grid-cols-2 gap-4">
+    <div class="card shadow bg-base-300">
+      <div class="card-body justify-evenly items-center">
+        @if (performance) {
+        <h2 class="card-title text-secondary">Desempeño de Revistas</h2>
+        <span class="badge badge-sm badge-soft badge-info">
+          Últimos 30 días
+        </span>
+
+        <apx-chart
+          class="w-full"
+          [series]="performance.data"
+          [chart]="{type: 'line', height: 250, foreColor: 'var(--color-primary-content)'}"
+          [xaxis]="{type:'datetime', categories: performance.tags}"
+          [colors]="['var(--color-secondary)', 'var(--color-info)', 'var(--color-primary)']"
+          [stroke]="{curve: 'smooth'}"
+          [responsive]="responsive"
+          [tooltip]="tooltip"
+        />
+        } @else {
+        <h2 class="card-title">
+          <div class="skeleton h-6 w-48"></div>
+        </h2>
+        <div class="skeleton h-4 w-24"></div>
+        <div class="skeleton h-64 w-full"></div>
+        }
+      </div>
+    </div>
+
+    <div class="card bg-base-300">
+      <div class="card-body justify-evenly items-center">
+        @if (topMagazines) {
+        <h2 class="card-title text-secondary">Top Revistas por Engagement</h2>
+        <span class="badge badge-sm badge-soft badge-info">En total</span>
+
+        <apx-chart
+          class="w-full"
+          [series]="topMagazines.data"
+          [chart]="{type: 'bar', height: 250, stacked: true, foreColor: 'var(--color-primary-content)'}"
+          [xaxis]="{categories: topMagazines.tags}"
+          [plotOptions]="{bar: {horizontal: true}}"
+          [colors]="['var(--color-secondary)', 'var(--color-info)', 'var(--color-primary)']"
+          [responsive]="responsive"
+          [tooltip]="tooltip"
+        />
+        } @else {
+        <h2 class="card-title">
+          <div class="skeleton h-6 w-56"></div>
+        </h2>
+        <div class="skeleton h-4 w-16"></div>
+        <div class="skeleton h-64 w-full"></div>
+        }
+      </div>
+    </div>
+
+    <div class="card bg-base-300">
+      <div class="card-body justify-evenly items-center">
+        @if (subscriptionsState) {
+        <h2 class="card-title text-secondary">Distribución de Suscripciones</h2>
+        <span class="badge badge-sm badge-soft badge-info">
+          Entre activas y no activas
+        </span>
+
+        <apx-chart
+          class="w-full"
+          [series]="subscriptionsState.data"
+          [chart]="{type: 'donut', height: 250, foreColor: 'var(--color-primary-content)'}"
+          [labels]="subscriptionsState.tags"
+          [colors]="['var(--color-primary)', 'var(--color-warning)']"
+          [plotOptions]="{pie: {donut: {labels: {show: true, name: {fontSize: '1rem'}}}}}"
+          [responsive]="responsive"
+          [tooltip]="tooltip"
+        />
+        } @else {
+        <h2 class="card-title">
+          <div class="skeleton h-6 w-64"></div>
+        </h2>
+        <div class="skeleton h-4 w-32"></div>
+        <div class="skeleton h-64 w-full"></div>
+        }
+      </div>
+    </div>
+
+    <div class="card shadow bg-base-300">
+      <div class="card-body justify-evenly items-center">
+        @if (expiredBlocks) {
+        <h2 class="card-title text-secondary">
+          Ultimos Bloqueos de Anuncios Expirados
+        </h2>
+        <span class="badge badge-sm badge-soft badge-info">
+          Últimos 30 días
+        </span>
+
+        <ul class="list w-full flex-wrap justify-evenly h-[250px]">
+          @for (block of expiredBlocks; track block) {
+          <li class="list-row">
+            <span class="text-sm font-thin opacity-70 tabular-nums">
+              {{ block.date | date: 'MMM dd' }}
+            </span>
+            <span class="truncate"> {{ block.title }} </span>
+          </li>
+          }
+        </ul>
+        } @else {
+        <h2 class="card-title">
+          <div class="skeleton h-6 w-64"></div>
+        </h2>
+        <div class="skeleton h-4 w-24"></div>
+        <div class="list w-full flex-wrap justify-evenly h-[250px]">
+          @for (i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; track $index) {
+          <div class="list-row">
+            <div class="skeleton h-6 w-full"></div>
+            <div class="skeleton h-6 w-full"></div>
+          </div>
+          }
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</main>

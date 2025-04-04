@@ -1,0 +1,91 @@
+<div class="text-center mb-2 pt-4">
+  <h1 class="text-3xl font-bold text-primary">Publicar numero de la revista</h1>
+</div>
+
+<form [formGroup]="issueForm" (ngSubmit)="publishIssue()" class="space-y-4 p-4">
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend">
+      <span>Revista</span>
+      <span class="text-xs text-error">*</span>
+    </legend>
+    <select
+      formControlName="magazineId"
+      name="magazineId"
+      class="select select-bordered w-full"
+      required
+      [ngClass]="{
+        'select-error': isInvalid('magazineId'),
+        'select-success': isValid('magazineId')
+      }"
+    >
+      @if (magazine) {
+      <option [ngValue]="magazine.id" selected>{{ magazine.title }}</option>
+      } @else {
+      <option disabled selected value="0">Seleccionar revista</option>
+      @for (magazine of magazines; track magazine) {
+      <option [ngValue]="magazine.id">{{ magazine.title }}</option>
+      } }
+    </select>
+  </fieldset>
+
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend">
+      <span>Título</span>
+    </legend>
+    <input
+      type="text"
+      formControlName="title"
+      name="title"
+      class="input input-bordered w-full"
+      [ngClass]="{
+        'input-error': isInvalid('title'),
+        'input-success': isValid('title')
+      }"
+    />
+  </fieldset>
+
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend">
+      <span>Archivo PDF</span>
+      <span class="text-xs text-error">*</span>
+    </legend>
+    <input
+      type="file"
+      formControlName="pdf"
+      name="pdf"
+      class="file-input w-full"
+      required
+      [ngClass]="{
+        'file-input-error': isInvalid('pdf'),
+        'file-input-success': isValid('pdf')
+      }"
+      (change)="changeFile($event)"
+    />
+    <label class="fieldset-label">Maximo 10MB</label>
+  </fieldset>
+
+  <div class="flex justify-center gap-2 mx-auto mb-2">
+    <button
+      type="submit"
+      class="btn transition-all duration-300 ease-in-out"
+      [ngClass]="{
+        'btn-primary': !creatingIssue,
+        'btn-disabled': creatingIssue || this.issueForm.invalid
+      }"
+    >
+      @if (creatingIssue) {
+      <span class="loading loading-dots loading-xs"></span>
+      } @else { Publicar numero }
+    </button>
+
+    @if (magazine) {
+    <button
+      type="button"
+      class="btn btn-outline btn-warning transition-all duration-300 ease-in-out"
+      (click)="return.emit()"
+    >
+      Volver
+    </button>
+    }
+  </div>
+</form>

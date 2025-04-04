@@ -1,0 +1,24 @@
+<div class="text-center mb-2">
+    <h1 class="text-3xl font-bold text-primary">Recuperacion de contrasena</h1>
+    <p>Ingresa tu correo electronico.</p>
+</div>
+
+<form [formGroup]="findForm" (ngSubmit)="find()" class="space-y-4">
+    <div class="form-control">
+        <label class="label">
+            <span class="label-text">Correo electronico</span>
+        </label>
+        <input type="email" formControlName="email" name="email" class="input input-bordered w-full" required />
+    </div>
+    <button type="submit" class="btn btn-primary w-full mb-2">
+        Recuperar
+    </button>
+    @if (errorMessage) {
+    <p class="text-center text-red-600 text-lg">
+        {{errorMessage}}
+    </p>
+    }
+    <p class="text-start text-base-content/70 ">
+        <span (click)="toLogin()" class="hover:underline hover:cursor-pointer">Regresar</span>
+    </p>
+</form>

@@ -1,0 +1,10 @@
+<div class="mx-auto min-w-fit md:max-w-[40rem]">
+  @if (magazine) {
+  <editor-publish-issue-form
+    [magazine]="magazine"
+    (return)="setMagazine(undefined)"
+  />
+  } @else {
+  <editor-publish-form (publish)="setMagazine($event)" />
+  }
+</div>

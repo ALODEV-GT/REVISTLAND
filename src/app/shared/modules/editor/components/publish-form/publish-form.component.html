@@ -1,0 +1,191 @@
+<div class="text-center mb-2 pt-4">
+  <h1 class="text-3xl font-bold text-primary">Publicar revista</h1>
+</div>
+
+<form
+  [formGroup]="magazineForm"
+  (ngSubmit)="publishMagazine()"
+  class="space-y-4 p-4"
+>
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend">
+      <span>Título</span>
+      <span class="text-xs text-error">*</span>
+    </legend>
+    <input
+      type="text"
+      formControlName="title"
+      name="title"
+      class="input input-bordered w-full"
+      required
+      [ngClass]="{
+        'input-error': isInvalid('title'),
+        'input-success': isValid('title')
+      }"
+    />
+  </fieldset>
+
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend">
+      <span>Descripción</span>
+      <span class="text-xs text-error">*</span>
+    </legend>
+    <textarea
+      formControlName="description"
+      name="description"
+      class="textarea textarea-bordered w-full"
+      required
+      [ngClass]="{
+        'textarea-error': isInvalid('description'),
+        'textarea-success': isValid('description')
+      }"
+    >
+    </textarea>
+  </fieldset>
+
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend">
+      <span>Categoría</span> <span class="text-xs text-error">*</span>
+    </legend>
+    <select
+      formControlName="categoryId"
+      name="categoryId"
+      class="select select-bordered w-full"
+      required
+      [ngClass]="{
+        'select-error': isInvalid('categoryId'),
+        'select-success': isValid('categoryId')
+      }"
+    >
+      <option disabled selected value="0">Seleccionar categoría</option>
+      @for (cat of categories; track cat) {
+      <option [ngValue]="cat.id">{{ cat.name }}</option>
+      }
+    </select>
+  </fieldset>
+
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend">
+      <span>Etiquetas</span>
+      <span class="text-xs text-error">*</span>
+    </legend>
+    <div class="w-full h-max-[calc(0.25rem*20)] h-fit" value>
+      <label class="fieldset-label flex flex-wrap gap-1 py-1">
+        <span>No seleccionadas</span>
+        @for (tag of unselectedTags; track tag) {
+        <span
+          class="badge badge-accent badge-soft cursor-pointer my-1 mx-2"
+          (click)="toggleTag(tag)"
+        >
+          <span>{{ tag.name }}</span>
+          <span><i-lucide size="18" [img]="Add"></i-lucide></span>
+        </span>
+        }
+      </label>
+    </div>
+    <div class="w-full h-max-[calc(0.25rem*20)] h-fit" value>
+      <label class="fieldset-label flex flex-wrap gap-1 py-1">
+        <span
+          [ngClass]="{
+            'text-error': isInvalid('tagIds'),
+            'text-success': isValid('tagIds')
+          }"
+        >
+          Seleccionadas
+        </span>
+        @for (tag of selectedTags; track tag) {
+        <span
+          class="badge badge-secondary badge-soft cursor-pointer"
+          (click)="toggleTag(tag)"
+        >
+          <span>{{ tag.name }}</span>
+          <span><i-lucide size="18" [img]="Remove"></i-lucide></span>
+        </span>
+        }
+      </label>
+    </div>
+  </fieldset>
+
+  @if (magazineForm.get('customCreatedAt')?.value) {
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend">
+      <span>Fecha de creación</span>
+    </legend>
+    <input
+      type="date"
+      formControlName="createdAt"
+      name="createdAt"
+      class="input input-bordered w-full"
+    />
+  </fieldset>
+  }
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <fieldset class="fieldset flex items-center">
+      <label class="fieldset-label">
+        <input
+          type="checkbox"
+          formControlName="customCreatedAt"
+          name="customCreatedAt"
+          class="toggle toggle-primary"
+        />
+        <legend class="fieldset-legend ml-1">Efectos de calificación</legend>
+      </label>
+    </fieldset>
+
+    <fieldset class="fieldset flex items-center">
+      <label class="fieldset-label">
+        <input
+          type="checkbox"
+          formControlName="disableLikes"
+          name="disableLikes"
+          class="toggle toggle-primary"
+        />
+        <legend class="fieldset-legend ml-1">
+          Deshabilitar las opciones de likes
+        </legend>
+      </label>
+    </fieldset>
+
+    <fieldset class="fieldset flex items-center">
+      <label class="fieldset-label">
+        <input
+          type="checkbox"
+          formControlName="disableComments"
+          name="disableComments"
+          class="toggle toggle-primary"
+        />
+        <legend class="fieldset-legend ml-1">
+          Deshabilitar las opciones de comentarios
+        </legend>
+      </label>
+    </fieldset>
+
+    <fieldset class="fieldset flex items-center">
+      <label class="fieldset-label">
+        <input
+          type="checkbox"
+          formControlName="disableSuscriptions"
+          name="disableSuscriptions"
+          class="toggle toggle-primary"
+        />
+        <legend class="fieldset-legend ml-1">
+          Deshabilitar las opciones de suscripciones
+        </legend>
+      </label>
+    </fieldset>
+  </div>
+
+  <button
+    type="submit"
+    class="btn mb-2 mx-auto block transition-all duration-300 ease-in-out"
+    [ngClass]="{
+      'btn-primary': !creatingMagazine,
+      'btn-disabled': creatingMagazine || this.magazineForm.invalid
+    }"
+  >
+    @if (creatingMagazine) {
+    <span class="loading loading-dots loading-xs"></span>
+    } @else { Publicar Revista }
+  </button>
+</form>

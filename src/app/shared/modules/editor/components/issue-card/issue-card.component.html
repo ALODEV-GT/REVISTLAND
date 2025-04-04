@@ -1,0 +1,49 @@
+<div class="card h-full bg-base-300 w-96 shadow-sm relative group">
+  <form
+    [formGroup]="issueForm"
+    class="card-body flex-row justify-between space-y-4"
+  >
+    @if (activeEdit) {
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">
+        <span>Título</span>
+      </legend>
+      <input
+        type="text"
+        formControlName="title"
+        name="title"
+        class="input input-bordered w-full"
+      />
+    </fieldset>
+    } @else {
+    <h2
+      class="card-title"
+      [ngClass]="{
+        'text-gray-500': !issue.title
+      }"
+    >
+      {{ issue.title || "Sin título" }}
+    </h2>
+    }
+
+    <!-- BEDGIN: Botones de acciones -->
+    <div class="flex flex-col justify-evenly gap-2">
+      <button
+        class="btn btn-sm btn-soft outline btn-warning h-fit px-1"
+        (click)="activeEdit ? editIssue() : editIssue()"
+      >
+        <i-lucide size="14" [img]="activeEdit ? Confirm : Edit" />
+        @if (activeEdit) { Confirmar } @else { Editar }
+      </button>
+
+      <button
+        class="btn btn-sm btn-soft outline btn-error h-fit px-1"
+        (click)="activeEdit ? cancelEdit() : deleteIssue()"
+      >
+        <i-lucide size="14" [img]="activeEdit ? Cancel : Delete" />
+        @if (activeEdit) { Cancelar } @else { Eliminar }
+      </button>
+    </div>
+    <!-- END: Botones de acciones -->
+  </form>
+</div>

@@ -1,0 +1,118 @@
+<main class="flex-1 p-4 max-w-7xl mx-auto px-16">
+    <h1 class="text-xl font-bold text-center mb-6">Gestion de la plataforma</h1>
+
+    <form [formGroup]="postForm" class="bg-base-100 shadow-xl rounded-xl p-6 mb-6 border border-success">
+        <h4 class="text-ms font-bold text-center mb-4">Edicion de tiempos y precios de vigencia de anucio</h4>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+            <!-- Fecha de inicio -->
+            <div>
+                <label class="label">
+                    <span class="label-text">Tipo de Anuncio</span>
+                </label>
+                <select class="select select-bordered w-full" required formControlName="typeAd">
+                    <option value={{TypeAd.TEXT}}>{{TypeAd.TEXT}}</option>
+                    <option value={{TypeAd.TEXT_IMAGE}}>{{TypeAd.TEXT_IMAGE}}</option>
+                    <option value={{TypeAd.VIDEO}}>{{TypeAd.VIDEO}}</option>
+                </select>
+            </div>
+
+            <!-- Fecha de fin -->
+            <div>
+                <label class="label">
+                    <span class="label-text">Tiempo de vigencia</span>
+                </label>
+                <select class="select select-bordered w-full" required formControlName="duration">
+                    @for (item of daysDuration; track $index) {
+                        <option value={{item}}>{{conversWeek(item)}}</option>
+                    }
+                </select>
+            </div>
+
+            <!-- Filtro de reportes -->
+            <div>
+                <label class="label">
+                    <span class="label-text">Editar precio (Q)</span>
+                </label>
+                <input type="number" class="input input-bordered w-full" min="0"
+                required  formControlName="cost"/>
+
+                @if (postForm.get('cost')?.value < 0) {
+                    <p class="text-red-600 text-sm">El precio no puede ser menor a cero</p>
+                    }
+            </div>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-end">
+            <button class="btn btn-primary" (click)="update()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3" />
+                  </svg>
+                  
+                Actualizar
+            </button>
+        </div>
+    </form>
+
+    <div  class="bg-base-100 shadow-xl rounded-xl p-6 mb-6  border border-warning">
+        <h4 class="text-ms font-bold text-center mb-4">Edicion de costo de plataforma</h4>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-6">
+            <!-- Filtro de reportes -->
+            <div>
+                <label class="label">
+                    <span class="label-text">Costo de almacenamiento de revistas por dia (Q)</span>
+                </label>
+                <input type="number" class="input input-bordered w-full" min="0" [(ngModel)]="cost" 
+                required />
+
+                @if (cost < 0) {
+                    <p class="text-red-600 text-sm">El costo no puede ser menor a cero</p>
+                    }
+            </div>
+
+            <div>
+                <label class="label">
+                    <span class="label-text">Precio de ocultacion de anuncios por dia (Q)</span>
+                </label>
+                <input type="number" class="input input-bordered w-full" min="0" [(ngModel)]="price" 
+                required />
+
+                @if (price < 0) {
+                    <p class="text-red-600 text-sm">El precio no puede ser menor a cero</p>
+                    }
+            </div>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-between">
+            <button class="btn btn-primary" (click)="updateCostMagazineDayConfiguration()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3" />
+                  </svg>
+                  
+                Actualizar
+            </button>
+            <button class="btn btn-accent" (click)="updateCostMagazineDayConfiguration()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3" />
+                  </svg>
+                Actalizar
+            </button>
+        </div>
+    </div>
+
+</main>
+
+<!-- Modal de exitosa -->
+<dialog #modal1 id="my_modal_1" class="modal">
+    <app-modal-msg [title]="titleModal" [content]="msgModal"
+        [className]="clasModalOk"> 
+    </app-modal-msg>
+</dialog>
+
+<!-- Modal de  fallida-->
+<dialog #modal2 id="my_modal_1" class="modal">
+    <app-modal-msg [title]="titleModal" [content]="msgModal"
+        [className]="classModaldErro">
+    </app-modal-msg>
+</dialog>
