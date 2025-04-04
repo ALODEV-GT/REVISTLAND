@@ -93,15 +93,14 @@
       </thead>
       <tbody>
         @for (ad of report.adReportDto; track $index) {
-        <td>{{ad.adType}}</td>
-        <td>{{ad.username}}</td>
-        <td>{{formatDateTime(ad.datePay)}}</td>
-        <td>{{conversWeek(ad.plan)}}</td>
-        <td>Q{{ad.amount}}</td>
-        }
         <tr>
-
+          <td>{{ad.adType}}</td>
+          <td>{{ad.username}}</td>
+          <td>{{formatDateTime(ad.datePay)}}</td>
+          <td>{{conversWeek(ad.plan)}}</td>
+          <td>Q{{ad.amount}}</td>
         </tr>
+        }
         <tr>
           <td class="text-center" colspan="4"><strong>Total de ingresos por anuncios comprados</strong> </td>
           <td class="font-bold text-green-200">Q{{report.totalAdPost}}</td>
@@ -131,7 +130,7 @@
           <td>{{item.title}}</td>
           <td>{{item.editor}}</td>
           <td>{{formatDateTime(item.datePay)}}</td>
-          <td>q{{item.amount}}</td>
+          <td>Q{{item.amount}}</td>
         </tr>
         }
         <tr>
@@ -181,6 +180,6 @@
 
 <!-- Modal de Recarga exitosa -->
 <dialog #modal2 id="my_modal_1" class="modal">
-  <app-modal-msg [content]="'Antes de exportar el reporte a pdf, debe generar un reporte'"
-  [title]="'Accion no valida'" [className]="'text-purple-700 text-lg'"></app-modal-msg>
+  <app-modal-msg [content]="'Antes de exportar el reporte a pdf, debe generar un reporte'" [title]="'Accion no valida'"
+    [className]="'text-purple-700 text-lg'"></app-modal-msg>
 </dialog>
