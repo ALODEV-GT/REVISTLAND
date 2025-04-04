@@ -1,13 +1,19 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ApiConfigService } from '@shared/services/api-config.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class LikeService {
-    private readonly baseUrl = inject(ApiConfigService).API_MAGAZINES;
-    private readonly http = inject(HttpClient);
+    private baseUrl: string;
+
+    constructor(
+        private http: HttpClient,
+        private apiConfig: ApiConfigService
+    ) {
+        this.baseUrl = this.apiConfig.API_MAGAZINES;
+    }
 
     userLikedMagazine(id: string) {
         return this.http.get<boolean>(`${this.baseUrl}/${id}/like/check`)
