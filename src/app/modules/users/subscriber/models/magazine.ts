@@ -8,6 +8,7 @@ export interface MagazineItem {
     disableLikes: boolean
     disableComments: boolean
     disableSuscriptions: boolean
+    adBlockingExpirationDate?: string
 }
 
 export interface Category {
