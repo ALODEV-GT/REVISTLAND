@@ -33,4 +33,9 @@ export class HomeReportComponent {
     this.route.navigate(['admin/reports/top-magazines-comments'])
   }
 
+
+  gotReportAdsEffective(){
+    this.route.navigate(['admin/reports/ads-effectiveness'])
+  }
+
 }
