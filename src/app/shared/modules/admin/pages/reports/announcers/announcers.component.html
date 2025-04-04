@@ -83,17 +83,19 @@
                 </tr>
             </thead>
             <tbody>
-                @for (ad of item.adReportDtos; track $index) {
-                <td>{{ad.adType}}</td>
-                <td>{{ad.username}}</td>
-                <td>{{ad.email}}</td>
-                <td>{{formatDateTime(ad.datePay)}}</td>
-                <td>{{conversWeek(ad.plan)}}</td>
-                <td>Q{{ad.amount}}</td>
-                }
-                <tr>
 
+                @for (ad of item.adReportDtos; track $index) {
+                <tr>
+                    <td>{{ad.adType}}</td>
+                    <td>{{ad.username}}</td>
+                    <td>{{ad.email}}</td>
+                    <td>{{formatDateTime(ad.datePay)}}</td>
+                    <td>{{conversWeek(ad.plan)}}</td>
+                    <td>Q{{ad.amount}}</td>
                 </tr>
+
+                }
+
                 <tr>
                     <td class="text-center" colspan="5"><strong>Total de ingresos por anuncios comprados</strong> </td>
                     <td class="font-bold text-green-200">Q{{item.amountTotal}}</td>
