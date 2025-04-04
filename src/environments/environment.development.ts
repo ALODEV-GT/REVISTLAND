@@ -1,3 +1,3 @@
 export const environment = {
-    API_ROOT: 'http://localhost:8000/api/v1'
+    API_ROOT: 'https://pdfpedia-dev-136281436994.us-central1.run.app/api/v1'
 };
