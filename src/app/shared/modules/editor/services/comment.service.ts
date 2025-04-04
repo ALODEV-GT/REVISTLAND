@@ -8,10 +8,14 @@ import { tap } from 'rxjs';
     providedIn: 'root',
 })
 export class CommentService {
-    private readonly baseUrl = inject(ApiConfigService).API_MAGAZINES;
-    private readonly http = inject(HttpClient);
+    private readonly baseUrl: string;
 
-    constructor() { }
+    constructor(
+        private http: HttpClient,
+        private apiConfig: ApiConfigService
+    ) {
+        this.baseUrl = this.apiConfig.API_MAGAZINES;
+    }
 
     getCommentsMagazine(id: number) {
         return this.http.get<Comment[]>(`${this.baseUrl}/${id}/comment`).pipe(
