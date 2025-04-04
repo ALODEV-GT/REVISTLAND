@@ -10,6 +10,7 @@ import { EarningsReport, PostAdReportTotal } from '../models/reports/earnings.in
 import { TotalReportPaymentPostAdByAnnouncersDto } from '../models/reports/announcers.interface';
 import { ReportTopMagazineSubscriptions } from '../models/reports/top-magazine-subscripton';
 import { ReportMagazineCommentsDto } from '../models/reports/top-magazine-comments';
+import { ReportAdvertiserAdViews } from '../models/reports/ad-effective';
 
 @Injectable({
   providedIn: 'root'
@@ -114,6 +115,15 @@ export class ReportService {
     if (endDate) params = params.set('endDate', endDate);
 
     return this._http.get<ReportMagazineCommentsDto>(`${this.API_REPORT}/top-5-magazines-comments`,  { params })
+  }
+
+  getAdsEfeectives(startDate?: string, endDate?: string): Observable<ReportAdvertiserAdViews>{
+    let params = new HttpParams();
+  
+    if (startDate) params = params.set('startDate', startDate);
+    if (endDate) params = params.set('endDate', endDate);
+
+    return this._http.get<ReportAdvertiserAdViews>(`${this.API_REPORT}/ad_effectiveness`,  { params })
   }
   
 
