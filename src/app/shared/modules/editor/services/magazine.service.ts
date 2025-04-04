@@ -19,10 +19,14 @@ import { MagazineItem } from '@subscriber/models/magazine';
   providedIn: 'root',
 })
 export class MagazineService {
-  private readonly baseUrl = inject(ApiConfigService).API_MAGAZINES;
-  private readonly http = inject(HttpClient);
+  private baseUrl: string;
 
-  constructor() { }
+  constructor(
+    private http: HttpClient,
+    private apiConfig: ApiConfigService
+  ) {
+    this.baseUrl = this.apiConfig.API_MAGAZINES;
+  }
   getMagazineIssue(
     magazineId: number,
     issueId: number
