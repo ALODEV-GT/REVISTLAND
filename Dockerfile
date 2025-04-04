@@ -4,4 +4,4 @@ COPY ./nginx.conf /etc/nginx/nginx.conf
 
 RUN rm -rf /usr/share/nginx/html/*
 
-COPY ./dist/revistland /usr/share/nginx/html
+COPY ./dist/revistland/browser /usr/share/nginx/html
