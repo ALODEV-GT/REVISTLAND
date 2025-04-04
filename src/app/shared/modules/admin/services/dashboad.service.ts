@@ -36,7 +36,7 @@ export class DashboadService {
     if (startDate) params = params.set('startDate', startDate);
     if (endDate) params = params.set('endDate', endDate);
 
-    return this._http.get<TotalTarjetDto>(`${this.API_AD}/total-post-ad`,  { params });
+    return this._http.get<TotalTarjetDto>(`${this.API_MAGAZINE}/total-post`,  { params });
   }
 
   getTopEditor(startDate?: string, endDate?: string): Observable<topEditor>{
