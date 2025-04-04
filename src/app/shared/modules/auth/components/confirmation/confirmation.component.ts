@@ -60,7 +60,7 @@ export class ConfirmationComponent {
   redirect(role: string) {
     switch (role) {
       case 'EDITOR':
-
+        this.router.navigate(['/editor'])
         break;
 
       case 'ADMIN':

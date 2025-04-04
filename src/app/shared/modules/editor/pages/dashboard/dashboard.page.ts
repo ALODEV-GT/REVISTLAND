@@ -1,10 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import {
-  Chart,
-  ExpiredAdBlocks,
-  Stats
-} from '@editor/models/dashboard.model';
+import { Chart, ExpiredAdBlocks, Stats } from '@editor/models/dashboard.model';
 import { DashboardService } from '@editor/services/dashboard.service';
 import {
   Eye,
@@ -39,6 +35,12 @@ export class DashboardPage implements OnInit {
       options: { chart: { width: 200 }, legend: { position: 'bottom' } },
     },
   ];
+
+  readonly tooltip: ApexTooltip = {
+    enabled: true,
+    theme: 'dark',
+    onDatasetHover: { highlightDataSeries: true },
+  };
 
   stats?: Stats;
   performance?: Chart<ApexAxisChartSeries>;

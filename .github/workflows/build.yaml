@@ -26,15 +26,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # END - Enviroment setup
-
-      # BEGIN - npm build tasks
-      - name: Build the app
-        run: npm run build
-
-      # END - npm build tasks
-
-      # BEGIN - GCP setup
       - name: Determine environment
         id: determine-env
         run: |
@@ -45,6 +36,15 @@ jobs:
             echo "ENV=dev" >> $GITHUB_ENV
           fi
 
+      # END - Enviroment setup
+
+      # BEGIN - npm build tasks
+      - name: Build the app
+        run: npm run build:${{ env.ENV }}
+
+      # END - npm build tasks
+
+      # BEGIN - GCP setup
       - name: Authenticate to GCP
         uses: google-github-actions/auth@v2
         with:
